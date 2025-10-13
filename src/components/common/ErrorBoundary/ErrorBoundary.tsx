@@ -1,9 +1,20 @@
-// src/components/common/ErrorBoundary/ErrorBoundary.js
-import React from 'react';
+// src/components/common/ErrorBoundary/ErrorBoundary.tsx
+import React, { ErrorInfo, ReactNode } from 'react';
 import { ErrorContainer, ErrorMessage, RetryButton } from './ErrorBoundaryStyles';
 
-class ErrorBoundary extends React.Component {
-    constructor(props) {
+interface ErrorBoundaryProps {
+    children: ReactNode;
+    fallbackMessage?: string;
+}
+
+interface ErrorBoundaryState {
+    hasError: boolean;
+    error: Error | null;
+    errorInfo: ErrorInfo | null;
+}
+
+class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+    constructor(props: ErrorBoundaryProps) {
         super(props);
         this.state = {
             hasError: false,
@@ -12,19 +23,16 @@ class ErrorBoundary extends React.Component {
         };
     }
 
-    static getDerivedStateFromError(error) {
+    static getDerivedStateFromError(error: Error): Partial<ErrorBoundaryState> {
         return { hasError: true, error };
     }
 
-    componentDidCatch(error, errorInfo) {
+    componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
         console.error('Error caught by boundary:', error, errorInfo);
         this.setState({ errorInfo });
-
-        // You can log to error reporting service here
-        // logErrorToService(error, errorInfo);
     }
 
-    handleRetry = () => {
+    handleRetry = (): void => {
         this.setState({
             hasError: false,
             error: null,
@@ -32,7 +40,7 @@ class ErrorBoundary extends React.Component {
         });
     };
 
-    render() {
+    render(): ReactNode {
         if (this.state.hasError) {
             return (
                 <ErrorContainer>

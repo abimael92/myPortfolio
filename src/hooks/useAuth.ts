@@ -1,8 +1,9 @@
-// src/hooks/useAuth.js
+// src/hooks/useAuth.ts
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
+import { AuthContextType } from '../types/portfolio';
 
-export const useAuth = () => {
+export const useAuth = (): AuthContextType => {
     const context = useContext(AuthContext);
 
     if (!context) {

@@ -1,5 +1,9 @@
-// src/components/common/Loading/LoadingStyles.js
+// src/components/common/Loading/LoadingStyles.ts
 import styled, { keyframes } from 'styled-components';
+
+interface SpinnerProps {
+    size: 'small' | 'medium' | 'large';
+}
 
 const spin = keyframes`
     0% { transform: rotate(0deg); }
@@ -20,7 +24,7 @@ export const LoadingContainer = styled.div`
     }
 `;
 
-export const Spinner = styled.div`
+export const Spinner = styled.div < SpinnerProps > `
     border: 3px solid rgba(255, 255, 255, 0.3);
     border-top: 3px solid #00d4ff;
     border-radius: 50%;

@@ -1,5 +1,21 @@
-// src/config/env.js
-export const config = {
+// src/config/env.ts
+export interface FirebaseConfig {
+    apiKey: string | undefined;
+    authDomain: string | undefined;
+    projectId: string | undefined;
+    storageBucket: string | undefined;
+    messagingSenderId: string | undefined;
+    appId: string | undefined;
+}
+
+export interface AppConfig {
+    firebase: FirebaseConfig;
+    features: {
+        analytics: boolean;
+    };
+}
+
+export const config: AppConfig = {
     firebase: {
         apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
         authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -14,7 +30,7 @@ export const config = {
 };
 
 // Validate required environment variables
-export const validateEnv = () => {
+export const validateEnv = (): void => {
     const required = ['NEXT_PUBLIC_FIREBASE_API_KEY', 'NEXT_PUBLIC_FIREBASE_PROJECT_ID'];
     const missing = required.filter(key => !process.env[key]);
 

@@ -1,28 +1,28 @@
+// src/components/PrivateContent/BlurWrapper.tsx
 import React from 'react';
 import styled from 'styled-components';
+import { BlurWrapperProps } from '../../types/portfolio';
 
-const BlurDiv = styled.div`
+const BlurDiv = styled.div < { authenticated: boolean } > `
   position: relative;
-  /* filter: ${({ authenticated }) => (authenticated ? 'none' : 'blur(3px)')}; */
-  filter:'none' ;
-  /* pointer-events: ${({ authenticated }) => (authenticated ? 'auto' : 'none')}; */
-  /* user-select: ${({ authenticated }) => (authenticated ? 'auto' : 'none')}; */
+  filter: ${({ authenticated }) => (authenticated ? 'none' : 'blur(3px)')};
+  pointer-events: ${({ authenticated }) => (authenticated ? 'auto' : 'none')};
+  user-select: ${({ authenticated }) => (authenticated ? 'auto' : 'none')};
   transition: filter 0.3s ease, opacity 0.3s ease;
   opacity: ${({ authenticated }) => (authenticated ? 1 : 0.85)};
 `;
 
-const Overlay = styled.div`
+const Overlay = styled.div < { authenticated: boolean } > `
   display: ${({ authenticated }) => (authenticated ? 'none' : 'flex')};
-  display:  'none' ;
   justify-content: center;
   align-items: center;
   position: absolute;
   top: 0;
   left: 0;
-  width:  100%;
+  width: 100%;
   height: 100%;
   border-radius: 8px;
-  /* cursor: not-allowed; */
+  cursor: not-allowed;
   background: rgba(255, 255, 255, 0.02);
   z-index: 2;
 
@@ -52,17 +52,16 @@ const Wrapper = styled.div`
   position: relative;
 `;
 
-const BlurWrapper = ({ authenticated, children }) =>
+const BlurWrapper: React.FC<BlurWrapperProps> = ({ authenticated, children }) =>
   authenticated ? (
     <>{children}</>
   ) : (
     <Wrapper>
-      <BlurDiv>{children}</BlurDiv>
-      {/* <Overlay>
+      <BlurDiv authenticated={authenticated}>{children}</BlurDiv>
+      <Overlay authenticated={authenticated}>
         <Tooltip>You must unlock to view personal data</Tooltip>
-      </Overlay> */}
+      </Overlay>
     </Wrapper>
   );
-
 
 export default BlurWrapper;

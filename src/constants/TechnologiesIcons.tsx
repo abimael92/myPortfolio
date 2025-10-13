@@ -20,7 +20,11 @@ import {
 } from 'react-icons/si';
 import { FaKey } from 'react-icons/fa';
 
-export const iconMap = {
+interface IconMap {
+	[key: string]: React.ReactElement;
+}
+
+export const iconMap: IconMap = {
 	// Frontend
 	React: <DiReact size='2.5rem' />,
 	JavaScript: <DiJavascript1 size='2.5rem' />,

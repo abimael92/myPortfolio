@@ -1,4 +1,12 @@
-export const Projects = [
+// src/constants/constants.ts
+import {
+	Project,
+	Experience,
+	Education,
+	Achievement,
+} from '../types/portfolio';
+
+export const Projects: Project[] = [
 	{
 		title: 'Pokedex App',
 		description:
@@ -69,14 +77,10 @@ export const Projects = [
 		tags: ['MERN', 'AWS S3', 'MongoDB', 'Redux', 'Dashboard'],
 		source: 'https://github.com/abimael92/school-management-system', // replace with actual repo
 		id: 6,
-	}
-
-
-
-
+	},
 ];
 
-export const TimeLineData = [
+export const TimeLineData: Experience[] = [
 	{
 		year: 2024,
 		position: 'Developer',
@@ -158,7 +162,14 @@ export const TimeLineData = [
 		period: '38 months',
 		project: 'IT Service Portal (ITSP)',
 		industry: 'Engineering and Technology',
-		technologies: ['React', 'TypeScript', 'Node.js', 'Express', 'MongoDB', 'SQL'],
+		technologies: [
+			'React',
+			'TypeScript',
+			'Node.js',
+			'Express',
+			'MongoDB',
+			'SQL',
+		],
 		achievements: [
 			'Built and maintained multiple application views.',
 			'Resolved ~30 user issues monthly with low incidence.',
@@ -223,7 +234,6 @@ export const TimeLineData = [
 	},
 ];
 
-
 export const SkillsData = [
 	// Frontend
 	'React',
@@ -260,11 +270,9 @@ export const SkillsData = [
 
 	// Design
 	'Figma',
-
 ];
 
-
-export const EducationData = [
+export const EducationData: Education[] = [
 	{
 		title: 'Bachelors’ degree in computer science',
 		institution: 'Instituto Tecnológico de Cd. Jiménez',
@@ -277,7 +285,7 @@ export const EducationData = [
 	},
 ];
 
-export const PersonalAchievements = [
+export const PersonalAchievements: Achievement[] = [
 	{
 		role: 'Lead Developer',
 		achievement:

@@ -104,12 +104,7 @@ const About = () => {
 				<RightContainer>
 					<BlurWrapper authenticated={authenticated}>
 						<ImageNeon className="neon-medium">
-							<Image
-								src='/images/my_picture.png'
-								alt='Abimael'
-							// width="6rem"
-							// height="6rem"
-							/>
+							<Image src="/images/my_picture.png" alt="Abimael" width={300} height={300} fetchPriority="high" />
 						</ImageNeon>
 					</BlurWrapper>
 					<RotatingText>

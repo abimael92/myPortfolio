@@ -1,6 +1,42 @@
+// src/styles/GlobalComponents/index.ts
 import styled from 'styled-components';
 
-export const Section = styled.section`
+interface SectionProps {
+	grid?: boolean;
+	row?: boolean;
+	nopadding?: boolean;
+}
+
+interface SectionTitleProps {
+	main?: boolean;
+}
+
+interface SectionDividerProps {
+	colorAlt?: boolean;
+	divider?: boolean;
+}
+
+interface ButtonBackProps {
+	alt?: boolean;
+	form?: string;
+	disabled?: boolean;
+}
+
+interface ButtonFrontProps {
+	alt?: boolean;
+	disabled?: boolean;
+}
+
+interface LinkContainerProps {
+	large?: boolean;
+}
+
+interface LinkIconImgProps {
+	large?: boolean;
+	nav?: boolean;
+}
+
+export const Section = styled.section<SectionProps>`
 	display: ${(props) => (props.grid ? 'grid' : 'flex')};
 	flex-direction: ${(props) => (props.row ? 'row' : 'column')};
 	padding: ${(props) => (props.nopadding ? '0' : '32px 48px 0')};
@@ -18,13 +54,12 @@ export const Section = styled.section`
 
 	@media ${(props) => props.theme.breakpoints.sm} {
 		padding: ${(props) => (props.nopadding ? '0' : '16px 16px 0')};
-
 		width: calc(100vw - 32px);
 		flex-direction: column;
 	}
 `;
 
-export const SectionTitle = styled.h2`
+export const SectionTitle = styled.h2<SectionTitleProps>`
 	font-weight: 800;
 	font-size: ${(props) => (props.main ? '65px' : '56px')};
 	line-height: ${(props) => (props.main ? '72px' : '56px')};
@@ -60,7 +95,7 @@ export const SectionTitle = styled.h2`
 	}
 `;
 
-export const SectionTitle2 = styled.h2`
+export const SectionTitle2 = styled.h2<SectionTitleProps>`
 	font-weight: 800;
 	font-size: ${(props) => (props.main ? '65px' : '56px')};
 	line-height: ${(props) => (props.main ? '72px' : '56px')};
@@ -95,7 +130,7 @@ export const SectionTitle2 = styled.h2`
 	}
 `;
 
-export const SectionSubtitle = styled.h3`
+export const SectionSubtitle = styled.h3<SectionTitleProps>`
 	font-weight: 600;
 	font-size: ${(props) => (props.main ? '55px' : '46px')};
 	line-height: ${(props) => (props.main ? '52px' : '36px')};
@@ -103,16 +138,12 @@ export const SectionSubtitle = styled.h3`
 	margin: 100px 0 16px;
 	height: 50px;
 	max-width: 100%;
-	background: linear-gradient(
-		to bottom,
-		#ffffff 0%,
-		#ffffff 100%
-	);
+	background: linear-gradient(to bottom, #ffffff 0%, #ffffff 100%);
 	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent; 
+	-webkit-text-fill-color: transparent;
 	padding: ${(props) => (props.main ? '18px 0 16px' : '0')};
-	background-clip: text; 
-	text-fill-color: transparent; 
+	background-clip: text;
+	text-fill-color: transparent;
 
 	@media ${(props) => props.theme.breakpoints.md} {
 		font-size: ${(props) => (props.main ? '56px' : '48px')};
@@ -130,16 +161,16 @@ export const SectionSubtitle = styled.h3`
 	}
 `;
 
-export const ModalTitle = styled.h3`
+export const ModalTitle = styled.h3<SectionTitleProps>`
 	font-weight: 500;
 	font-size: ${(props) => (props.main ? '45px' : '36px')};
 	line-height: ${(props) => (props.main ? '42px' : '26px')};
 	width: max-content;
-	margin: 20px ;
+	margin: 20px;
 	max-width: 100%;
 
 	padding: ${(props) => (props.main ? '58px 0 16px' : '0')};
-	background-clip: text; 
+	background-clip: text;
 
 	@media ${(props) => props.theme.breakpoints.md} {
 		font-size: ${(props) => (props.main ? '56px' : '48px')};
@@ -158,49 +189,48 @@ export const ModalTitle = styled.h3`
 `;
 
 export const SectionText = styled.p`
-  max-width: 800px;
-  font-size: 20px;
-  line-height: 1.6;
-  font-weight: 300;
-  padding-bottom: 3.6rem;
-  color: rgba(255, 255, 255, 0.75);
-  white-space: pre-line;
-  
-  strong {
-    font-weight: 600;
-    color: white;
-  }
+	max-width: 800px;
+	font-size: 20px;
+	line-height: 1.6;
+	font-weight: 300;
+	padding-bottom: 3.6rem;
+	color: rgba(255, 255, 255, 0.75);
+	white-space: pre-line;
 
-  em {
-  font-style: italic;
-  color: #00f0ff;            /* neon cyan */
-  font-weight: 500;
-  background-color: rgba(0, 240, 255, 0.1); /* subtle neon glow */
-  padding: 2px 4px;
-  border-radius: 4px;
-}
+	strong {
+		font-weight: 600;
+		color: white;
+	}
 
-  .highlight {
-    color: #1e90ff; /* shiny brownish */
-    font-weight: 500;
-    font-style: bold;
-  }
+	em {
+		font-style: italic;
+		color: #00f0ff; /* neon cyan */
+		font-weight: 500;
+		background-color: rgba(0, 240, 255, 0.1); /* subtle neon glow */
+		padding: 2px 4px;
+		border-radius: 4px;
+	}
 
-  @media (max-width: 768px) {
-    font-size: 18px;
-    line-height: 1.5;
-    padding-bottom: 2.4rem;
-    max-width: 90%;
-  }
+	.highlight {
+		color: #1e90ff; /* shiny brownish */
+		font-weight: 500;
+		font-style: bold;
+	}
 
-  @media (max-width: 480px) {
-    font-size: 16px;
-    line-height: 1.4;
-    padding-bottom: 2rem;
-    max-width: 100%;
-  }
+	@media (max-width: 768px) {
+		font-size: 18px;
+		line-height: 1.5;
+		padding-bottom: 2.4rem;
+		max-width: 90%;
+	}
+
+	@media (max-width: 480px) {
+		font-size: 16px;
+		line-height: 1.4;
+		padding-bottom: 2rem;
+		max-width: 100%;
+	}
 `;
-
 
 export const SectionSmallText = styled.p`
 	font-size: 16px;
@@ -222,7 +252,7 @@ export const SectionSmallText = styled.p`
 	}
 `;
 
-export const SectionDivider = styled.div`
+export const SectionDivider = styled.div<SectionDividerProps>`
 	width: 184px;
 	padding-bottom: 12px;
 	margin-bottom: 5rem;
@@ -246,6 +276,7 @@ export const SectionDivider = styled.div`
 		height: 2px;
 	}
 `;
+
 export const SectionSubText = styled.p`
 	max-width: 800px;
 	font-weight: 300;
@@ -264,6 +295,7 @@ export const SectionSubText = styled.p`
 		line-height: 22px;
 	}
 `;
+
 export const SecondaryBtn = styled.button`
 	color: #fff;
 	background: none;
@@ -279,6 +311,7 @@ export const SecondaryBtn = styled.button`
 	margin-bottom: 80px;
 	cursor: pointer;
 	transition: 0.4s ease;
+
 	&:focus {
 		outline: none;
 	}
@@ -315,7 +348,7 @@ export const SecondaryBtn = styled.button`
 	}
 `;
 
-export const ButtonBack = styled.div`
+export const ButtonBack = styled.div<ButtonBackProps>`
 	width: ${({ alt }) => (alt ? '150px' : '262px')};
 	height: ${({ alt }) => (alt ? '52px' : '64px')};
 	border-radius: 50px;
@@ -324,8 +357,7 @@ export const ButtonBack = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	/* margin: ${({ alt, form }) => (alt || form ? '0' : '0 0 80px')}; */
-	margin:3rem;
+	margin: 3rem;
 	color: #fff;
 	background: ${({ alt }) =>
 		alt
@@ -335,16 +367,11 @@ export const ButtonBack = styled.div`
 	transition: all 0.3s ease;
 	position: relative;
 	overflow: hidden;
-	/* opacity: ${({ disabled }) => (disabled ? '.5' : '1')}; */
-
 
 	&:hover {
-
-    color: #FF4500 !important; /* Change text color on hover */
-	box-shadow: 0 0 10px rgba(255, 255, 255, 1);
-   // box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Optional: Add a shadow effect on hover */
+		color: #ff4500 !important;
+		box-shadow: 0 0 10px rgba(255, 255, 255, 1);
 	}
-
 
 	@media ${(props) => props.theme.breakpoints.md} {
 		width: ${({ alt }) => (alt ? '150px' : '184px')};
@@ -359,9 +386,9 @@ export const ButtonBack = styled.div`
 		font-size: 14px;
 		margin-bottom: ${({ alt }) => (alt ? '0' : '32px')};
 	}
-`
+`;
 
-export const ButtonFront = styled.button`
+export const ButtonFront = styled.button<ButtonFrontProps>`
 	border: none;
 	border-radius: 50px;
 	color: #fff;
@@ -388,13 +415,13 @@ export const ButtonFront = styled.button`
 			: 'none'};
 
 	&:hover {
-    color: #FF4500 !important; /* Change text color on hover */
+		color: #ff4500 !important;
 	}
 
 	&:focus {
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8); /* White glow effect on focus */
-    transform: scale(0.98); /* Slightly shrinks the button on focus */
-    outline: none; /* Removes the default focus outline */
+		box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+		transform: scale(0.98);
+		outline: none;
 	}
 
 	&:active {
@@ -419,7 +446,7 @@ export const ButtonFront = styled.button`
 	}
 `;
 
-export const LinkContainer = styled.div`
+export const LinkContainer = styled.div<LinkContainerProps>`
 	margin-left: ${({ large }) => (large ? '24px' : '16px')};
 	transition: 0.3s ease;
 	justify-content: center;
@@ -440,7 +467,7 @@ export const LinkContainer = styled.div`
 	}
 `;
 
-export const LinkIconImg = styled.div`
+export const LinkIconImg = styled.div<LinkIconImgProps>`
 	display: flex;
 	height: ${({ large }) => (large ? '32px' : '24px')};
 

@@ -67,18 +67,16 @@ const Header = () => {
 		<>
 			<Container>
 				<Div1>
-					<Link href="/" passHref legacyBehavior>
-						<a style={{ display: 'flex', alignItems: 'center' }}>
-							<Image
-								src="/images/Kachorro92_Logo.png"
-								alt="Logo"
-								width={40}
-								height={40}
-							/>
-							<Span>Portfolio</Span>
-						</a>
+					<Link href="/" style={{ display: 'flex', alignItems: 'center' }}>
+						<Image
+							src="/images/Kachorro92_Logo.png"
+							alt="Logo"
+							width={50}
+							height={50}
+							fetchPriority="high"
+						/>
+						<Span>MyPortfolio</Span>
 					</Link>
-
 					<div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
 						{!hasAccess && (
 							<UserMenuButton onClick={() => setUserMenuOpen(!userMenuOpen)}>

@@ -1,3 +1,4 @@
+// src/auth/tokenUtils.ts
 import { db } from './firebaseConfig';
 import {
     collection,
@@ -9,7 +10,7 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 
 // Create token valid for 24 hours
-export const generateAccessToken = async (email) => {
+export const generateAccessToken = async (email: string): Promise<string> => {
     const token = uuidv4();
     const expiresAt = Timestamp.fromDate(new Date(Date.now() + 24 * 60 * 60 * 1000));
 
@@ -21,7 +22,7 @@ export const generateAccessToken = async (email) => {
     return token;
 };
 
-export const validateToken = async (token) => {
+export const validateToken = async (token: string | null): Promise<boolean> => {
     if (!token) return false;
     const tokenRef = doc(db, 'tokens', token);
     const tokenSnap = await getDoc(tokenRef);
@@ -30,4 +31,3 @@ export const validateToken = async (token) => {
     const { expiresAt } = tokenSnap.data();
     return expiresAt.toDate() > new Date();
 };
-

@@ -1,10 +1,14 @@
-// src/layout/Layout.js
-import React from 'react';
+// src/layout/Layout.tsx
+import React, { ReactNode } from 'react';
 import Footer from '../components/Footer/Footer';
 import Header from '../components/Header/Header';
 import { Container } from './LayoutStyles';
 
-export const Layout = ({ children }) => {
+interface LayoutProps {
+  children: ReactNode;
+}
+
+export const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <>
       <Header />

@@ -32,12 +32,18 @@ import {
 
 import { useSkills } from '../../hooks/usePortfolioData';
 
-const SkillBar = ({ skill, category }) => {
+interface SkillBarProps {
+	skill: { name: string; percent: number };
+	category: string;
+}
+
+const SkillBar: React.FC<SkillBarProps> = ({ skill, category }) => {
 	const [fill, setFill] = useState(0);
 	const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.3 });
 
 	useEffect(() => {
 		if (inView) {
+
 			let progress = 0;
 			const duration = 2000;
 			const stepTime = duration / skill.percent;
@@ -50,7 +56,7 @@ const SkillBar = ({ skill, category }) => {
 		}
 	}, [inView, skill.percent]);
 
-	const getIcon = (skill) => {
+	const getIcon = (skill: { name: string }) => {
 		if (!iconMap[skill?.name]) {
 			console.warn(`Missing icon for skill: "${skill?.name}"`);
 		}
@@ -76,13 +82,13 @@ const SkillBar = ({ skill, category }) => {
 
 const Technologies = () => {
 	const { skills, loading } = useSkills();
-	const [openCategories, setOpenCategories] = useState([]);
+	const [openCategories, setOpenCategories] = useState<string[]>([]);
 
 
 	if (loading) return <div>Loading skills...</div>;
 
-	const toggleCategory = (category) => {
-		setOpenCategories((prev) =>
+	const toggleCategory = (category: string) => {
+		setOpenCategories((prev: string[]) =>
 			prev.includes(category)
 				? prev.filter((c) => c !== category) // close if already open
 				: [...prev, category] // open in addition

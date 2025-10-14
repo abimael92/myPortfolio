@@ -1,5 +1,5 @@
-import { useState } from 'react';
-
+// src/components/AccessRequest/AccessRequestModal.tsx
+import React, { useState } from 'react';
 import {
     Backdrop,
     Modal,
@@ -9,49 +9,92 @@ import {
     Button,
     CloseButton,
 } from './AccessRequestModalStyles';
+import { ModalTitle } from '../../styles/GlobalComponents';
 
-import {
+interface AccessRequestModalProps {
+    onClose: () => void;
+}
 
-    ModalTitle,
-} from '../../styles/GlobalComponents';
+interface FormData {
+    linkedIn: string;
+    email: string;
+    reason: string;
+}
 
-export default function AccessRequestModal({ onClose }) {
-    const [linkedIn, setLinkedIn] = useState('');
-    const [email, setEmail] = useState('');
-    const [reason, setReason] = useState('');
-    const [submitting, setSubmitting] = useState(false);
-    const [message, setMessage] = useState('');
-    const [inputFocusStates, setInputFocusStates] = useState({ linkedIn: false, email: false, reason: false });
+interface InputFocusStates {
+    linkedIn: boolean;
+    email: boolean;
+    reason: boolean;
+}
 
-    const handleSubmit = async (e) => {
+const AccessRequestModal: React.FC<AccessRequestModalProps> = ({ onClose }) => {
+    const [formData, setFormData] = useState<FormData>({
+        linkedIn: '',
+        email: '',
+        reason: ''
+    });
+    const [submitting, setSubmitting] = useState<boolean>(false);
+    const [message, setMessage] = useState<string>('');
+    const [inputFocusStates, setInputFocusStates] = useState<InputFocusStates>({
+        linkedIn: false,
+        email: false,
+        reason: false
+    });
+
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setSubmitting(true);
         setMessage('');
 
-        const res = await fetch('/api/request-access', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name: linkedIn, email, message: reason }),
-        });
+        try {
+            const res = await fetch('/api/request-access', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: formData.linkedIn,
+                    email: formData.email,
+                    message: formData.reason
+                }),
+            });
 
-        const data = await res.json();
-        setSubmitting(false);
+            const data = await res.json();
+            setSubmitting(false);
 
-        if (data.success) {
-            setMessage("✅ Request sent! You'll receive an access code via email.");
-            setLinkedIn('');
-            setEmail('');
-            setReason('');
-        } else {
+            if (data.success) {
+                setMessage("✅ Request sent! You'll receive an access code via email.");
+                setFormData({
+                    linkedIn: '',
+                    email: '',
+                    reason: ''
+                });
+            } else {
+                setMessage("❌ Error sending request. Please try again.");
+            }
+        } catch (error) {
+            setSubmitting(false);
             setMessage("❌ Error sending request. Please try again.");
         }
     };
 
-    const handleFocus = (field) => {
+    const handleInputChange = (field: keyof FormData) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setFormData(prev => ({
+            ...prev,
+            [field]: e.target.value
+        }));
+    };
+
+    const handleFocus = (field: keyof InputFocusStates) => {
         setInputFocusStates(prev => ({ ...prev, [field]: true }));
     };
-    const handleBlur = (field) => {
+
+    const handleBlur = (field: keyof InputFocusStates) => {
         setInputFocusStates(prev => ({ ...prev, [field]: false }));
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter' && e.target instanceof HTMLButtonElement) {
+            onClose();
+        }
     };
 
     return (
@@ -68,8 +111,8 @@ export default function AccessRequestModal({ onClose }) {
                     <Input
                         id="linkedin"
                         type="url"
-                        value={linkedIn}
-                        onChange={e => setLinkedIn(e.target.value)}
+                        value={formData.linkedIn}
+                        onChange={handleInputChange('linkedIn')}
                         required
                         placeholder="https://linkedin.com/in/yourprofile"
                         $focused={inputFocusStates.linkedIn}
@@ -81,8 +124,8 @@ export default function AccessRequestModal({ onClose }) {
                     <Input
                         id="email"
                         type="email"
-                        value={email}
-                        onChange={e => setEmail(e.target.value)}
+                        value={formData.email}
+                        onChange={handleInputChange('email')}
                         required
                         placeholder="you@company.com"
                         $focused={inputFocusStates.email}
@@ -93,8 +136,8 @@ export default function AccessRequestModal({ onClose }) {
                     <Label htmlFor="reason">Reason for Inquiry</Label>
                     <Textarea
                         id="reason"
-                        value={reason}
-                        onChange={e => setReason(e.target.value)}
+                        value={formData.reason}
+                        onChange={handleInputChange('reason')}
                         required
                         rows={3}
                         placeholder="Why do you need access?"
@@ -124,11 +167,13 @@ export default function AccessRequestModal({ onClose }) {
                 <CloseButton
                     onClick={onClose}
                     aria-label="Close modal"
-                    onKeyDown={e => e.key === 'Enter' && onClose()}
+                    onKeyDown={handleKeyDown}
                 >
-                    x
+                    ×
                 </CloseButton>
             </Modal>
         </>
     );
-}
+};
+
+export default AccessRequestModal;

@@ -4,7 +4,7 @@ import {
 	SectionText as GlobalSectionText,
 } from '../../styles/GlobalComponents';
 
-const remToPixels = (rem) => rem * 16;
+const remToPixels = (rem: number): number => rem * 16;
 
 export const BulletPoint = styled.span`
 	display: inline-block;
@@ -110,23 +110,28 @@ export const RotatingText = styled.h2`
 	font-family: monospace; /* gives typewriter feel */
 
 	.txt-rotate > .wrap {
-    display: inline;
-    border-right: 0.15em solid rgb(0, 123, 255); /* matches text color */
-    white-space: nowrap;
-    overflow: hidden;
-    animation: blink 0.75s step-end infinite;
-  }
+		display: inline;
+		border-right: 0.15em solid rgb(0, 123, 255); /* matches text color */
+		white-space: nowrap;
+		overflow: hidden;
+		animation: blink 0.75s step-end infinite;
+	}
 
-  @keyframes blink {
-    from, to { border-color: transparent; }
-    50% { border-color: rgb(0, 123, 255); }
-  }
+	@keyframes blink {
+		from,
+		to {
+			border-color: transparent;
+		}
+		50% {
+			border-color: rgb(0, 123, 255);
+		}
+	}
 
-  @media ${(props) => props.theme.breakpoints.sm} {
-    font-size: 2.25rem;
-    text-align: center;
-    margin-top: 0.75rem;
-  }
+	@media ${(props) => props.theme.breakpoints.sm} {
+		font-size: 2.25rem;
+		text-align: center;
+		margin-top: 0.75rem;
+	}
 `;
 
 export const StyledSectionTitle = styled(SectionTitle)`
@@ -183,22 +188,22 @@ export const AboutSectionText = styled(GlobalSectionText)`
 	width: 50%;
 	flex: 1;
 	font-weight: 300;
-	font-size: 2rem;      
-  line-height: 1.75;  
+	font-size: 2rem;
+	line-height: 1.75;
 	padding-bottom: 1.6rem;
 	margin-right: 2.6rem;
 	color: rgba(255, 255, 255, 0.5);
 
-  strong {
-    font-weight: 500;
-    color: white;
-  }
+	strong {
+		font-weight: 500;
+		color: white;
+	}
 
-  .highlight {
-    color: #d4a373;
-    font-weight: 500;
-    font-style: italic;
-  }
+	.highlight {
+		color: #d4a373;
+		font-weight: 500;
+		font-style: italic;
+	}
 
 	@media ${(props) => props.theme.breakpoints.md} {
 		font-size: 20px;
@@ -239,7 +244,6 @@ export const Image = styled.img`
 		height: ${(props) => props.height || '25rem'};
 	}
 `;
-
 
 export const ImageNeon = styled.div`
 	position: relative;

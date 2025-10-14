@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react';
+// src/components/Header/Header.tsx
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { AuthContext } from '../../context/AuthContext';
+import { useAuth } from '../../hooks/useAuth'; // Import custom hook
 import { AiFillGithub, AiFillLinkedin, AiOutlineMail, AiOutlineLock } from 'react-icons/ai';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import AccessRequestModal from '../AccessRequest/AccessRequestModal';
@@ -21,15 +22,15 @@ import {
 	MenuItem
 } from './HeaderStyles';
 
-const Header = () => {
-	const { accessToken } = useContext(AuthContext);
+const Header: React.FC = () => {
+	const { accessToken } = useAuth(); // Use custom hook instead of useContext
 	const hasAccess = !!accessToken;
-	const [activeSection, setActiveSection] = useState('');
-	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-	const [userMenuOpen, setUserMenuOpen] = useState(false);
-	const [showLoginModal, setShowLoginModal] = useState(false);
-	const [showAccessModal, setShowAccessModal] = useState(false);
-	const [isMobile, setIsMobile] = useState(false);
+	const [activeSection, setActiveSection] = useState<string>('');
+	const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
+	const [userMenuOpen, setUserMenuOpen] = useState<boolean>(false);
+	const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
+	const [showAccessModal, setShowAccessModal] = useState<boolean>(false);
+	const [isMobile, setIsMobile] = useState<boolean>(false);
 
 	useEffect(() => {
 		const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -73,7 +74,6 @@ const Header = () => {
 							alt="Logo"
 							width={50}
 							height={50}
-							fetchPriority="high"
 						/>
 						<Span>MyPortfolio</Span>
 					</Link>

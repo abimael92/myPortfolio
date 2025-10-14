@@ -3,7 +3,16 @@ import React, { createContext, useState, useEffect, useCallback, ReactNode } fro
 import { validateToken } from '../auth/tokenUtils';
 import { AuthContextType } from '../types/portfolio';
 
-export const AuthContext = createContext<AuthContextType | undefined>(undefined);
+// Create context with a default value that matches AuthContextType
+export const AuthContext = createContext<AuthContextType>({
+    accessToken: null,
+    loading: true,
+    error: null,
+    saveToken: () => { },
+    clearToken: () => { },
+    isAuthenticated: false,
+    refreshToken: async () => { }
+});
 
 interface AuthProviderProps {
     children: ReactNode;
@@ -19,6 +28,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         try {
             setLoading(true);
             setError(null);
+
+            // Check if we're in a browser environment
+            if (typeof window === 'undefined') {
+                setLoading(false);
+                return;
+            }
 
             const token = localStorage.getItem('accessToken');
             if (!token) {
@@ -36,7 +51,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         } catch (err) {
             console.error('Token validation error:', err);
             setError((err as Error).message);
-            localStorage.removeItem('accessToken');
+            if (typeof window !== 'undefined') {
+                localStorage.removeItem('accessToken');
+            }
             setAccessToken(null);
         } finally {
             setLoading(false);
@@ -45,7 +62,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const saveToken = useCallback((token: string): void => {
         try {
-            localStorage.setItem('accessToken', token);
+            if (typeof window !== 'undefined') {
+                localStorage.setItem('accessToken', token);
+            }
             setAccessToken(token);
             setError(null);
         } catch (err) {
@@ -56,7 +75,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const clearToken = useCallback((): void => {
         try {
-            localStorage.removeItem('accessToken');
+            if (typeof window !== 'undefined') {
+                localStorage.removeItem('accessToken');
+            }
             setAccessToken(null);
             setError(null);
         } catch (err) {

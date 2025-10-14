@@ -1,6 +1,6 @@
 import React from 'react';
 
-const BackgroundAnimation = () => (
+const BackgroundAnimation: React.FC = () => (
   <div>
     <svg
       className="BgAnimation__svg"

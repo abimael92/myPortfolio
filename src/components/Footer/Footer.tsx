@@ -1,11 +1,8 @@
+// src/components/Footer/Footer.tsx
 import React from 'react';
 import { AiFillGithub, AiOutlineMail, AiFillLinkedin } from 'react-icons/ai';
-
-import BlurWrapper from '../PrivateContent/BlurWrapper'
-
-import { useContext } from 'react';
-import { AuthContext } from '../../context/AuthContext';
-
+import BlurWrapper from '../PrivateContent/BlurWrapper';
+import { useAuth } from '../../hooks/useAuth'; // Import custom hook
 import { SocialIcons } from '../Header/HeaderStyles';
 import {
 	CompanyContainer,
@@ -19,14 +16,12 @@ import {
 	SocialIconsContainer,
 } from './FooterStyles';
 
-
-const Footer = () => {
-	const { accessToken } = useContext(AuthContext);
-
+const Footer: React.FC = () => {
+	const { accessToken } = useAuth(); // Use custom hook instead of useContext
 	const hasAccess = !!accessToken;
+
 	return (
 		<FooterWrapper>
-
 			<LinkList>
 				<LinkColumn>
 					<LinkTitle>Call</LinkTitle>
@@ -71,4 +66,3 @@ const Footer = () => {
 };
 
 export default Footer;
-

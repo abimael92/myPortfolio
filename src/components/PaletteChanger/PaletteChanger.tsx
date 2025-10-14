@@ -1,6 +1,6 @@
+// src/components/PaletteChanger/PaletteChanger.tsx
 import React, { useState } from 'react';
 import { FaSun, FaMoon } from 'react-icons/fa';
-
 import {
 	PaletteIconWrapper,
 	PaletteIcon,
@@ -17,12 +17,22 @@ import {
 	Icon,
 } from './PaletteChangerStyles';
 
-const PaletteChanger = ({ showPaletteMenu, setShowPaletteMenu }) => {
-	const [isDarkMode, setIsDarkMode] = useState(false);
+interface PaletteChangerProps {
+	showPaletteMenu: boolean;
+	setShowPaletteMenu: (show: boolean) => void;
+}
+
+const PaletteChanger: React.FC<PaletteChangerProps> = ({
+	showPaletteMenu,
+	setShowPaletteMenu
+}) => {
+	const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
 
 	const toggleDarkMode = () => {
 		setIsDarkMode(!isDarkMode);
 	};
+
+	const colorOptions = ['#ff0000', '#00ff00', '#0000ff', '#ff9900', '#9900cc', '#66ccff'];
 
 	return (
 		<PaletteIconWrapper>
@@ -33,10 +43,7 @@ const PaletteChanger = ({ showPaletteMenu, setShowPaletteMenu }) => {
 						<Title>Mode:</Title>
 						<ModeSwitchWrapper>
 							<SwitchContent>
-								<Icon
-									className={`icon ${
-										isDarkMode ? 'inactive' : ''
-									}`}>
+								<Icon className={isDarkMode ? 'inactive' : ''}>
 									<FaSun />
 								</Icon>
 								<Switch>
@@ -47,10 +54,7 @@ const PaletteChanger = ({ showPaletteMenu, setShowPaletteMenu }) => {
 									/>
 									<SwitchSlider />
 								</Switch>
-								<Icon
-									className={`icon ${
-										isDarkMode ? '' : 'inactive'
-									}`}>
+								<Icon className={isDarkMode ? '' : 'inactive'}>
 									<FaMoon />
 								</Icon>
 							</SwitchContent>
@@ -61,12 +65,13 @@ const PaletteChanger = ({ showPaletteMenu, setShowPaletteMenu }) => {
 						<Title>Presets:</Title>
 						<ModeSwitchWrapper>
 							<ColorButtonGrid>
-								<ColorButton color='#ff0000' />
-								<ColorButton color='#00ff00' />
-								<ColorButton color='#0000ff' />
-								<ColorButton color='#ff9900' />
-								<ColorButton color='#9900cc' />
-								<ColorButton color='#66ccff' />
+								{colorOptions.map((color, index) => (
+									<ColorButton
+										key={index}
+										color={color}
+										onClick={() => console.log(`Color selected: ${color}`)}
+									/>
+								))}
 							</ColorButtonGrid>
 						</ModeSwitchWrapper>
 					</ColorOption>

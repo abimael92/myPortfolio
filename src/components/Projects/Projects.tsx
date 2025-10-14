@@ -81,7 +81,7 @@ const Projects = () => {
 										</ExternalLinks>
 									</BlurWrapper>
 								) : (
-									<ExternalLinks disabled>Code</ExternalLinks>
+									<ExternalLinks as="span" disabled={true}>Code</ExternalLinks>
 								)}
 								{project.visit && (
 									<ExternalLinks

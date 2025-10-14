@@ -296,16 +296,14 @@ export const ExternalLinks = styled.a<ExternalLinksProps>`
 		box-shadow: 0 4px 12px rgba(0, 123, 255, 0.5);
 	}
 
-	${({ disabled }) =>
-		disabled &&
-		`
-    background: #555;
-    border-color: #999;
-    cursor: not-allowed;
-    color: #ccc;
-    pointer-events: none;
-    box-shadow: none;
-  `}
+	&:disabled {
+		background: #555;
+		border-color: #999;
+		cursor: not-allowed;
+		color: #ccc;
+		pointer-events: none;
+		box-shadow: none;
+	}
 `;
 
 export const ButtonContainer = styled.div`

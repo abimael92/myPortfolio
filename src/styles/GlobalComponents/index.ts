@@ -9,6 +9,7 @@ interface SectionProps {
 
 interface SectionTitleProps {
 	main?: boolean;
+	center?: boolean;
 }
 
 interface SectionDividerProps {
@@ -75,6 +76,14 @@ export const SectionTitle = styled.h2<SectionTitleProps>`
 	-webkit-text-fill-color: transparent;
 	margin-bottom: 16px;
 	padding: ${(props) => (props.main ? '58px 0 16px' : '0')};
+
+	${(props) =>
+		props.center &&
+		`
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    `}
 
 	@media ${(props) => props.theme.breakpoints.md} {
 		font-size: ${(props) => (props.main ? '56px' : '48px')};
@@ -168,7 +177,6 @@ export const ModalTitle = styled.h3<SectionTitleProps>`
 	width: max-content;
 	margin: 20px;
 	max-width: 100%;
-
 	padding: ${(props) => (props.main ? '58px 0 16px' : '0')};
 	background-clip: text;
 

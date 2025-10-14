@@ -15,10 +15,11 @@ interface NavDropDownProps {
   active?: boolean;
 }
 
-const NavDropDown: React.FC<NavDropDownProps> = (props) => (
-  <div>
+const NavDropDown: React.FC<NavDropDownProps> = ({ active }) => (
+  <DropDownContainer active={active}>
     NavDropDown
-  </div>
+  </DropDownContainer>
 );
+
 
 export default NavDropDown;

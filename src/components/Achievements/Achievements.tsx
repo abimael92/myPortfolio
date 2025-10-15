@@ -25,7 +25,11 @@ const Achievements = () => {
 			<Boxes>
 				{achievements?.map((card, index) => (
 					<Box key={index}>
-						<BoxNum>{`+${card.role}`}</BoxNum>
+						<BoxNum>
+							<span className="plus-symbol">+</span>
+							<span className="role-text">{card.role}</span>
+						</BoxNum>
+						<BoxText>{card.achievement}</BoxText>
 						<BoxText>{card.achievement}</BoxText>
 					</Box>
 				))}

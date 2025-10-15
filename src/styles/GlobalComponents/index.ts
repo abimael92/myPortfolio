@@ -69,8 +69,8 @@ export const SectionTitle = styled.h2<SectionTitleProps>`
 	max-width: 100%;
 	background: linear-gradient(
 		121.57deg,
-		#ffffff 18.77%,
-		rgba(255, 255, 255, 0.66) 60.15%
+		rgba(0, 240, 255, 0.75) 18.77%,
+		rgba(0, 240, 255, 0.55) 60.15%
 	);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;

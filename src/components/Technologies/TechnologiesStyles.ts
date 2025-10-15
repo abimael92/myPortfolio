@@ -111,7 +111,7 @@ export const ListTitle = styled.h4`
 	font-size: 28px;
 	line-height: 32px;
 	letter-spacing: 0.02em;
-	color: #ffffff;
+	color: rgba(0, 240, 255, 0.55);
 	margin-bottom: 8px;
 
 	@media ${(props) => props.theme.breakpoints.md} {
@@ -152,6 +152,7 @@ export const ListItem = styled.li`
 	box-sizing: border-box;
 	display: flex;
 	flex-direction: column;
+	color: #1e90ff;
 	padding: 2rem;
 	transition: transform 0.3s ease;
 	

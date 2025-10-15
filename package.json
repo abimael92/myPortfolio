@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "NEXT_PRIVATE_IGNORE_DEPRECATIONS=true next build",
     "start": "next start",
     "lint": "eslint src/ --ext .js,.jsx",
     "lint:fix": "eslint src/ --ext .js,.jsx --fix",
@@ -17,7 +17,7 @@
     "@styled-icons/boxicons-regular": "^10.47.0",
     "firebase": "^11.8.1",
     "firebase-admin": "^13.4.0",
-    "next": "13.4.13",
+    "next": "^15.5.5",
     "nodemailer": "^7.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

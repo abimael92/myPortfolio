@@ -23,25 +23,49 @@ export const Boxes = styled.div`
 export const BoxNum = styled.h5`
 	font-style: normal;
 	font-size: 2.5rem;
-
 	font-weight: bold;
 	display: flex;
 	align-items: center;
-
-	color: #ffffff;
-	/* box-shadow: 0px 4px 10px #007bff; // Accent color */
+	color: #4ba2ffff;
+	/* text-shadow: 0 0 8px rgba(0, 240, 255, 0.5); /* Optional glow effect */
 
 	margin-bottom: 1rem;
 
-	&::before {
-    margin-right: 10px;
-  }
+	.plus-symbol {
+		font-size: 3.5rem; /* Bigger plus symbol */
+		margin-right: 8px;
+		color: #00f0ff; /* Optional: Make plus symbol cyan */
+		color: #4ba2ffff;
+
+		/*text-shadow: 0 0 8px rgba(0, 240, 255, 0.5);  Optional glow effect */
+	}
+
+	.role-text {
+		font-size: 2.5rem; /* Keep role text at normal size */
+	}
 
 	@media ${(props) => props.theme.breakpoints.md} {
 		font-size: 18px;
+
+		.plus-symbol {
+			font-size: 24px;
+		}
+
+		.role-text {
+			font-size: 18px;
+		}
 	}
+
 	@media ${(props) => props.theme.breakpoints.sm} {
 		font-size: 20px;
+
+		.plus-symbol {
+			font-size: 26px;
+		}
+
+		.role-text {
+			font-size: 20px;
+		}
 	}
 `;
 
@@ -51,27 +75,25 @@ export const Box = styled.div`
 	width: 90%;
 	height: 25rem;
 	padding: 1.5rem;
-	box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.5); 
+	box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.5);
 	transition: transform 0.3s ease;
-
-
 
 	margin: 0 0.5rem;
 
-  overflow-y: auto;
-  box-sizing: border-box;
+	overflow-y: auto;
+	box-sizing: border-box;
 
-  /* Scrollbar styling */
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: #d0bb57;
-    border-radius: 3px;
-  }
+	/* Scrollbar styling */
+	&::-webkit-scrollbar {
+		width: 6px;
+	}
+	&::-webkit-scrollbar-thumb {
+		background: linear-gradient(180deg, #00d4ff, #007bff);
+		border-radius: 3px;
+	}
 
 	&:hover {
-	transform: translateY(-5px); // Lift effect on hover
+		transform: translateY(-5px); // Lift effect on hover
 	}
 
 	@media ${(props) => props.theme.breakpoints.lg} {
@@ -86,13 +108,8 @@ export const Box = styled.div`
 	@media ${(props) => props.theme.breakpoints.sm} {
 		height: 210px;
 		padding: 12px;
-
-
 	}
 `;
-
-
-
 
 export const BoxText = styled.p`
 	font-style: normal;

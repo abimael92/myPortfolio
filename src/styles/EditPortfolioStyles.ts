@@ -369,7 +369,7 @@ export const AccordionHeader = styled.div`
 
 export const AccordionTitle = styled.h3`
 	color: #0af;
-	font-size: 3rem;
+	font-size: 1rem;
 	font-weight: 600;
 	margin: 0;
 	display: flex;
@@ -378,7 +378,7 @@ export const AccordionTitle = styled.h3`
 
 	&::before {
 		content: '▶';
-		font-size: 2rem;
+		font-size: 0.8rem;
 		transition: transform 0.3s ease;
 	}
 
@@ -418,13 +418,13 @@ export const DataItem = styled.div`
 export const DataKey = styled.span`
 	color: #0af;
 	font-weight: 600;
-	font-size: 1.9rem;
+	font-size: 0.9rem;
 `;
 
 export const DataValue = styled.span`
 	color: #fff;
 	margin-left: 0.5rem;
-	font-size: 1.8rem;
+	font-size: 0.9rem;
 `;
 
 export const EmptyState = styled.div`

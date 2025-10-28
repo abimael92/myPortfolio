@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
-import * as S from './EditPortfoliostyles';
+import * as S from '../styles/EditPortfolioStyles';
 
 type Achievement = { achievement: string; role: string };
 type PortfolioData = { achievements?: Achievement[];[key: string]: any };

@@ -90,7 +90,7 @@ export const PanelHeader = styled.div`
 
 export const Title = styled.h1`
 	color: #fff;
-	font-size: 1.8rem;
+	font-size: 2.8rem;
 	font-weight: 700;
 	margin: 0;
 	background: linear-gradient(135deg, #0af 0%, #08c 100%);
@@ -105,7 +105,7 @@ export const Section = styled.div`
 
 export const SectionTitle = styled.h2`
 	color: #fff;
-	font-size: 1.2rem;
+	font-size: 1.8rem;
 	font-weight: 600;
 	margin-bottom: 1rem;
 	display: flex;
@@ -307,7 +307,7 @@ export const PreviewHeader = styled.div`
 
 export const PreviewTitle = styled.h2`
 	color: #fff;
-	font-size: 1.5rem;
+	font-size: 2.5rem;
 	font-weight: 700;
 	margin: 0;
 	display: flex;
@@ -369,7 +369,7 @@ export const AccordionHeader = styled.div`
 
 export const AccordionTitle = styled.h3`
 	color: #0af;
-	font-size: 1rem;
+	font-size: 2rem;
 	font-weight: 600;
 	margin: 0;
 	display: flex;
@@ -378,7 +378,7 @@ export const AccordionTitle = styled.h3`
 
 	&::before {
 		content: '▶';
-		font-size: 0.8rem;
+		font-size: 1.6rem;
 		transition: transform 0.3s ease;
 	}
 
@@ -392,7 +392,7 @@ export const AccordionCount = styled.span`
 	color: #0af;
 	padding: 0.2rem 0.6rem;
 	border-radius: 12px;
-	font-size: 0.8rem;
+	font-size: 1.5rem;
 	font-weight: 600;
 `;
 
@@ -418,13 +418,13 @@ export const DataItem = styled.div`
 export const DataKey = styled.span`
 	color: #0af;
 	font-weight: 600;
-	font-size: 0.9rem;
+	font-size: 1.6rem;
 `;
 
 export const DataValue = styled.span`
 	color: #fff;
 	margin-left: 0.5rem;
-	font-size: 0.9rem;
+	font-size: 1.4rem;
 `;
 
 export const EmptyState = styled.div`

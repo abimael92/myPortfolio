@@ -315,7 +315,6 @@ export const PreviewTitle = styled.h2`
 	gap: 0.5rem;
 
 	&::before {
-		content: '📊';
 		font-size: 1.2rem;
 	}
 `;
@@ -434,7 +433,6 @@ export const EmptyState = styled.div`
 	font-style: italic;
 
 	&::before {
-		content: '💾';
 		font-size: 2rem;
 		display: block;
 		margin-bottom: 1rem;

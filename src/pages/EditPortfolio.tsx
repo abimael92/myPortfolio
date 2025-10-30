@@ -3,7 +3,14 @@ import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import * as S from '../styles/EditPortfolioStyles';
 
-type PortfolioData = { achievements?: Achievement[]; skills?: Skill[];[key: string]: any };
+type PortfolioData = { achievements?: Achievement[]; skills?: Skill[]; education?: Education[];[key: string]: any };
+type Education = {
+    title: string;
+    date: string;
+    institution: string;
+    id?: string;
+};
+
 type Achievement = { achievement: string; role: string };
 type Skill = {
     name: string;
@@ -24,6 +31,10 @@ const EditPortfolio = () => {
     const [newSkill, setNewSkill] = useState<Skill>({
         name: "", percent: 0, category: ""
     });
+    const [education, setEducation] = useState<Education[]>([]);
+    const [newEducation, setNewEducation] = useState<Education>({
+        title: "", date: "", institution: ""
+    });
 
     useEffect(() => {
         const fetchData = async () => {
@@ -37,6 +48,7 @@ const EditPortfolio = () => {
 
                     setAchievements(firebaseData.achievements || []);
                     setSkills(firebaseData.skills || []);
+                    setEducation(firebaseData.education || []);
                     setOpenSections(new Set());
                 }
             } catch (err) {
@@ -94,6 +106,23 @@ const EditPortfolio = () => {
         setSkills(updated);
     };
 
+    // Education func
+    const handleAddEducation = () => {
+        if (!newEducation.title || !newEducation.date || !newEducation.institution) {
+            setStatus({ message: "Please fill in all fields", success: false });
+            return;
+        }
+        setEducation([...education, { ...newEducation, id: Date.now().toString() }]);
+        setNewEducation({ title: "", date: "", institution: "" });
+        setStatus({ message: "Education added!", success: true });
+    };
+
+    const handleRemoveEducation = (index: number) => {
+        const updated = [...education];
+        updated.splice(index, 1);
+        setEducation(updated);
+    };
+
     // Unified save function
     const handleSave = async () => {
         if (!activeSection) return;
@@ -109,7 +138,7 @@ const EditPortfolio = () => {
             });
             const data = await res.json();
             if (data.success) {
-                setStatus({ message: `${activeSection} updated successfully! 🎉`, success: true });
+                setStatus({ message: `${activeSection} updated successfully! `, success: true });
                 setPortfolioData({ ...portfolioData, ...dataToSave });
             } else {
                 throw new Error("Failed to update");
@@ -121,6 +150,7 @@ const EditPortfolio = () => {
 
     const isAddDisabled = !newAchievement.achievement || !newAchievement.role;
     const isAddSkillDisabled = !newSkill.name || !newSkill.category;
+    const isAddEducationDisabled = !newEducation.title || !newEducation.date || !newEducation.institution;
 
     // Render section content based on active section
     const renderSectionContent = () => {
@@ -184,6 +214,89 @@ const EditPortfolio = () => {
                                 {achievements.length === 0 && (
                                     <S.EmptyState>
                                         No achievements yet. Add your first one below!
+                                    </S.EmptyState>
+                                )}
+                            </S.AchievementList>
+                        </S.Section>
+                    </>
+                );
+
+            case 'education':
+                return (
+                    <>
+                        <S.AddForm>
+                            <S.SectionTitle>Add New Education</S.SectionTitle>
+                            <S.FormRow>
+                                <S.InputGroup>
+                                    <S.InputLabel>Title</S.InputLabel>
+                                    <S.StyledInput
+                                        placeholder="e.g., Bachelor's Degree in Computer Science"
+                                        value={newEducation.title}
+                                        onChange={(e) => setNewEducation({ ...newEducation, title: e.target.value })}
+                                    />
+                                </S.InputGroup>
+                                <S.InputGroup>
+                                    <S.InputLabel>Date</S.InputLabel>
+                                    <S.StyledInput
+                                        placeholder="e.g., 04/2012 - 04/2016"
+                                        value={newEducation.date}
+                                        onChange={(e) => setNewEducation({ ...newEducation, date: e.target.value })}
+                                    />
+                                </S.InputGroup>
+                                <S.InputGroup>
+                                    <S.InputLabel>Institution</S.InputLabel>
+                                    <S.StyledInput
+                                        placeholder="e.g., Instituto Tecnológico de Cd. Jiménez"
+                                        value={newEducation.institution}
+                                        onChange={(e) => setNewEducation({ ...newEducation, institution: e.target.value })}
+                                    />
+                                </S.InputGroup>
+                                <S.AddButton onClick={handleAddEducation} disabled={isAddEducationDisabled}>
+                                    Add Education +
+                                </S.AddButton>
+                            </S.FormRow>
+                        </S.AddForm>
+
+                        <S.Section>
+                            <S.SectionTitle>Current Education ({education.length})</S.SectionTitle>
+                            <S.AchievementList>
+                                {education.map((edu, idx) => (
+                                    <S.AchievementItem key={edu.id || idx}>
+                                        <S.AchievementInput
+                                            value={edu.title}
+                                            placeholder="Degree title"
+                                            onChange={(e) => {
+                                                const updated = [...education];
+                                                updated[idx].title = e.target.value;
+                                                setEducation(updated);
+                                            }}
+                                        />
+                                        <S.AchievementInput
+                                            value={edu.date}
+                                            placeholder="Date range"
+                                            onChange={(e) => {
+                                                const updated = [...education];
+                                                updated[idx].date = e.target.value;
+                                                setEducation(updated);
+                                            }}
+                                        />
+                                        <S.AchievementInput
+                                            value={edu.institution}
+                                            placeholder="Institution name"
+                                            onChange={(e) => {
+                                                const updated = [...education];
+                                                updated[idx].institution = e.target.value;
+                                                setEducation(updated);
+                                            }}
+                                        />
+                                        <S.RemoveButton onClick={() => handleRemoveEducation(idx)}>
+                                            Remove
+                                        </S.RemoveButton>
+                                    </S.AchievementItem>
+                                ))}
+                                {education.length === 0 && (
+                                    <S.EmptyState>
+                                        No education entries yet. Add your first one below!
                                     </S.EmptyState>
                                 )}
                             </S.AchievementList>

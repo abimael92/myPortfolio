@@ -24,6 +24,7 @@ const EditPortfolio = () => {
     const [portfolioData, setPortfolioData] = useState<PortfolioData>({});
     const [openSections, setOpenSections] = useState<Set<string>>(new Set());
     const [activeSection, setActiveSection] = useState<string | null>(null);
+    const [openCurrentSections, setOpenCurrentSections] = useState<Set<string>>(new Set());
 
     const [achievements, setAchievements] = useState<Achievement[]>([]);
     const [newAchievement, setNewAchievement] = useState({ achievement: "", role: "" });
@@ -70,6 +71,16 @@ const EditPortfolio = () => {
             setActiveSection(key);
         }
         setOpenSections(newOpenSections);
+    };
+
+    const toggleCurrentSection = (section: string) => {
+        const newOpenCurrentSections = new Set(openCurrentSections);
+        if (newOpenCurrentSections.has(section)) {
+            newOpenCurrentSections.delete(section);
+        } else {
+            newOpenCurrentSections.add(section);
+        }
+        setOpenCurrentSections(newOpenCurrentSections);
     };
 
     // Achievement functions
@@ -184,39 +195,45 @@ const EditPortfolio = () => {
                         </S.AddForm>
 
                         <S.Section>
-                            <S.SectionTitle>Current Achievements ({achievements.length})</S.SectionTitle>
-                            <S.AchievementList>
-                                {achievements.map((a, idx) => (
-                                    <S.AchievementItem key={idx}>
-                                        <S.AchievementInput
-                                            value={a.achievement}
-                                            placeholder="Achievement description"
-                                            onChange={(e) => {
-                                                const updated = [...achievements];
-                                                updated[idx].achievement = e.target.value;
-                                                setAchievements(updated);
-                                            }}
-                                        />
-                                        <S.AchievementInput
-                                            value={a.role}
-                                            placeholder="Your role"
-                                            onChange={(e) => {
-                                                const updated = [...achievements];
-                                                updated[idx].role = e.target.value;
-                                                setAchievements(updated);
-                                            }}
-                                        />
-                                        <S.RemoveButton onClick={() => handleRemove(idx)}>
-                                            Remove
-                                        </S.RemoveButton>
-                                    </S.AchievementItem>
-                                ))}
-                                {achievements.length === 0 && (
-                                    <S.EmptyState>
-                                        No achievements yet. Add your first one below!
-                                    </S.EmptyState>
-                                )}
-                            </S.AchievementList>
+                            <S.SectionTitle onClick={() => toggleCurrentSection('achievements')}>
+                                Current Achievements ({achievements.length}) {openCurrentSections.has('achievements') ? '▼' : '▶'}
+                            </S.SectionTitle>
+                            {openCurrentSections.has('achievements') && (
+                                <S.AchievementList>
+                                    {achievements.map((a, idx) => (
+                                        <S.AchievementItem key={idx}>
+                                            <S.AchievementInput
+                                                value={a.achievement}
+                                                placeholder="Achievement description"
+                                                onChange={(e) => {
+                                                    const updated = [...achievements];
+                                                    updated[idx].achievement = e.target.value;
+                                                    setAchievements(updated);
+                                                }}
+                                            />
+                                            <S.AchievementInput
+                                                value={a.role}
+                                                placeholder="Your role"
+                                                onChange={(e) => {
+                                                    const updated = [...achievements];
+                                                    updated[idx].role = e.target.value;
+                                                    setAchievements(updated);
+                                                }}
+                                            />
+                                            <S.RemoveButton onClick={() => handleRemove(idx)}>
+                                                Remove
+                                            </S.RemoveButton>
+                                            <S.RemoveButton onClick={() => handleRemove(idx)}>
+                                                Remove
+                                            </S.RemoveButton>
+                                        </S.AchievementItem>
+                                    ))}
+                                    {achievements.length === 0 && (
+                                        <S.EmptyState>
+                                            No achievements yet. Add your first one below!
+                                        </S.EmptyState>
+                                    )}
+                                </S.AchievementList>)}
                         </S.Section>
                     </>
                 );
@@ -258,48 +275,51 @@ const EditPortfolio = () => {
                         </S.AddForm>
 
                         <S.Section>
-                            <S.SectionTitle>Current Education ({education.length})</S.SectionTitle>
-                            <S.AchievementList>
-                                {education.map((edu, idx) => (
-                                    <S.AchievementItem key={edu.id || idx}>
-                                        <S.AchievementInput
-                                            value={edu.title}
-                                            placeholder="Degree title"
-                                            onChange={(e) => {
-                                                const updated = [...education];
-                                                updated[idx].title = e.target.value;
-                                                setEducation(updated);
-                                            }}
-                                        />
-                                        <S.AchievementInput
-                                            value={edu.date}
-                                            placeholder="Date range"
-                                            onChange={(e) => {
-                                                const updated = [...education];
-                                                updated[idx].date = e.target.value;
-                                                setEducation(updated);
-                                            }}
-                                        />
-                                        <S.AchievementInput
-                                            value={edu.institution}
-                                            placeholder="Institution name"
-                                            onChange={(e) => {
-                                                const updated = [...education];
-                                                updated[idx].institution = e.target.value;
-                                                setEducation(updated);
-                                            }}
-                                        />
-                                        <S.RemoveButton onClick={() => handleRemoveEducation(idx)}>
-                                            Remove
-                                        </S.RemoveButton>
-                                    </S.AchievementItem>
-                                ))}
-                                {education.length === 0 && (
-                                    <S.EmptyState>
-                                        No education entries yet. Add your first one below!
-                                    </S.EmptyState>
-                                )}
-                            </S.AchievementList>
+                            <S.SectionTitle onClick={() => toggleCurrentSection('education')}>
+                                Current Education ({education.length}) {openCurrentSections.has('education') ? '▼' : '▶'}
+                            </S.SectionTitle>
+                            {openCurrentSections.has('education') && (
+                                <S.AchievementList>
+                                    {education.map((edu, idx) => (
+                                        <S.AchievementItem key={edu.id || idx}>
+                                            <S.AchievementInput
+                                                value={edu.title}
+                                                placeholder="Degree title"
+                                                onChange={(e) => {
+                                                    const updated = [...education];
+                                                    updated[idx].title = e.target.value;
+                                                    setEducation(updated);
+                                                }}
+                                            />
+                                            <S.AchievementInput
+                                                value={edu.date}
+                                                placeholder="Date range"
+                                                onChange={(e) => {
+                                                    const updated = [...education];
+                                                    updated[idx].date = e.target.value;
+                                                    setEducation(updated);
+                                                }}
+                                            />
+                                            <S.AchievementInput
+                                                value={edu.institution}
+                                                placeholder="Institution name"
+                                                onChange={(e) => {
+                                                    const updated = [...education];
+                                                    updated[idx].institution = e.target.value;
+                                                    setEducation(updated);
+                                                }}
+                                            />
+                                            <S.RemoveButton onClick={() => handleRemoveEducation(idx)}>
+                                                Remove
+                                            </S.RemoveButton>
+                                        </S.AchievementItem>
+                                    ))}
+                                    {education.length === 0 && (
+                                        <S.EmptyState>
+                                            No education entries yet. Add your first one below!
+                                        </S.EmptyState>
+                                    )}
+                                </S.AchievementList>)}
                         </S.Section>
                     </>
                 );
@@ -344,49 +364,52 @@ const EditPortfolio = () => {
                         </S.AddForm>
 
                         <S.Section>
-                            <S.SectionTitle>Current Skills ({skills.length})</S.SectionTitle>
-                            <S.AchievementList>
-                                {skills.map((skill, idx) => (
-                                    <S.AchievementItem key={skill.id || idx}>
-                                        <S.AchievementInput
-                                            value={skill.name}
-                                            placeholder="Skill name"
-                                            onChange={(e) => {
-                                                const updated = [...skills];
-                                                updated[idx].name = e.target.value;
-                                                setSkills(updated);
-                                            }}
-                                        />
-                                        <S.AchievementInput
-                                            type="number"
-                                            value={skill.percent}
-                                            placeholder="Percent"
-                                            onChange={(e) => {
-                                                const updated = [...skills];
-                                                updated[idx].percent = parseInt(e.target.value) || 0;
-                                                setSkills(updated);
-                                            }}
-                                        />
-                                        <S.AchievementInput
-                                            value={skill.category}
-                                            placeholder="Category"
-                                            onChange={(e) => {
-                                                const updated = [...skills];
-                                                updated[idx].category = e.target.value;
-                                                setSkills(updated);
-                                            }}
-                                        />
-                                        <S.RemoveButton onClick={() => handleRemoveSkill(idx)}>
-                                            Remove
-                                        </S.RemoveButton>
-                                    </S.AchievementItem>
-                                ))}
-                                {skills.length === 0 && (
-                                    <S.EmptyState>
-                                        No skills yet. Add your first one below!
-                                    </S.EmptyState>
-                                )}
-                            </S.AchievementList>
+                            <S.SectionTitle onClick={() => toggleCurrentSection('skills')}>
+                                Current Skills ({skills.length}) {openCurrentSections.has('skills') ? '▼' : '▶'}
+                            </S.SectionTitle>
+                            {openCurrentSections.has('skills') && (
+                                <S.AchievementList>
+                                    {skills.map((skill, idx) => (
+                                        <S.AchievementItem key={skill.id || idx}>
+                                            <S.AchievementInput
+                                                value={skill.name}
+                                                placeholder="Skill name"
+                                                onChange={(e) => {
+                                                    const updated = [...skills];
+                                                    updated[idx].name = e.target.value;
+                                                    setSkills(updated);
+                                                }}
+                                            />
+                                            <S.AchievementInput
+                                                type="number"
+                                                value={skill.percent}
+                                                placeholder="Percent"
+                                                onChange={(e) => {
+                                                    const updated = [...skills];
+                                                    updated[idx].percent = parseInt(e.target.value) || 0;
+                                                    setSkills(updated);
+                                                }}
+                                            />
+                                            <S.AchievementInput
+                                                value={skill.category}
+                                                placeholder="Category"
+                                                onChange={(e) => {
+                                                    const updated = [...skills];
+                                                    updated[idx].category = e.target.value;
+                                                    setSkills(updated);
+                                                }}
+                                            />
+                                            <S.RemoveButton onClick={() => handleRemoveSkill(idx)}>
+                                                Remove
+                                            </S.RemoveButton>
+                                        </S.AchievementItem>
+                                    ))}
+                                    {skills.length === 0 && (
+                                        <S.EmptyState>
+                                            No skills yet. Add your first one below!
+                                        </S.EmptyState>
+                                    )}
+                                </S.AchievementList>)}
                         </S.Section>
                     </>
                 );

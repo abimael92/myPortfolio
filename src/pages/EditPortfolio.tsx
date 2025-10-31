@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import * as S from '../styles/EditPortfolioStyles';
+import { FaEdit, FaTrash, FaSave, FaTimes } from 'react-icons/fa';
 
 type PortfolioData = { achievements?: Achievement[]; skills?: Skill[]; education?: Education[];[key: string]: any };
 type Education = {
@@ -25,6 +26,16 @@ const EditPortfolio = () => {
     const [openSections, setOpenSections] = useState<Set<string>>(new Set());
     const [activeSection, setActiveSection] = useState<string | null>(null);
     const [openCurrentSections, setOpenCurrentSections] = useState<Set<string>>(new Set());
+    const [originalData, setOriginalData] = useState<{ [key: string]: any[] }>({
+        achievements: [],
+        skills: [],
+        education: []
+    });
+    const [editingItems, setEditingItems] = useState<{ [key: string]: Set<string> }>({
+        achievements: new Set(),
+        skills: new Set(),
+        education: new Set()
+    });
 
     const [achievements, setAchievements] = useState<Achievement[]>([]);
     const [newAchievement, setNewAchievement] = useState({ achievement: "", role: "" });
@@ -83,6 +94,51 @@ const EditPortfolio = () => {
         setOpenCurrentSections(newOpenCurrentSections);
     };
 
+    // Toggle edit mode for items
+    const toggleEditItem = (section: string, index: number) => {
+        const newEditingItems = { ...editingItems };
+        const sectionSet = new Set(newEditingItems[section]);
+
+        if (sectionSet.has(index.toString())) {
+
+            if (originalData[section] && originalData[section][index]) {
+
+                if (section === 'achievements') {
+                    const updated = [...achievements];
+                    updated[index] = originalData[section][index] as Achievement;
+                    setAchievements(updated);
+                } else if (section === 'skills') {
+                    const updated = [...skills];
+                    updated[index] = originalData[section][index] as Skill;
+                    setSkills(updated);
+                } else if (section === 'education') {
+                    const updated = [...education];
+                    updated[index] = originalData[section][index] as Education;
+                    setEducation(updated);
+                }
+            }
+            sectionSet.delete(index.toString());
+        } else {
+
+            const newOriginalData = { ...originalData };
+            if (!newOriginalData[section]) newOriginalData[section] = [];
+
+            if (section === 'achievements') {
+                newOriginalData[section][index] = { ...achievements[index] };
+            } else if (section === 'skills') {
+                newOriginalData[section][index] = { ...skills[index] };
+            } else if (section === 'education') {
+                newOriginalData[section][index] = { ...education[index] };
+            }
+
+            setOriginalData(newOriginalData);
+            sectionSet.add(index.toString());
+        }
+
+        newEditingItems[section] = sectionSet;
+        setEditingItems(newEditingItems);
+    };
+
     // Achievement functions
     const handleAdd = () => {
         if (!newAchievement.achievement || !newAchievement.role) {
@@ -98,6 +154,13 @@ const EditPortfolio = () => {
         const updated = [...achievements];
         updated.splice(index, 1);
         setAchievements(updated);
+
+        // Remove from editing items if it was being edited
+        const newEditingItems = { ...editingItems };
+        const sectionSet = new Set(newEditingItems.achievements);
+        sectionSet.delete(index.toString());
+        newEditingItems.achievements = sectionSet;
+        setEditingItems(newEditingItems);
     };
 
     // Skill functions
@@ -115,6 +178,13 @@ const EditPortfolio = () => {
         const updated = [...skills];
         updated.splice(index, 1);
         setSkills(updated);
+
+        // Remove from editing items if it was being edited
+        const newEditingItems = { ...editingItems };
+        const sectionSet = new Set(newEditingItems.skills);
+        sectionSet.delete(index.toString());
+        newEditingItems.skills = sectionSet;
+        setEditingItems(newEditingItems);
     };
 
     // Education func
@@ -132,6 +202,13 @@ const EditPortfolio = () => {
         const updated = [...education];
         updated.splice(index, 1);
         setEducation(updated);
+
+        // Remove from editing items if it was being edited
+        const newEditingItems = { ...editingItems };
+        const sectionSet = new Set(newEditingItems.education);
+        sectionSet.delete(index.toString());
+        newEditingItems.education = sectionSet;
+        setEditingItems(newEditingItems);
     };
 
     // Unified save function
@@ -140,7 +217,8 @@ const EditPortfolio = () => {
 
         try {
             const dataToSave = activeSection === 'achievements' ? { achievements } :
-                activeSection === 'skills' ? { skills } : {};
+                activeSection === 'skills' ? { skills } :
+                    activeSection === 'education' ? { education } : {};
 
             const res = await fetch("/api/portfolio", {
                 method: "POST",
@@ -151,6 +229,13 @@ const EditPortfolio = () => {
             if (data.success) {
                 setStatus({ message: `${activeSection} updated successfully! `, success: true });
                 setPortfolioData({ ...portfolioData, ...dataToSave });
+
+                // Exit all edit modes after save
+                setEditingItems({
+                    achievements: new Set(),
+                    skills: new Set(),
+                    education: new Set()
+                });
             } else {
                 throw new Error("Failed to update");
             }
@@ -200,34 +285,60 @@ const EditPortfolio = () => {
                             </S.SectionTitle>
                             {openCurrentSections.has('achievements') && (
                                 <S.AchievementList>
-                                    {achievements.map((a, idx) => (
-                                        <S.AchievementItem key={idx}>
-                                            <S.AchievementInput
-                                                value={a.achievement}
-                                                placeholder="Achievement description"
-                                                onChange={(e) => {
-                                                    const updated = [...achievements];
-                                                    updated[idx].achievement = e.target.value;
-                                                    setAchievements(updated);
-                                                }}
-                                            />
-                                            <S.AchievementInput
-                                                value={a.role}
-                                                placeholder="Your role"
-                                                onChange={(e) => {
-                                                    const updated = [...achievements];
-                                                    updated[idx].role = e.target.value;
-                                                    setAchievements(updated);
-                                                }}
-                                            />
-                                            <S.RemoveButton onClick={() => handleRemove(idx)}>
-                                                Remove
-                                            </S.RemoveButton>
-                                            <S.RemoveButton onClick={() => handleRemove(idx)}>
-                                                Remove
-                                            </S.RemoveButton>
-                                        </S.AchievementItem>
-                                    ))}
+                                    {achievements.map((a, idx) => {
+                                        const isEditing = editingItems.achievements.has(idx.toString());
+                                        return (
+                                            <S.AchievementItem key={idx}>
+                                                {isEditing ? (
+                                                    <>
+                                                        <S.AchievementInput
+                                                            value={a.achievement}
+                                                            placeholder="Achievement description"
+                                                            onChange={(e) => {
+                                                                const updated = [...achievements];
+                                                                updated[idx].achievement = e.target.value;
+                                                                setAchievements(updated);
+                                                            }}
+                                                        />
+                                                        <S.AchievementInput
+                                                            value={a.role}
+                                                            placeholder="Your role"
+                                                            onChange={(e) => {
+                                                                const updated = [...achievements];
+                                                                updated[idx].role = e.target.value;
+                                                                setAchievements(updated);
+                                                            }}
+                                                        />
+                                                        <S.IconButton
+                                                            onClick={() => toggleEditItem('achievements', idx)}
+                                                            title="Save"
+                                                        >
+                                                            <FaSave size={14} />
+                                                        </S.IconButton>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <S.AchievementText>{a.achievement}</S.AchievementText>
+                                                        <S.AchievementText>{a.role}</S.AchievementText>
+                                                        <S.IconButton
+                                                            onClick={() => toggleEditItem('achievements', idx)}
+                                                            title="Edit"
+                                                        >
+                                                            <FaEdit size={14} />
+                                                        </S.IconButton>
+                                                    </>
+                                                )}
+                                                <S.IconButton
+                                                    onClick={() => isEditing ? toggleEditItem('achievements', idx) : handleRemove(idx)}
+                                                    $danger={!isEditing}
+                                                    $secondary={isEditing}
+                                                    title={isEditing ? "Cancel" : "Remove"}
+                                                >
+                                                    {isEditing ? <FaTimes size={14} /> : <FaTrash size={14} />}
+                                                </S.IconButton>
+                                            </S.AchievementItem>
+                                        );
+                                    })}
                                     {achievements.length === 0 && (
                                         <S.EmptyState>
                                             No achievements yet. Add your first one below!
@@ -280,40 +391,70 @@ const EditPortfolio = () => {
                             </S.SectionTitle>
                             {openCurrentSections.has('education') && (
                                 <S.AchievementList>
-                                    {education.map((edu, idx) => (
-                                        <S.AchievementItem key={edu.id || idx}>
-                                            <S.AchievementInput
-                                                value={edu.title}
-                                                placeholder="Degree title"
-                                                onChange={(e) => {
-                                                    const updated = [...education];
-                                                    updated[idx].title = e.target.value;
-                                                    setEducation(updated);
-                                                }}
-                                            />
-                                            <S.AchievementInput
-                                                value={edu.date}
-                                                placeholder="Date range"
-                                                onChange={(e) => {
-                                                    const updated = [...education];
-                                                    updated[idx].date = e.target.value;
-                                                    setEducation(updated);
-                                                }}
-                                            />
-                                            <S.AchievementInput
-                                                value={edu.institution}
-                                                placeholder="Institution name"
-                                                onChange={(e) => {
-                                                    const updated = [...education];
-                                                    updated[idx].institution = e.target.value;
-                                                    setEducation(updated);
-                                                }}
-                                            />
-                                            <S.RemoveButton onClick={() => handleRemoveEducation(idx)}>
-                                                Remove
-                                            </S.RemoveButton>
-                                        </S.AchievementItem>
-                                    ))}
+                                    {education.map((edu, idx) => {
+                                        const isEditing = editingItems.education.has(idx.toString());
+                                        return (
+                                            <S.AchievementItem key={edu.id || idx}>
+                                                {isEditing ? (
+                                                    <>
+                                                        <S.AchievementInput
+                                                            value={edu.title}
+                                                            placeholder="Degree title"
+                                                            onChange={(e) => {
+                                                                const updated = [...education];
+                                                                updated[idx].title = e.target.value;
+                                                                setEducation(updated);
+                                                            }}
+                                                        />
+                                                        <S.AchievementInput
+                                                            value={edu.date}
+                                                            placeholder="Date range"
+                                                            onChange={(e) => {
+                                                                const updated = [...education];
+                                                                updated[idx].date = e.target.value;
+                                                                setEducation(updated);
+                                                            }}
+                                                        />
+                                                        <S.AchievementInput
+                                                            value={edu.institution}
+                                                            placeholder="Institution name"
+                                                            onChange={(e) => {
+                                                                const updated = [...education];
+                                                                updated[idx].institution = e.target.value;
+                                                                setEducation(updated);
+                                                            }}
+                                                        />
+                                                        <S.IconButton
+                                                            onClick={() => toggleEditItem('education', idx)}
+                                                            title="Save"
+                                                        >
+                                                            <FaSave size={14} />
+                                                        </S.IconButton>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <S.AchievementText>{edu.title}</S.AchievementText>
+                                                        <S.AchievementText>{edu.date}</S.AchievementText>
+                                                        <S.AchievementText>{edu.institution}</S.AchievementText>
+                                                        <S.IconButton
+                                                            onClick={() => toggleEditItem('education', idx)}
+                                                            title="Edit"
+                                                        >
+                                                            <FaEdit size={14} />
+                                                        </S.IconButton>
+                                                    </>
+                                                )}
+                                                <S.IconButton
+                                                    onClick={() => isEditing ? toggleEditItem('education', idx) : handleRemove(idx)}
+                                                    $danger={!isEditing}
+                                                    $secondary={isEditing}
+                                                    title={isEditing ? "Cancel" : "Remove"}
+                                                >
+                                                    {isEditing ? <FaTimes size={14} /> : <FaTrash size={14} />}
+                                                </S.IconButton>
+                                            </S.AchievementItem>
+                                        );
+                                    })}
                                     {education.length === 0 && (
                                         <S.EmptyState>
                                             No education entries yet. Add your first one below!
@@ -369,41 +510,71 @@ const EditPortfolio = () => {
                             </S.SectionTitle>
                             {openCurrentSections.has('skills') && (
                                 <S.AchievementList>
-                                    {skills.map((skill, idx) => (
-                                        <S.AchievementItem key={skill.id || idx}>
-                                            <S.AchievementInput
-                                                value={skill.name}
-                                                placeholder="Skill name"
-                                                onChange={(e) => {
-                                                    const updated = [...skills];
-                                                    updated[idx].name = e.target.value;
-                                                    setSkills(updated);
-                                                }}
-                                            />
-                                            <S.AchievementInput
-                                                type="number"
-                                                value={skill.percent}
-                                                placeholder="Percent"
-                                                onChange={(e) => {
-                                                    const updated = [...skills];
-                                                    updated[idx].percent = parseInt(e.target.value) || 0;
-                                                    setSkills(updated);
-                                                }}
-                                            />
-                                            <S.AchievementInput
-                                                value={skill.category}
-                                                placeholder="Category"
-                                                onChange={(e) => {
-                                                    const updated = [...skills];
-                                                    updated[idx].category = e.target.value;
-                                                    setSkills(updated);
-                                                }}
-                                            />
-                                            <S.RemoveButton onClick={() => handleRemoveSkill(idx)}>
-                                                Remove
-                                            </S.RemoveButton>
-                                        </S.AchievementItem>
-                                    ))}
+                                    {skills.map((skill, idx) => {
+                                        const isEditing = editingItems.skills.has(idx.toString());
+                                        return (
+                                            <S.AchievementItem key={skill.id || idx}>
+                                                {isEditing ? (
+                                                    <>
+                                                        <S.AchievementInput
+                                                            value={skill.name}
+                                                            placeholder="Skill name"
+                                                            onChange={(e) => {
+                                                                const updated = [...skills];
+                                                                updated[idx].name = e.target.value;
+                                                                setSkills(updated);
+                                                            }}
+                                                        />
+                                                        <S.AchievementInput
+                                                            type="number"
+                                                            value={skill.percent}
+                                                            placeholder="Percent"
+                                                            onChange={(e) => {
+                                                                const updated = [...skills];
+                                                                updated[idx].percent = parseInt(e.target.value) || 0;
+                                                                setSkills(updated);
+                                                            }}
+                                                        />
+                                                        <S.AchievementInput
+                                                            value={skill.category}
+                                                            placeholder="Category"
+                                                            onChange={(e) => {
+                                                                const updated = [...skills];
+                                                                updated[idx].category = e.target.value;
+                                                                setSkills(updated);
+                                                            }}
+                                                        />
+                                                        <S.IconButton
+                                                            onClick={() => toggleEditItem('skills', idx)}
+                                                            title="Save"
+                                                        >
+                                                            <FaSave size={14} />
+                                                        </S.IconButton>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <S.AchievementText>{skill.name}</S.AchievementText>
+                                                        <S.AchievementText>{skill.percent}%</S.AchievementText>
+                                                        <S.AchievementText>{skill.category}</S.AchievementText>
+                                                        <S.IconButton
+                                                            onClick={() => toggleEditItem('skills', idx)}
+                                                            title="Edit"
+                                                        >
+                                                            <FaEdit size={14} />
+                                                        </S.IconButton>
+                                                    </>
+                                                )}
+                                                <S.IconButton
+                                                    onClick={() => isEditing ? toggleEditItem('skills', idx) : handleRemove(idx)}
+                                                    $danger={!isEditing}
+                                                    $secondary={isEditing}
+                                                    title={isEditing ? "Cancel" : "Remove"}
+                                                >
+                                                    {isEditing ? <FaTimes size={14} /> : <FaTrash size={14} />}
+                                                </S.IconButton>
+                                            </S.AchievementItem>
+                                        );
+                                    })}
                                     {skills.length === 0 && (
                                         <S.EmptyState>
                                             No skills yet. Add your first one below!

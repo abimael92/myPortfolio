@@ -121,6 +121,41 @@ export const SectionTitle = styled.h2`
 	}
 `;
 
+export const IconButton = styled.button<{
+	$danger?: boolean;
+	$secondary?: boolean;
+}>`
+	background: ${(props) =>
+		props.$danger ? '#dc3545' : props.$secondary ? '#6c757d' : '#007bff'};
+	color: white;
+	border: none;
+	border-radius: 4px;
+	padding: 8px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: background-color 0.2s;
+
+	&:hover {
+		background: ${(props) =>
+			props.$danger ? '#c82333' : props.$secondary ? '#5a6268' : '#0056b3'};
+	}
+
+	&:disabled {
+		background: #6c757d;
+		cursor: not-allowed;
+	}
+`;
+
+export const AchievementText = styled.span`
+	flex: 1;
+	padding: 8px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	background: transparent;
+`;
+
 // Achievement Items
 export const AchievementList = styled.div`
 	display: flex;
@@ -148,8 +183,16 @@ export const AchievementItem = styled.div`
 `;
 
 export const AchievementInput = styled.input`
-	${inputBaseStyles}
 	flex: 1;
+	padding: 8px;
+	border: 2px solid rgba(10, 175, 255, 0.5);
+	border-radius: 4px;
+	background: #f8f9fa;
+	&:focus {
+		outline: none;
+		border-color: #007bff;
+		box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+	}
 `;
 
 export const RemoveButton = styled.button`

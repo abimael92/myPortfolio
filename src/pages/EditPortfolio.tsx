@@ -5,6 +5,7 @@ import * as S from '../styles/EditPortfolioStyles';
 import { FaEdit, FaTrash, FaSave, FaTimes } from 'react-icons/fa';
 
 type PortfolioData = { achievements?: Achievement[]; skills?: Skill[]; education?: Education[];[key: string]: any };
+
 type Education = {
     title: string;
     date: string;
@@ -13,11 +14,21 @@ type Education = {
 };
 
 type Achievement = { achievement: string; role: string };
+
 type Skill = {
     name: string;
     percent: number;
     category: string;
     id?: string;
+};
+
+type Project = {
+    image: string;
+    title: string;
+    description: string;
+    id: string;
+    tags: string;
+    source: string;
 };
 
 const EditPortfolio = () => {
@@ -26,15 +37,18 @@ const EditPortfolio = () => {
     const [openSections, setOpenSections] = useState<Set<string>>(new Set());
     const [activeSection, setActiveSection] = useState<string | null>(null);
     const [openCurrentSections, setOpenCurrentSections] = useState<Set<string>>(new Set());
+
     const [originalData, setOriginalData] = useState<{ [key: string]: any[] }>({
         achievements: [],
         skills: [],
-        education: []
+        education: [],
+        projects: []
     });
     const [editingItems, setEditingItems] = useState<{ [key: string]: Set<string> }>({
         achievements: new Set(),
         skills: new Set(),
-        education: new Set()
+        education: new Set(),
+        projects: new Set()
     });
 
     const [achievements, setAchievements] = useState<Achievement[]>([]);
@@ -46,6 +60,15 @@ const EditPortfolio = () => {
     const [education, setEducation] = useState<Education[]>([]);
     const [newEducation, setNewEducation] = useState<Education>({
         title: "", date: "", institution: ""
+    });
+    const [projects, setProjects] = useState<Project[]>([]);
+    const [newProject, setNewProject] = useState<Project>({
+        image: "",
+        title: "",
+        description: "",
+        id: "",
+        tags: "",
+        source: ""
     });
 
     useEffect(() => {
@@ -61,6 +84,7 @@ const EditPortfolio = () => {
                     setAchievements(firebaseData.achievements || []);
                     setSkills(firebaseData.skills || []);
                     setEducation(firebaseData.education || []);
+                    setProjects(firebaseData.projects || []);
                     setOpenSections(new Set());
                 }
             } catch (err) {
@@ -115,6 +139,10 @@ const EditPortfolio = () => {
                     const updated = [...education];
                     updated[index] = originalData[section][index] as Education;
                     setEducation(updated);
+                } else if (section === 'projects') {
+                    const updated = [...projects];
+                    updated[index] = originalData[section][index] as Project;
+                    setProjects(updated);
                 }
             }
             sectionSet.delete(index.toString());
@@ -129,6 +157,8 @@ const EditPortfolio = () => {
                 newOriginalData[section][index] = { ...skills[index] };
             } else if (section === 'education') {
                 newOriginalData[section][index] = { ...education[index] };
+            } else if (section === 'projects') {
+                newOriginalData[section][index] = { ...projects[index] };
             }
 
             setOriginalData(newOriginalData);
@@ -140,7 +170,7 @@ const EditPortfolio = () => {
     };
 
     // Achievement functions
-    const handleAdd = () => {
+    const handleAddAchievement = () => {
         if (!newAchievement.achievement || !newAchievement.role) {
             setStatus({ message: "Please fill in both fields", success: false });
             return;
@@ -150,7 +180,7 @@ const EditPortfolio = () => {
         setStatus({ message: "Achievement added!", success: true });
     };
 
-    const handleRemove = (index: number) => {
+    const handleRemoveAchievement = (index: number) => {
         const updated = [...achievements];
         updated.splice(index, 1);
         setAchievements(updated);
@@ -218,7 +248,8 @@ const EditPortfolio = () => {
         try {
             const dataToSave = activeSection === 'achievements' ? { achievements } :
                 activeSection === 'skills' ? { skills } :
-                    activeSection === 'education' ? { education } : {};
+                    activeSection === 'education' ? { education } :
+                        activeSection === 'projects' ? { projects } : {};
 
             const res = await fetch("/api/portfolio", {
                 method: "POST",
@@ -234,7 +265,8 @@ const EditPortfolio = () => {
                 setEditingItems({
                     achievements: new Set(),
                     skills: new Set(),
-                    education: new Set()
+                    education: new Set(),
+                    projects: new Set()
                 });
             } else {
                 throw new Error("Failed to update");
@@ -242,6 +274,37 @@ const EditPortfolio = () => {
         } catch (error) {
             setStatus({ message: `Error updating ${activeSection}`, success: false });
         }
+    };
+
+    // Projects functions
+    const handleAddProject = () => {
+        if (!newProject.title || !newProject.description || !newProject.image) {
+            setStatus({ message: "Please fill in title, description and image", success: false });
+            return;
+        }
+        setProjects([...projects, { ...newProject, id: Date.now().toString() }]);
+        setNewProject({
+            image: "",
+            title: "",
+            description: "",
+            id: "",
+            tags: "",
+            source: ""
+        });
+        setStatus({ message: "Project added!", success: true });
+    };
+
+    const handleRemoveProject = (index: number) => {
+        const updated = [...projects];
+        updated.splice(index, 1);
+        setProjects(updated);
+
+        // Remove from editing items if it was being edited
+        const newEditingItems = { ...editingItems };
+        const sectionSet = new Set(newEditingItems.projects);
+        sectionSet.delete(index.toString());
+        newEditingItems.projects = sectionSet;
+        setEditingItems(newEditingItems);
     };
 
     const isAddDisabled = !newAchievement.achievement || !newAchievement.role;
@@ -273,7 +336,7 @@ const EditPortfolio = () => {
                                         onChange={(e) => setNewAchievement({ ...newAchievement, role: e.target.value })}
                                     />
                                 </S.InputGroup>
-                                <S.AddButton onClick={handleAdd} disabled={isAddDisabled}>
+                                <S.AddButton onClick={handleAddAchievement} disabled={isAddDisabled}>
                                     Add +
                                 </S.AddButton>
                             </S.FormRow>
@@ -329,7 +392,7 @@ const EditPortfolio = () => {
                                                     </>
                                                 )}
                                                 <S.IconButton
-                                                    onClick={() => isEditing ? toggleEditItem('achievements', idx) : handleRemove(idx)}
+                                                    onClick={() => isEditing ? toggleEditItem('achievements', idx) : handleRemoveAchievement(idx)}
                                                     $danger={!isEditing}
                                                     $secondary={isEditing}
                                                     title={isEditing ? "Cancel" : "Remove"}
@@ -445,7 +508,7 @@ const EditPortfolio = () => {
                                                     </>
                                                 )}
                                                 <S.IconButton
-                                                    onClick={() => isEditing ? toggleEditItem('education', idx) : handleRemove(idx)}
+                                                    onClick={() => isEditing ? toggleEditItem('education', idx) : handleRemoveEducation(idx)}
                                                     $danger={!isEditing}
                                                     $secondary={isEditing}
                                                     title={isEditing ? "Cancel" : "Remove"}
@@ -565,7 +628,7 @@ const EditPortfolio = () => {
                                                     </>
                                                 )}
                                                 <S.IconButton
-                                                    onClick={() => isEditing ? toggleEditItem('skills', idx) : handleRemove(idx)}
+                                                    onClick={() => isEditing ? toggleEditItem('skills', idx) : handleRemoveSkill(idx)}
                                                     $danger={!isEditing}
                                                     $secondary={isEditing}
                                                     title={isEditing ? "Cancel" : "Remove"}
@@ -578,6 +641,168 @@ const EditPortfolio = () => {
                                     {skills.length === 0 && (
                                         <S.EmptyState>
                                             No skills yet. Add your first one below!
+                                        </S.EmptyState>
+                                    )}
+                                </S.AchievementList>)}
+                        </S.Section>
+                    </>
+                );
+
+            case 'projects':
+                return (
+                    <>
+                        <S.AddForm>
+                            <S.SectionTitle>Add New Project</S.SectionTitle>
+                            <S.FormRow>
+                                <S.InputGroup>
+                                    <S.InputLabel>Image URL</S.InputLabel>
+                                    <S.StyledInput
+                                        placeholder="/images/project-preview.png"
+                                        value={newProject.image}
+                                        onChange={(e) => setNewProject({ ...newProject, image: e.target.value })}
+                                    />
+                                </S.InputGroup>
+                                <S.InputGroup>
+                                    <S.InputLabel>Title</S.InputLabel>
+                                    <S.StyledInput
+                                        placeholder="Project Title"
+                                        value={newProject.title}
+                                        onChange={(e) => setNewProject({ ...newProject, title: e.target.value })}
+                                    />
+                                </S.InputGroup>
+                                <S.InputGroup>
+                                    <S.InputLabel>Description</S.InputLabel>
+                                    <S.StyledInput
+                                        placeholder="Project description"
+                                        value={newProject.description}
+                                        onChange={(e) => setNewProject({ ...newProject, description: e.target.value })}
+                                    />
+                                </S.InputGroup>
+                                <S.InputGroup>
+                                    <S.InputLabel>Tags</S.InputLabel>
+                                    <S.StyledInput
+                                        placeholder="React,TypeScript,SCSS"
+                                        value={newProject.tags}
+                                        onChange={(e) => setNewProject({ ...newProject, tags: e.target.value })}
+                                    />
+                                </S.InputGroup>
+                                <S.InputGroup>
+                                    <S.InputLabel>Source URL</S.InputLabel>
+                                    <S.StyledInput
+                                        placeholder="https://github.com/username/project"
+                                        value={newProject.source}
+                                        onChange={(e) => setNewProject({ ...newProject, source: e.target.value })}
+                                    />
+                                </S.InputGroup>
+                                <S.AddButton onClick={handleAddProject} disabled={!newProject.title || !newProject.description || !newProject.image}>
+                                    Add Project +
+                                </S.AddButton>
+                            </S.FormRow>
+                        </S.AddForm>
+
+                        <S.Section>
+                            <S.SectionTitle onClick={() => toggleCurrentSection('projects')}>
+                                Current Projects ({projects.length}) {openCurrentSections.has('projects') ? '▼' : '▶'}
+                            </S.SectionTitle>
+                            {openCurrentSections.has('projects') && (
+                                <S.AchievementList>
+                                    {projects.map((project, idx) => {
+                                        const isEditing = editingItems.projects.has(idx.toString());
+                                        return (
+                                            <S.AchievementItem key={project.id || idx}>
+                                                {isEditing ? (
+                                                    <>
+                                                        <S.AchievementInput
+                                                            value={project.image}
+                                                            placeholder="Image URL"
+                                                            onChange={(e) => {
+                                                                const updated = [...projects];
+                                                                updated[idx].image = e.target.value;
+                                                                setProjects(updated);
+                                                            }}
+                                                        />
+                                                        <S.AchievementInput
+                                                            value={project.title}
+                                                            placeholder="Project title"
+                                                            onChange={(e) => {
+                                                                const updated = [...projects];
+                                                                updated[idx].title = e.target.value;
+                                                                setProjects(updated);
+                                                            }}
+                                                        />
+                                                        <S.AchievementInput
+                                                            value={project.description}
+                                                            placeholder="Project description"
+                                                            onChange={(e) => {
+                                                                const updated = [...projects];
+                                                                updated[idx].description = e.target.value;
+                                                                setProjects(updated);
+                                                            }}
+                                                        />
+                                                        <S.AchievementInput
+                                                            value={project.tags}
+                                                            placeholder="React,TypeScript,SCSS"
+                                                            onChange={(e) => {
+                                                                const updated = [...projects];
+                                                                updated[idx].tags = e.target.value;
+                                                                setProjects(updated);
+                                                            }}
+                                                        />
+                                                        <S.AchievementInput
+                                                            value={project.source}
+                                                            placeholder="Source URL"
+                                                            onChange={(e) => {
+                                                                const updated = [...projects];
+                                                                updated[idx].source = e.target.value;
+                                                                setProjects(updated);
+                                                            }}
+                                                        />
+                                                        <S.IconButton
+                                                            onClick={() => toggleEditItem('projects', idx)}
+                                                            title="Save"
+                                                        >
+                                                            <FaSave size={14} />
+                                                        </S.IconButton>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <S.ImagePreview>
+                                                            <img src={project.image} alt={project.title} onError={(e) => {
+                                                                e.currentTarget.style.display = 'none';
+                                                            }} />
+                                                        </S.ImagePreview>
+                                                        <S.AchievementText>{project.title}</S.AchievementText>
+                                                        <S.AchievementTextArea >
+                                                            {project.description}
+                                                        </S.AchievementTextArea>
+                                                        <S.AchievementText $scrollY={true} >
+                                                            {String(project.tags || '').split(',').map(tag => tag.trim()).join(', ')}
+                                                        </S.AchievementText>
+                                                        <S.AchievementText $linkText as="a" href={project.source} target="_blank" rel="noopener noreferrer">
+                                                            {project.source}
+                                                        </S.AchievementText>
+                                                        <S.IconButton
+                                                            onClick={() => toggleEditItem('projects', idx)}
+                                                            title="Edit"
+                                                        >
+                                                            <FaEdit size={14} />
+                                                        </S.IconButton>
+                                                    </>
+                                                )}
+                                                <S.IconButton
+                                                    onClick={() => isEditing ? toggleEditItem('projects', idx) : handleRemoveProject(idx)}
+                                                    $danger={!isEditing}
+                                                    $secondary={isEditing}
+                                                    title={isEditing ? "Cancel" : "Remove"}
+                                                >
+                                                    {isEditing ? <FaTimes size={14} /> : <FaTrash size={14} />}
+                                                </S.IconButton>
+                                            </S.AchievementItem>
+                                        );
+                                    })}
+                                    {projects.length === 0 && (
+                                        <S.EmptyState>
+                                            No projects yet. Add your first one below!
                                         </S.EmptyState>
                                     )}
                                 </S.AchievementList>)}

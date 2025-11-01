@@ -148,12 +148,155 @@ export const IconButton = styled.button<{
 	}
 `;
 
-export const AchievementText = styled.span`
+export const AchievementText = styled.span<{
+	$scrollX?: boolean;
+	$scrollY?: boolean;
+	$linkText?: boolean;
+}>`
 	flex: 1;
 	padding: 8px;
 	border: 1px solid transparent;
 	border-radius: 4px;
 	background: transparent;
+	display: flex;
+	align-items: center;
+	line-height: 1.4;
+	min-width: 8rem;
+	min-height: 40px;
+	max-width: 150px;
+	max-height: 100px;
+	word-wrap: break-word;
+	white-space: pre-wrap;
+	color: inherit;
+
+	${({ $scrollX, $scrollY, $linkText }) => {
+		if ($scrollX)
+			return `
+        overflow-x: auto;
+        overflow-y: hidden;
+        background: rgba(50,50,50,0.8);
+        padding: 4px;
+
+        /* inner wrapper to allow horizontal scroll for all lines */
+        > span {
+          display: inline-block;
+          min-width: 100%;
+          white-space: nowrap; /* prevent wrapping so horizontal scroll works */
+        }
+      `;
+		if ($scrollY)
+			return `
+				min-width: 18rem;
+				overflow-y: auto;
+				overflow-x: hidden;
+				white-space: pre-wrap;
+				align-items: flex-start;
+				background: rgba(50, 50, 50, 0.8);
+			`;
+		if ($linkText)
+			return `
+				display: -webkit-box;
+				-webkit-line-clamp: 2; /* limit to 2 lines */
+				-webkit-box-orient: vertical;
+				height: 160px;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: normal;
+				cursor: pointer;
+				color: #00aaff;
+				text-decoration: underline;
+
+				&:hover {
+					color: #66ccff;
+				}
+			`;
+		return `
+			display: -webkit-box;
+			-webkit-line-clamp: 3;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: normal;
+		`;
+	}}
+
+	&::-webkit-scrollbar {
+		width: 8px;
+		height: 4px;
+	}
+	&::-webkit-scrollbar-thumb {
+		background: linear-gradient(180deg, #00d4ff, #007bff);
+		border-radius: 3px;
+	}
+	&::-webkit-scrollbar-track {
+		background: rgba(255, 255, 255, 0.05);
+	}
+`;
+
+export const AchievementTextArea = styled.textarea`
+	display: block;
+	box-sizing: border-box;
+	padding: 8px 10px;
+	border-radius: 6px;
+	background: rgba(60, 60, 60, 0.8);
+	color: inherit;
+	line-height: 1.5;
+	min-height: 10rem;
+	min-width: 18rem;
+	max-height: 20rem;
+
+	/* Normal scroll behavior */
+	overflow: auto;
+	white-space: pre-wrap;
+	word-break: break-word;
+
+	resize: vertical;
+	outline: none;
+	font: inherit;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+	&:focus {
+		border-color: #00b4ff;
+		box-shadow: 0 0 6px rgba(0, 180, 255, 0.4);
+	}
+
+	/* Make resize handle larger and more visible */
+	&::-webkit-resizer {
+		background: linear-gradient(135deg, #00d4ff, #007bff);
+		border-radius: 4px;
+		border: 2px solid #00b4ff;
+		box-shadow: 0 0 8px rgba(0, 180, 255, 0.8);
+		width: 20px;
+		height: 20px;
+	}
+
+	/* Firefox resize handle */
+	&::-moz-resizer {
+		background: linear-gradient(135deg, #00d4ff, #007bff);
+		border-radius: 4px;
+		border: 2px solid #00b4ff;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background: linear-gradient(180deg, #00d4ff, #007bff);
+		border-radius: 4px;
+	}
+`;
+
+export const ImagePreview = styled.div`
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 8px;
+
+	img {
+		width: 180px;
+		max-height: 60px;
+		object-fit: cover;
+		border-radius: 4px;
+		border: 1px solid #ddd;
+	}
 `;
 
 // Achievement Items
@@ -217,7 +360,6 @@ export const RemoveButton = styled.button`
 	}
 `;
 
-// Add New Achievement Form
 export const AddForm = styled.div`
 	${cardStyle}
 	background: rgba(40, 40, 40, 0.6);

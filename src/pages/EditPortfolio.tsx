@@ -775,8 +775,11 @@ const EditPortfolio = () => {
                                                         <S.AchievementTextArea >
                                                             {project.description}
                                                         </S.AchievementTextArea>
-                                                        <S.AchievementText $scrollY={true} >
-                                                            {String(project.tags || '').split(',').map(tag => tag.trim()).join(', ')}
+                                                        <S.AchievementText $scrollY>
+                                                            {String(project.tags || '')
+                                                                .split(',')
+                                                                .map((tag) => tag.trim())
+                                                                .join(', ')}
                                                         </S.AchievementText>
                                                         <S.AchievementText $linkText as="a" href={project.source} target="_blank" rel="noopener noreferrer">
                                                             {project.source}

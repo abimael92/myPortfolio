@@ -163,7 +163,6 @@ export const AchievementText = styled.span<{
 	line-height: 1.4;
 	min-width: 8rem;
 	min-height: 40px;
-	max-width: 150px;
 	max-height: 100px;
 	word-wrap: break-word;
 	white-space: pre-wrap;
@@ -291,7 +290,7 @@ export const ImagePreview = styled.div`
 	padding: 8px;
 
 	img {
-		width: 180px;
+		width: 120px;
 		max-height: 60px;
 		object-fit: cover;
 		border-radius: 4px;

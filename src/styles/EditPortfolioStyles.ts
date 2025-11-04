@@ -633,13 +633,13 @@ export const EmptyState = styled.div`
 export const StyledTextArea = styled.textarea`
 	width: 100%;
 	padding: 8px 12px;
-	border: 1px solid #ddd;
+	border: 1px solid rgba(255, 255, 255, 0.05);
 	color: #ddd;
 	border-radius: 4px;
 	font-size: 14px;
 	resize: vertical;
 	min-height: 80px;
-	background: rgba(35, 35, 35, 0.8);
+	background: rgba(40, 40, 40, 0.8);
 `;
 
 export const ArrayInputRow = styled.div`

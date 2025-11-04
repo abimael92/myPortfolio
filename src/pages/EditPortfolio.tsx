@@ -4,12 +4,33 @@ import { db } from '../../firebase';
 import * as S from '../styles/EditPortfolioStyles';
 import { FaEdit, FaTrash, FaSave, FaTimes } from 'react-icons/fa';
 
-type PortfolioData = { achievements?: Achievement[]; skills?: Skill[]; education?: Education[];[key: string]: any };
+type PortfolioData = {
+    achievements?: Achievement[];
+    skills?: Skill[];
+    education?: Education[];
+    projects?: Project[];
+    experience?: Experience[];
+    [key: string]: any
+};
 
 type Education = {
     title: string;
     date: string;
     institution: string;
+    id?: string;
+};
+
+type Experience = {
+    description: string;
+    company: string;
+    project: string;
+    achievements: string[];
+    technologies: string[];
+    position: string;
+    industry: string;
+    date: string;
+    year: string;
+    period: string;
     id?: string;
 };
 
@@ -42,12 +63,14 @@ const EditPortfolio = () => {
         achievements: [],
         skills: [],
         education: [],
+        experience: [],
         projects: []
     });
     const [editingItems, setEditingItems] = useState<{ [key: string]: Set<string> }>({
         achievements: new Set(),
         skills: new Set(),
         education: new Set(),
+        experience: new Set(),
         projects: new Set()
     });
 
@@ -71,6 +94,20 @@ const EditPortfolio = () => {
         source: ""
     });
 
+    const [experience, setExperience] = useState<Experience[]>([]);
+    const [newExperience, setNewExperience] = useState<Experience>({
+        description: "",
+        company: "",
+        project: "",
+        achievements: [""],
+        technologies: [""],
+        position: "",
+        industry: "",
+        date: "",
+        year: "",
+        period: ""
+    });
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -84,6 +121,7 @@ const EditPortfolio = () => {
                     setAchievements(firebaseData.achievements || []);
                     setSkills(firebaseData.skills || []);
                     setEducation(firebaseData.education || []);
+                    setExperience(firebaseData.experience || []);
                     setProjects(firebaseData.projects || []);
                     setOpenSections(new Set());
                 }
@@ -139,6 +177,10 @@ const EditPortfolio = () => {
                     const updated = [...education];
                     updated[index] = originalData[section][index] as Education;
                     setEducation(updated);
+                } else if (section === 'experience') {
+                    const updated = [...experience];
+                    updated[index] = originalData[section][index] as Experience;
+                    setExperience(updated);
                 } else if (section === 'projects') {
                     const updated = [...projects];
                     updated[index] = originalData[section][index] as Project;
@@ -157,6 +199,8 @@ const EditPortfolio = () => {
                 newOriginalData[section][index] = { ...skills[index] };
             } else if (section === 'education') {
                 newOriginalData[section][index] = { ...education[index] };
+            } else if (section === 'experience') {
+                newOriginalData[section][index] = { ...experience[index] };
             } else if (section === 'projects') {
                 newOriginalData[section][index] = { ...projects[index] };
             }
@@ -241,39 +285,39 @@ const EditPortfolio = () => {
         setEditingItems(newEditingItems);
     };
 
-    // Unified save function
-    const handleSave = async () => {
-        if (!activeSection) return;
-
-        try {
-            const dataToSave = activeSection === 'achievements' ? { achievements } :
-                activeSection === 'skills' ? { skills } :
-                    activeSection === 'education' ? { education } :
-                        activeSection === 'projects' ? { projects } : {};
-
-            const res = await fetch("/api/portfolio", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(dataToSave),
-            });
-            const data = await res.json();
-            if (data.success) {
-                setStatus({ message: `${activeSection} updated successfully! `, success: true });
-                setPortfolioData({ ...portfolioData, ...dataToSave });
-
-                // Exit all edit modes after save
-                setEditingItems({
-                    achievements: new Set(),
-                    skills: new Set(),
-                    education: new Set(),
-                    projects: new Set()
-                });
-            } else {
-                throw new Error("Failed to update");
-            }
-        } catch (error) {
-            setStatus({ message: `Error updating ${activeSection}`, success: false });
+    // Experience functions
+    const handleAddExperience = () => {
+        if (!newExperience.company || !newExperience.position || !newExperience.date) {
+            setStatus({ message: "Please fill in company, position and date fields", success: false });
+            return;
         }
+        setExperience([...experience, { ...newExperience, id: Date.now().toString() }]);
+        setNewExperience({
+            description: "",
+            company: "",
+            project: "",
+            achievements: [""],
+            technologies: [""],
+            position: "",
+            industry: "",
+            date: "",
+            year: "",
+            period: ""
+        });
+        setStatus({ message: "Experience added!", success: true });
+    };
+
+    const handleRemoveExperience = (index: number) => {
+        const updated = [...experience];
+        updated.splice(index, 1);
+        setExperience(updated);
+
+        // Remove from editing items if it was being edited
+        const newEditingItems = { ...editingItems };
+        const sectionSet = new Set(newEditingItems.experience);
+        sectionSet.delete(index.toString());
+        newEditingItems.experience = sectionSet;
+        setEditingItems(newEditingItems);
     };
 
     // Projects functions
@@ -305,6 +349,93 @@ const EditPortfolio = () => {
         sectionSet.delete(index.toString());
         newEditingItems.projects = sectionSet;
         setEditingItems(newEditingItems);
+    };
+
+    // Helper functions for achievements and technologies arrays
+    const addAchievementField = () => {
+        setNewExperience({
+            ...newExperience,
+            achievements: [...newExperience.achievements, ""]
+        });
+    };
+
+    const removeAchievementField = (index: number) => {
+        const updatedAchievements = newExperience.achievements.filter((_, i) => i !== index);
+        setNewExperience({
+            ...newExperience,
+            achievements: updatedAchievements
+        });
+    };
+
+    const updateAchievementField = (index: number, value: string) => {
+        const updatedAchievements = [...newExperience.achievements];
+        updatedAchievements[index] = value;
+        setNewExperience({
+            ...newExperience,
+            achievements: updatedAchievements
+        });
+    };
+
+    const addTechnologyField = () => {
+        setNewExperience({
+            ...newExperience,
+            technologies: [...newExperience.technologies, ""]
+        });
+    };
+
+    const removeTechnologyField = (index: number) => {
+        const updatedTechnologies = newExperience.technologies.filter((_, i) => i !== index);
+        setNewExperience({
+            ...newExperience,
+            technologies: updatedTechnologies
+        });
+    };
+
+    const updateTechnologyField = (index: number, value: string) => {
+        const updatedTechnologies = [...newExperience.technologies];
+        updatedTechnologies[index] = value;
+        setNewExperience({
+            ...newExperience,
+            technologies: updatedTechnologies
+        });
+    };
+
+    // Unified save function
+    const handleSave = async () => {
+        if (!activeSection) return;
+
+        try {
+            const dataToSave = activeSection === 'achievements' ? { achievements } :
+                activeSection === 'skills' ? { skills } :
+                    activeSection === 'education' ? { education } :
+                        activeSection === 'experience' ? { experience } :
+                            activeSection === 'projects' ? { projects } : {};
+
+            const res = await fetch("/api/portfolio", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(dataToSave),
+            });
+            const data = await res.json();
+
+            if (data.success) {
+                setStatus({ message: `${activeSection} updated successfully! `, success: true });
+                setPortfolioData({ ...portfolioData, ...dataToSave });
+
+                // Exit all edit modes after save
+                setEditingItems({
+                    achievements: new Set(),
+                    skills: new Set(),
+                    education: new Set(),
+                    experience: new Set(),
+                    projects: new Set()
+                });
+            } else {
+                throw new Error("Failed to update");
+            }
+        } catch (error) {
+            setStatus({ message: `Error updating ${activeSection}`, success: false });
+        }
     };
 
     const isAddDisabled = !newAchievement.achievement || !newAchievement.role;
@@ -524,6 +655,271 @@ const EditPortfolio = () => {
                                         </S.EmptyState>
                                     )}
                                 </S.AchievementList>)}
+                        </S.Section>
+                    </>
+                );
+
+            case 'experience':
+                return (
+                    <>
+                        <S.AddForm>
+                            <S.SectionTitle>Add New Experience</S.SectionTitle>
+
+                            <S.FormRow>
+                                <S.InputGroup>
+                                    <S.InputLabel>Company *</S.InputLabel>
+                                    <S.StyledInput
+                                        placeholder="Company name"
+                                        value={newExperience.company}
+                                        onChange={(e) => setNewExperience({ ...newExperience, company: e.target.value })}
+                                    />
+                                </S.InputGroup>
+                                <S.InputGroup>
+                                    <S.InputLabel>Position *</S.InputLabel>
+                                    <S.StyledInput
+                                        placeholder="Your position"
+                                        value={newExperience.position}
+                                        onChange={(e) => setNewExperience({ ...newExperience, position: e.target.value })}
+                                    />
+                                </S.InputGroup>
+                                <S.InputGroup>
+                                    <S.InputLabel>Date *</S.InputLabel>
+                                    <S.StyledInput
+                                        placeholder="e.g., Oct 2024 - Feb 2025"
+                                        value={newExperience.date}
+                                        onChange={(e) => setNewExperience({ ...newExperience, date: e.target.value })}
+                                    />
+                                </S.InputGroup>
+                            </S.FormRow>
+
+                            <S.FormRow>
+                                <S.InputGroup>
+                                    <S.InputLabel>Project</S.InputLabel>
+                                    <S.StyledInput
+                                        placeholder="Project name"
+                                        value={newExperience.project}
+                                        onChange={(e) => setNewExperience({ ...newExperience, project: e.target.value })}
+                                    />
+                                </S.InputGroup>
+                                <S.InputGroup>
+                                    <S.InputLabel>Industry</S.InputLabel>
+                                    <S.StyledInput
+                                        placeholder="Industry"
+                                        value={newExperience.industry}
+                                        onChange={(e) => setNewExperience({ ...newExperience, industry: e.target.value })}
+                                    />
+                                </S.InputGroup>
+                                <S.InputGroup>
+                                    <S.InputLabel>Period</S.InputLabel>
+                                    <S.StyledInput
+                                        placeholder="e.g., 5 months"
+                                        value={newExperience.period}
+                                        onChange={(e) => setNewExperience({ ...newExperience, period: e.target.value })}
+                                    />
+                                </S.InputGroup>
+                            </S.FormRow>
+
+                            <S.InputGroup>
+                                <S.InputLabel>Description</S.InputLabel>
+                                <S.StyledTextArea
+                                    placeholder="Describe your role and contributions"
+                                    value={newExperience.description}
+                                    onChange={(e) => setNewExperience({ ...newExperience, description: e.target.value })}
+                                    rows={3}
+                                />
+                            </S.InputGroup>
+
+                            <S.InputGroup>
+                                <S.InputLabel>
+                                    Achievements
+                                    <S.SmallButton onClick={addAchievementField}>+ Add</S.SmallButton>
+                                </S.InputLabel>
+                                {newExperience.achievements.map((achievement, index) => (
+                                    <S.ArrayInputRow key={index}>
+                                        <S.StyledInput
+                                            placeholder={`Achievement ${index + 1}`}
+                                            value={achievement}
+                                            onChange={(e) => updateAchievementField(index, e.target.value)}
+                                        />
+                                        {newExperience.achievements.length > 1 && (
+                                            <S.SmallButton
+                                                $danger
+                                                onClick={() => removeAchievementField(index)}
+                                            >
+                                                Remove
+                                            </S.SmallButton>
+                                        )}
+                                    </S.ArrayInputRow>
+                                ))}
+                            </S.InputGroup>
+
+                            <S.InputGroup>
+                                <S.InputLabel>
+                                    Technologies
+                                    <S.SmallButton onClick={addTechnologyField}>+ Add</S.SmallButton>
+                                </S.InputLabel>
+                                {newExperience.technologies.map((technology, index) => (
+                                    <S.ArrayInputRow key={index}>
+                                        <S.StyledInput
+                                            placeholder={`Technology ${index + 1}`}
+                                            value={technology}
+                                            onChange={(e) => updateTechnologyField(index, e.target.value)}
+                                        />
+                                        {newExperience.technologies.length > 1 && (
+                                            <S.SmallButton
+                                                $danger
+                                                onClick={() => removeTechnologyField(index)}
+                                            >
+                                                Remove
+                                            </S.SmallButton>
+                                        )}
+                                    </S.ArrayInputRow>
+                                ))}
+                            </S.InputGroup>
+
+                            <S.AddButton
+                                onClick={handleAddExperience}
+                                disabled={!newExperience.company || !newExperience.position || !newExperience.date}
+                            >
+                                Add Experience +
+                            </S.AddButton>
+                        </S.AddForm>
+
+                        <S.Section>
+                            <S.SectionTitle onClick={() => toggleCurrentSection('experience')}>
+                                Current Experience ({experience.length}) {openCurrentSections.has('experience') ? '▼' : '▶'}
+                            </S.SectionTitle>
+                            {openCurrentSections.has('experience') && (
+                                <S.AchievementList>
+                                    {experience.map((exp, idx) => {
+                                        const isEditing = editingItems.experience.has(idx.toString());
+                                        return (
+                                            <S.ExperienceItem key={exp.id || idx}>
+                                                {isEditing ? (
+                                                    <S.ExperienceEditForm>
+                                                        <S.FormRow>
+                                                            <S.InputGroup>
+                                                                <S.InputLabel>Company</S.InputLabel>
+                                                                <S.StyledInput
+                                                                    value={exp.company}
+                                                                    onChange={(e) => {
+                                                                        const updated = [...experience];
+                                                                        updated[idx].company = e.target.value;
+                                                                        setExperience(updated);
+                                                                    }}
+                                                                />
+                                                            </S.InputGroup>
+                                                            <S.InputGroup>
+                                                                <S.InputLabel>Position</S.InputLabel>
+                                                                <S.StyledInput
+                                                                    value={exp.position}
+                                                                    onChange={(e) => {
+                                                                        const updated = [...experience];
+                                                                        updated[idx].position = e.target.value;
+                                                                        setExperience(updated);
+                                                                    }}
+                                                                />
+                                                            </S.InputGroup>
+                                                        </S.FormRow>
+                                                        <S.FormRow>
+                                                            <S.InputGroup>
+                                                                <S.InputLabel>Date</S.InputLabel>
+                                                                <S.StyledInput
+                                                                    value={exp.date}
+                                                                    onChange={(e) => {
+                                                                        const updated = [...experience];
+                                                                        updated[idx].date = e.target.value;
+                                                                        setExperience(updated);
+                                                                    }}
+                                                                />
+                                                            </S.InputGroup>
+                                                            <S.InputGroup>
+                                                                <S.InputLabel>Project</S.InputLabel>
+                                                                <S.StyledInput
+                                                                    value={exp.project}
+                                                                    onChange={(e) => {
+                                                                        const updated = [...experience];
+                                                                        updated[idx].project = e.target.value;
+                                                                        setExperience(updated);
+                                                                    }}
+                                                                />
+                                                            </S.InputGroup>
+                                                        </S.FormRow>
+                                                        <S.InputGroup>
+                                                            <S.InputLabel>Description</S.InputLabel>
+                                                            <S.StyledTextArea
+                                                                value={exp.description}
+                                                                onChange={(e) => {
+                                                                    const updated = [...experience];
+                                                                    updated[idx].description = e.target.value;
+                                                                    setExperience(updated);
+                                                                }}
+                                                                rows={3}
+                                                            />
+                                                        </S.InputGroup>
+                                                        <S.IconButton
+                                                            onClick={() => toggleEditItem('experience', idx)}
+                                                            title="Save"
+                                                        >
+                                                            <FaSave size={14} />
+                                                        </S.IconButton>
+                                                    </S.ExperienceEditForm>
+                                                ) : (
+                                                    <>
+                                                        <S.ExperienceHeader>
+                                                            <div>
+                                                                <S.ExperienceTitle>{exp.position} at {exp.company}</S.ExperienceTitle>
+                                                                <S.ExperienceDate>{exp.date}</S.ExperienceDate>
+                                                            </div>
+                                                            <S.ActionButtons>
+                                                                <S.IconButton
+                                                                    onClick={() => toggleEditItem('experience', idx)}
+                                                                    title="Edit"
+                                                                >
+                                                                    <FaEdit size={14} />
+                                                                </S.IconButton>
+                                                                <S.IconButton
+                                                                    onClick={() => handleRemoveExperience(idx)}
+                                                                    $danger
+                                                                    title="Remove"
+                                                                >
+                                                                    <FaTrash size={14} />
+                                                                </S.IconButton>
+                                                            </S.ActionButtons>
+
+                                                        </S.ExperienceHeader>
+                                                        {exp.project && (
+                                                            <S.ExperienceProject><strong>Project:</strong> {exp.project}</S.ExperienceProject>
+                                                        )}
+                                                        {exp.description && (
+                                                            <S.ExperienceDescription>{exp.description}</S.ExperienceDescription>
+                                                        )}
+                                                        {exp.technologies && exp.technologies.length > 0 && (
+                                                            <S.ExperienceTech>
+                                                                <strong>Technologies:</strong> {exp.technologies.join(', ')}
+                                                            </S.ExperienceTech>
+                                                        )}
+                                                        {exp.achievements && exp.achievements.length > 0 && (
+                                                            <S.ExperienceList>
+                                                                <strong>Achievements:</strong>
+                                                                {exp.achievements.map((achievement, i) => (
+                                                                    <li key={i}>{achievement}</li>
+                                                                ))}
+                                                            </S.ExperienceList>
+                                                        )}
+                                                    </>
+                                                )}
+
+                                            </S.ExperienceItem>
+                                        );
+                                    })}
+                                    {experience.length === 0 && (
+                                        <S.EmptyState>
+                                            No experience entries yet. Add your first one below!
+                                        </S.EmptyState>
+                                    )}
+                                </S.AchievementList>
+                            )}
                         </S.Section>
                     </>
                 );

@@ -386,6 +386,7 @@ export const InputGroup = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 0.5rem;
+	margin: 1rem;
 `;
 
 export const InputLabel = styled.label`
@@ -394,6 +395,11 @@ export const InputLabel = styled.label`
 	font-weight: 600;
 	text-transform: uppercase;
 	letter-spacing: 0.5px;
+
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
 `;
 
 export const StyledInput = styled.input`
@@ -622,4 +628,119 @@ export const EmptyState = styled.div`
 		margin-bottom: 1rem;
 		opacity: 0.5;
 	}
+`;
+
+export const StyledTextArea = styled.textarea`
+	width: 100%;
+	padding: 8px 12px;
+	border: 1px solid #ddd;
+	color: #ddd;
+	border-radius: 4px;
+	font-size: 14px;
+	resize: vertical;
+	min-height: 80px;
+	background: rgba(35, 35, 35, 0.8);
+`;
+
+export const ArrayInputRow = styled.div`
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	margin-bottom: 8px;
+`;
+
+export const SmallButton = styled.button<{ $danger?: boolean }>`
+	padding: 4px 8px;
+	background: ${(props) => (props.$danger ? '#ff4757' : '#007bff')};
+	color: white;
+	border: none;
+	border-radius: 3px;
+	cursor: pointer;
+	font-size: 14px;
+
+	&:hover {
+		background: ${(props) => (props.$danger ? '#ff3742' : '#0056b3')};
+	}
+`;
+
+export const ExperienceItem = styled.div`
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+	padding: 16px;
+	margin-bottom: 16px;
+	background: rgba(50, 50, 50, 0.6);
+
+	&:hover {
+		background: rgba(60, 60, 60, 0.8);
+		border-color: rgba(10, 175, 255, 0.3);
+		transform: translateY(-2px);
+	}
+`;
+
+export const ExperienceEditForm = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+`;
+
+export const ExperienceHeader = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	margin-bottom: 8px;
+`;
+
+export const ActionButtons = styled.div`
+	display: flex;
+	gap: 4px;
+	align-items: center;
+`;
+
+export const ExperienceTitle = styled.h4`
+	margin: 0;
+	color: #fff;
+	font-size: 16px;
+	font-size: larger;
+`;
+
+export const ExperienceDate = styled.span`
+	color: #ccc;
+	font-size: 14px;
+`;
+
+export const ExperienceProject = styled.p`
+	margin: 4px 0;
+	color: #e0e0e0;
+	font-style: italic;
+	strong {
+		display: inline;
+		font-weight: 600;
+		font-style: none;
+	}
+`;
+
+export const ExperienceDescription = styled.p`
+	margin: 8px 0;
+	color: #e0e0e0;
+	line-height: 1.4;
+`;
+
+export const ExperienceList = styled.ul`
+	margin: 8px 0;
+	list-style-type: disc !important;
+	list-style-position: inside;
+	color: #e0e0e0;
+
+	& li {
+		list-style-type: disc;
+		list-style-position: inside;
+		margin: 8px 0;
+		padding-left: 20px;
+		color: #e0e0e0;
+	}
+`;
+
+export const ExperienceTech = styled.p`
+	margin: 8px 0;
+	color: #e0e0e0;
 `;

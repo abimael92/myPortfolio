@@ -475,7 +475,7 @@ const EditPortfolio = () => {
 
                         <S.Section>
                             <S.SectionTitle onClick={() => toggleCurrentSection('achievements')}>
-                                Current Achievements ({achievements.length}) {openCurrentSections.has('achievements') ? '▼' : '▶'}
+                                {openCurrentSections.has('achievements') ? '▼' : '▶'} Current Achievements ({achievements.length})
                             </S.SectionTitle>
                             {openCurrentSections.has('achievements') && (
                                 <S.AchievementList>
@@ -581,7 +581,7 @@ const EditPortfolio = () => {
 
                         <S.Section>
                             <S.SectionTitle onClick={() => toggleCurrentSection('education')}>
-                                Current Education ({education.length}) {openCurrentSections.has('education') ? '▼' : '▶'}
+                                {openCurrentSections.has('education') ? '▼' : '▶'} Current Education ({education.length})
                             </S.SectionTitle>
                             {openCurrentSections.has('education') && (
                                 <S.AchievementList>
@@ -787,7 +787,7 @@ const EditPortfolio = () => {
 
                         <S.Section>
                             <S.SectionTitle onClick={() => toggleCurrentSection('experience')}>
-                                Current Experience ({experience.length}) {openCurrentSections.has('experience') ? '▼' : '▶'}
+                                {openCurrentSections.has('experience') ? '▼' : '▶'} Current Experience ({experience.length})
                             </S.SectionTitle>
                             {openCurrentSections.has('experience') && (
                                 <S.AchievementList>
@@ -965,7 +965,7 @@ const EditPortfolio = () => {
 
                         <S.Section>
                             <S.SectionTitle onClick={() => toggleCurrentSection('skills')}>
-                                Current Skills ({skills.length}) {openCurrentSections.has('skills') ? '▼' : '▶'}
+                                {openCurrentSections.has('skills') ? '▼' : '▶'}  Current Skills   ({skills.length})
                             </S.SectionTitle>
                             {openCurrentSections.has('skills') && (
                                 <S.AchievementList>
@@ -1098,7 +1098,7 @@ const EditPortfolio = () => {
 
                         <S.Section>
                             <S.SectionTitle onClick={() => toggleCurrentSection('projects')}>
-                                Current Projects ({projects.length}) {openCurrentSections.has('projects') ? '▼' : '▶'}
+                                {openCurrentSections.has('projects') ? '▼' : '▶'} Current Projects ({projects.length})
                             </S.SectionTitle>
                             {openCurrentSections.has('projects') && (
                                 <S.AchievementList>

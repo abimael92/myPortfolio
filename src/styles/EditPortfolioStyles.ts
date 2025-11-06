@@ -104,8 +104,9 @@ export const Section = styled.div`
 `;
 
 export const SectionTitle = styled.h2`
-	color: #fff;
-	font-size: 1.8rem;
+	color: #0af; // aqui
+	color: linear-gradient(135deg, #0af 0%, #08c 100%) !important;
+	font-size: 2.2rem;
 	font-weight: 600;
 	margin-bottom: 1rem;
 	display: flex;
@@ -115,7 +116,7 @@ export const SectionTitle = styled.h2`
 	&::before {
 		content: '';
 		width: 4px;
-		height: 16px;
+		height: 25px;
 		background: linear-gradient(135deg, #0af 0%, #08c 100%);
 		border-radius: 2px;
 	}
@@ -391,7 +392,7 @@ export const InputGroup = styled.div`
 
 export const InputLabel = styled.label`
 	color: #ccc;
-	font-size: 12px;
+	font-size: 15px;
 	font-weight: 600;
 	text-transform: uppercase;
 	letter-spacing: 0.5px;

@@ -1,9 +1,9 @@
 {
   "name": "portfolio_nextjs",
-  "version": "3.1.0",
+  "version": "3.1.2",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "npx next dev -p 8888",
     "build": "NEXT_PRIVATE_IGNORE_DEPRECATIONS=true next build",
     "start": "next start",
     "lint": "eslint src/ --ext .js,.jsx",

@@ -452,19 +452,19 @@ const EditPortfolio = () => {
                             <S.SectionTitle>Add New Achievement</S.SectionTitle>
                             <S.FormRow>
                                 <S.InputGroup>
-                                    <S.InputLabel>Achievement</S.InputLabel>
-                                    <S.StyledInput
-                                        placeholder="What did you accomplish?"
-                                        value={newAchievement.achievement}
-                                        onChange={(e) => setNewAchievement({ ...newAchievement, achievement: e.target.value })}
-                                    />
-                                </S.InputGroup>
-                                <S.InputGroup>
                                     <S.InputLabel>Role</S.InputLabel>
                                     <S.StyledInput
                                         placeholder="Your role in this achievement"
                                         value={newAchievement.role}
                                         onChange={(e) => setNewAchievement({ ...newAchievement, role: e.target.value })}
+                                    />
+                                </S.InputGroup>
+                                <S.InputGroup>
+                                    <S.InputLabel>Achievement</S.InputLabel>
+                                    <S.StyledInput
+                                        placeholder="What did you accomplish?"
+                                        value={newAchievement.achievement}
+                                        onChange={(e) => setNewAchievement({ ...newAchievement, achievement: e.target.value })}
                                     />
                                 </S.InputGroup>
                                 <S.AddButton onClick={handleAddAchievement} disabled={isAddDisabled}>
@@ -486,20 +486,20 @@ const EditPortfolio = () => {
                                                 {isEditing ? (
                                                     <>
                                                         <S.AchievementInput
-                                                            value={a.achievement}
-                                                            placeholder="Achievement description"
-                                                            onChange={(e) => {
-                                                                const updated = [...achievements];
-                                                                updated[idx].achievement = e.target.value;
-                                                                setAchievements(updated);
-                                                            }}
-                                                        />
-                                                        <S.AchievementInput
                                                             value={a.role}
                                                             placeholder="Your role"
                                                             onChange={(e) => {
                                                                 const updated = [...achievements];
                                                                 updated[idx].role = e.target.value;
+                                                                setAchievements(updated);
+                                                            }}
+                                                        />
+                                                        <S.AchievementInput
+                                                            value={a.achievement}
+                                                            placeholder="Achievement description"
+                                                            onChange={(e) => {
+                                                                const updated = [...achievements];
+                                                                updated[idx].achievement = e.target.value;
                                                                 setAchievements(updated);
                                                             }}
                                                         />
@@ -512,8 +512,8 @@ const EditPortfolio = () => {
                                                     </>
                                                 ) : (
                                                     <>
-                                                        <S.AchievementText>{a.achievement}</S.AchievementText>
                                                         <S.AchievementText>{a.role}</S.AchievementText>
+                                                        <S.AchievementText>{a.achievement}</S.AchievementText>
                                                         <S.IconButton
                                                             onClick={() => toggleEditItem('achievements', idx)}
                                                             title="Edit"

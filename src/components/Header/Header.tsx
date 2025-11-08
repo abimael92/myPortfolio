@@ -108,7 +108,7 @@ const Header: React.FC = () => {
 
 				<Div2 $mobileMenuOpen={mobileMenuOpen || !isMobile}>
 					{navLinks.map(({ id, label }) => (
-						<Link key={id} href={`#${id}`} scroll={false}>
+						<Link key={id} href={`#${id}`} scroll={false} passHref legacyBehavior>
 							<NavLink
 								className={activeSection === id ? 'active' : ''}
 								onClick={() => {
@@ -119,6 +119,7 @@ const Header: React.FC = () => {
 								{label}
 							</NavLink>
 						</Link>
+
 					))}
 				</Div2>
 

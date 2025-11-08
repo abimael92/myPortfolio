@@ -1,15 +1,15 @@
-// src/pages/index.tsx
 import dynamic from 'next/dynamic';
-import Achievements from '../components/Achievements/Achievements';
-import BgAnimation from '../components/BackgrooundAnimation/BackgroundAnimation';
-import Hero from '../components/Hero/Hero';
-import Projects from '../components/Projects/Projects';
-import Experience from '../components/Experience/Experience';
-import About from '../components/About/About';
 import { Layout } from '../layout/Layout';
 import { Section } from '../styles/GlobalComponents';
 
+const Hero = dynamic(() => import('../components/Hero/Hero'), { ssr: false });
+const BgAnimation = dynamic(() => import('../components/BackgrooundAnimation/BackgroundAnimation'), { ssr: false });
+const Achievements = dynamic(() => import('../components/Achievements/Achievements'), { ssr: false });
+const Projects = dynamic(() => import('../components/Projects/Projects'), { ssr: false });
+const Experience = dynamic(() => import('../components/Experience/Experience'), { ssr: false });
+const About = dynamic(() => import('../components/About/About'), { ssr: false });
 const Technologies = dynamic(() => import('../components/Technologies/Technologies'), { ssr: false });
+
 
 const Home: React.FC = () => {
 	return (

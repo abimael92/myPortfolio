@@ -173,12 +173,13 @@ export const SectionSubtitle = styled.h3<SectionTitleProps>`
 export const ModalTitle = styled.h3<SectionTitleProps>`
 	font-weight: 500;
 	font-size: ${(props) => (props.main ? '45px' : '36px')};
-	line-height: ${(props) => (props.main ? '42px' : '26px')};
+	line-height: ${(props) => (props.main ? '45px' : '36px')};
 	width: max-content;
 	margin: 20px;
 	max-width: 100%;
 	padding: ${(props) => (props.main ? '58px 0 16px' : '0')};
 	background-clip: text;
+	color: rgba(0, 240, 255, 0.75);
 
 	@media ${(props) => props.theme.breakpoints.md} {
 		font-size: ${(props) => (props.main ? '56px' : '48px')};

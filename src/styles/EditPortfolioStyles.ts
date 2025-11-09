@@ -745,3 +745,37 @@ export const ExperienceTech = styled.p`
 	margin: 8px 0;
 	color: #e0e0e0;
 `;
+
+export const UploadZone = styled.div<{ $isDragActive?: boolean }>`
+	border: 2px dashed ${(props) => (props.$isDragActive ? '#007bff' : '#ccc')};
+	border-radius: 4px;
+	padding: 20px;
+	text-align: center;
+	cursor: pointer;
+	background: ${(props) => (props.$isDragActive ? '#f8f9fa' : 'transparent')};
+	transition: all 0.3s ease;
+
+	&:hover {
+		border-color: #007bff;
+	}
+`;
+
+export const ImageInputContainer = styled.div`
+	display: flex;
+	gap: 10px;
+	align-items: center;
+`;
+
+export const UploadButton = styled.button`
+	background: #007bff;
+	color: white;
+	border: none;
+	padding: 8px 16px;
+	border-radius: 4px;
+	cursor: pointer;
+	white-space: nowrap;
+
+	&:hover {
+		background: #0056b3;
+	}
+`;

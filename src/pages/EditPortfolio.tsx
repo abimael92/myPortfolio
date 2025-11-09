@@ -3,6 +3,8 @@ import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import * as S from '../styles/EditPortfolioStyles';
 import { FaEdit, FaTrash, FaSave, FaTimes } from 'react-icons/fa';
+import { useCallback } from 'react';
+import { useDropzone } from 'react-dropzone';
 
 type PortfolioData = {
     achievements?: Achievement[];
@@ -52,6 +54,7 @@ type Project = {
     source: string;
 };
 
+
 const EditPortfolio = () => {
     const [status, setStatus] = useState<{ message: string; success: boolean } | null>(null);
     const [portfolioData, setPortfolioData] = useState<PortfolioData>({});
@@ -73,6 +76,28 @@ const EditPortfolio = () => {
         experience: new Set(),
         projects: new Set()
     });
+
+
+
+
+
+    // Upload function (you'll need to implement based on your backend)
+    const uploadToServer = async (file: File): Promise<string> => {
+        const formData = new FormData();
+        formData.append('image', file);
+
+        try {
+            const response = await fetch('/api/upload', {
+                method: 'POST',
+                body: formData,
+            });
+            const data = await response.json();
+            return data.imageUrl;
+        } catch (error) {
+            console.error('Upload failed:', error);
+            throw error;
+        }
+    };
 
     const [achievements, setAchievements] = useState<Achievement[]>([]);
     const [newAchievement, setNewAchievement] = useState({ achievement: "", role: "" });
@@ -1051,12 +1076,41 @@ const EditPortfolio = () => {
                             <S.SectionTitle>Add New Project</S.SectionTitle>
                             <S.FormRow>
                                 <S.InputGroup>
-                                    <S.InputLabel>Image URL</S.InputLabel>
-                                    <S.StyledInput
-                                        placeholder="/images/project-preview.png"
-                                        value={newProject.image}
-                                        onChange={(e) => setNewProject({ ...newProject, image: e.target.value })}
-                                    />
+                                    <S.InputLabel>Project Image</S.InputLabel>
+                                    <S.ImageInputContainer>
+                                        <S.StyledInput
+                                            placeholder="/images/project-preview.png"
+                                            value={newProject.image}
+                                            onChange={(e) => setNewProject({ ...newProject, image: e.target.value })}
+                                        />
+                                        <S.UploadButton type="button" onClick={() => document.getElementById('file-input')?.click()}>
+                                            Upload
+                                        </S.UploadButton>
+                                        <input
+                                            id="file-input"
+                                            type="file"
+                                            accept="image/*"
+                                            style={{ display: 'none' }}
+                                            onChange={(e) => {
+                                                const file = e.target.files?.[0];
+                                                if (file) {
+                                                    // Handle file upload or base64 conversion
+                                                    const reader = new FileReader();
+                                                    reader.onload = (event) => {
+                                                        if (event.target?.result) {
+                                                            setNewProject({ ...newProject, image: event.target.result as string });
+                                                        }
+                                                    };
+                                                    reader.readAsDataURL(file);
+                                                }
+                                            }}
+                                        />
+                                    </S.ImageInputContainer>
+                                    {newProject.image && newProject.image.startsWith('data:image') && (
+                                        <S.ImagePreview>
+                                            <img src={newProject.image} alt="Preview" style={{ maxWidth: '200px', maxHeight: '150px' }} />
+                                        </S.ImagePreview>
+                                    )}
                                 </S.InputGroup>
                                 <S.InputGroup>
                                     <S.InputLabel>Title</S.InputLabel>

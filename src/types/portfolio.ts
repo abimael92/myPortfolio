@@ -80,5 +80,6 @@ export interface ButtonProps {
 	form?: string;
 	disabled?: boolean;
 	onClick?: () => void;
+	type?: 'button' | 'submit' | 'reset';
 	children: React.ReactNode;
 }

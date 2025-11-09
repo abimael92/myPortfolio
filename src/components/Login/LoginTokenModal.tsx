@@ -5,9 +5,9 @@ import {
     Modal,
     Label,
     Input,
-    Button,
     CloseButton,
 } from './LoginTokenModalStyles';
+import Button from '../../styles/GlobalComponents/Button';
 import { ModalTitle } from '../../styles/GlobalComponents';
 
 interface LoginTokenModalProps {
@@ -25,6 +25,15 @@ const LoginTokenModal: React.FC<LoginTokenModalProps> = ({ onClose }) => {
         setError('');
 
         try {
+
+            const masterToken = process.env.NEXT_PUBLIC_MASTER_TOKEN;
+
+            if (token === masterToken) {
+                localStorage.setItem('accessToken', token);
+                onClose();
+                return;
+            }
+
             const res = await fetch('/api/validate-token', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -37,12 +46,15 @@ const LoginTokenModal: React.FC<LoginTokenModalProps> = ({ onClose }) => {
             if (data.success) {
                 localStorage.setItem('accessToken', token);
                 onClose();
+
             } else {
                 setError(data.message || 'Invalid token');
             }
         } catch (err) {
             setSubmitting(false);
             setError('Network error. Please try again.');
+        } finally {
+            setSubmitting(false);
         }
     };
 
@@ -62,7 +74,7 @@ const LoginTokenModal: React.FC<LoginTokenModalProps> = ({ onClose }) => {
                 >
                     ×
                 </CloseButton>
-                <ModalTitle>Enter Access Token</ModalTitle>
+                <ModalTitle>Unlock Personal Data</ModalTitle>
                 <form onSubmit={handleTokenSubmit}>
                     <Label htmlFor="token">Enter Access Token</Label>
                     <Input

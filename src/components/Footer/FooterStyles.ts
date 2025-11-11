@@ -1,6 +1,14 @@
 // src/components/Footer/FooterStyles.ts
 import styled from 'styled-components';
 
+export const Container = styled.header`
+	width: 100%;
+
+	display: flex;
+
+	background-color: rgba(0, 0, 0, 0.55);
+`;
+
 export const FooterWrapper = styled.section`
 	width: calc(100vw - 96px);
 	max-width: 1040px;

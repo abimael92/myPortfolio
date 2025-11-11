@@ -17,6 +17,7 @@ export const Container = styled.header`
 	flex-direction: column;
 	padding: 1rem;
 	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+	background-color: rgba(0, 0, 0, 0.4);
 
 	@media (min-width: 768px) {
 		flex-direction: row;

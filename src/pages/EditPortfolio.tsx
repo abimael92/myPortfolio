@@ -242,28 +242,18 @@ const EditPortfolio = () => {
         setEditingItems(newEditingItems);
     };
 
-    const formatDateString = (startDate: string, endDate: string): string => {
+    const formatDateString = (startDate: string | undefined, endDate: string | undefined): string => {
         if (!startDate) return "";
 
         const formatDate = (dateString: string) => {
-            try {
-                const date = new Date(dateString);
-                // Check if date is valid
-                if (isNaN(date.getTime())) return dateString;
-
-                return date.toLocaleDateString('en-US', {
-                    month: 'short',
-                    year: 'numeric'
-                });
-            } catch (error) {
-                return dateString;
-            }
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
         };
 
         const startFormatted = formatDate(startDate);
+        let endFormatted = endDate ? formatDate(endDate) : 'Present';
 
-        // Handle empty end date (current position)
-        let endFormatted = 'Present';
+
         if (endDate) {
             endFormatted = formatDate(endDate);
 

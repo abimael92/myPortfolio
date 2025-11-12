@@ -30,6 +30,8 @@ type Experience = {
     technologies: string[];
     position: string;
     industry: string;
+    startDate?: string;
+    endDate?: string;
     date: string;
     year: string;
     period: string;
@@ -128,6 +130,8 @@ const EditPortfolio = () => {
         technologies: [""],
         position: "",
         industry: "",
+        startDate: "",
+        endDate: "",
         date: "",
         year: "",
         period: ""
@@ -236,6 +240,55 @@ const EditPortfolio = () => {
 
         newEditingItems[section] = sectionSet;
         setEditingItems(newEditingItems);
+    };
+
+    const formatDateString = (startDate: string, endDate: string): string => {
+        if (!startDate) return "";
+
+        const formatDate = (dateString: string) => {
+            try {
+                const date = new Date(dateString);
+                // Check if date is valid
+                if (isNaN(date.getTime())) return dateString;
+
+                return date.toLocaleDateString('en-US', {
+                    month: 'short',
+                    year: 'numeric'
+                });
+            } catch (error) {
+                return dateString;
+            }
+        };
+
+        const startFormatted = formatDate(startDate);
+
+        // Handle empty end date (current position)
+        let endFormatted = 'Present';
+        if (endDate) {
+            endFormatted = formatDate(endDate);
+
+            // Calculate period if both dates are valid
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+            if (!isNaN(start.getTime()) && !isNaN(end.getTime())) {
+                const months = (end.getFullYear() - start.getFullYear()) * 12 +
+                    (end.getMonth() - start.getMonth());
+                if (months > 0) {
+                    const years = Math.floor(months / 12);
+                    const remainingMonths = months % 12;
+                    let periodString = '';
+                    if (years > 0) periodString += `${years} year${years > 1 ? 's' : ''}`;
+                    if (remainingMonths > 0) {
+                        if (years > 0) periodString += ' ';
+                        periodString += `${remainingMonths} month${remainingMonths > 1 ? 's' : ''}`;
+                    }
+                    // You can set the period field here if needed
+                    // updated.period = periodString;
+                }
+            }
+        }
+
+        return `${startFormatted} - ${endFormatted}`;
     };
 
     // Achievement functions
@@ -705,6 +758,32 @@ const EditPortfolio = () => {
                                         placeholder="Your position"
                                         value={newExperience.position}
                                         onChange={(e) => setNewExperience({ ...newExperience, position: e.target.value })}
+                                    />
+                                </S.InputGroup>
+                                <S.InputGroup>
+                                    <S.InputLabel>Start Date *</S.InputLabel>
+                                    <S.StyledInput
+                                        type="date"
+                                        value={newExperience.startDate}
+                                        onChange={(e) => {
+                                            const updated = { ...newExperience, startDate: e.target.value };
+                                            // Auto-generate the date string
+                                            updated.date = formatDateString(updated.startDate, updated.endDate);
+                                            setNewExperience(updated);
+                                        }}
+                                    />
+                                </S.InputGroup>
+                                <S.InputGroup>
+                                    <S.InputLabel>End Date</S.InputLabel>
+                                    <S.StyledInput
+                                        type="date"
+                                        value={newExperience.endDate}
+                                        onChange={(e) => {
+                                            const updated = { ...newExperience, endDate: e.target.value };
+                                            // Auto-generate the date string
+                                            updated.date = formatDateString(updated.startDate, updated.endDate);
+                                            setNewExperience(updated);
+                                        }}
                                     />
                                 </S.InputGroup>
                                 <S.InputGroup>

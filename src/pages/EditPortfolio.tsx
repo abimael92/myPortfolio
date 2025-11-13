@@ -32,6 +32,7 @@ type Experience = {
     industry: string;
     startDate?: string;
     endDate?: string;
+    isCurrent?: boolean;
     date: string;
     year: string;
     period: string;
@@ -132,6 +133,7 @@ const EditPortfolio = () => {
         industry: "",
         startDate: "",
         endDate: "",
+        isCurrent: false,
         date: "",
         year: "",
         period: ""
@@ -242,7 +244,7 @@ const EditPortfolio = () => {
         setEditingItems(newEditingItems);
     };
 
-    const formatDateString = (startDate: string | undefined, endDate: string | undefined): string => {
+    const formatDateString = (startDate: string | undefined, endDate: string | undefined, isCurrent: boolean = false): string => {
         if (!startDate) return "";
 
         const formatDate = (dateString: string) => {
@@ -251,7 +253,7 @@ const EditPortfolio = () => {
         };
 
         const startFormatted = formatDate(startDate);
-        let endFormatted = endDate ? formatDate(endDate) : 'Present';
+        let endFormatted = isCurrent ? 'Present' : (endDate ? formatDate(endDate) : 'Present');
 
 
         if (endDate) {
@@ -765,16 +767,33 @@ const EditPortfolio = () => {
                                 </S.InputGroup>
                                 <S.InputGroup>
                                     <S.InputLabel>End Date</S.InputLabel>
-                                    <S.StyledInput
-                                        type="date"
-                                        value={newExperience.endDate}
-                                        onChange={(e) => {
-                                            const updated = { ...newExperience, endDate: e.target.value };
-                                            // Auto-generate the date string
-                                            updated.date = formatDateString(updated.startDate, updated.endDate);
-                                            setNewExperience(updated);
-                                        }}
-                                    />
+                                    <S.CheckboxContainer>
+                                        <input
+                                            type="checkbox"
+                                            checked={newExperience.isCurrent}
+                                            onChange={(e) => {
+                                                const updated = {
+                                                    ...newExperience,
+                                                    isCurrent: e.target.checked,
+                                                    endDate: e.target.checked ? '' : newExperience.endDate
+                                                };
+                                                updated.date = formatDateString(updated.startDate, updated.endDate, updated.isCurrent);
+                                                setNewExperience(updated);
+                                            }}
+                                        />
+                                        <span>Currently working here</span>
+                                    </S.CheckboxContainer>
+                                    {!newExperience.isCurrent && (
+                                        <S.StyledInput
+                                            type="date"
+                                            value={newExperience.endDate}
+                                            onChange={(e) => {
+                                                const updated = { ...newExperience, endDate: e.target.value };
+                                                updated.date = formatDateString(updated.startDate, updated.endDate, updated.isCurrent);
+                                                setNewExperience(updated);
+                                            }}
+                                        />
+                                    )}
                                 </S.InputGroup>
                                 <S.InputGroup>
                                     <S.InputLabel>Date *</S.InputLabel>

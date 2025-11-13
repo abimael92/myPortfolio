@@ -407,6 +407,22 @@ export const StyledInput = styled.input`
 	${inputBaseStyles}
 `;
 
+export const CheckboxContainer = styled.div`
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 8px;
+
+	input[type='checkbox'] {
+		margin: 0;
+	}
+
+	span {
+		font-size: 14px;
+		color: #666;
+	}
+`;
+
 export const AddButton = styled.button`
 	background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
 	border: none;

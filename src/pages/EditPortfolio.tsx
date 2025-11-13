@@ -32,7 +32,7 @@ type Experience = {
     industry: string;
     startDate?: string;
     endDate?: string;
-    isCurrent?: boolean;
+    isCurrent: boolean;
     date: string;
     year: string;
     period: string;
@@ -370,6 +370,9 @@ const EditPortfolio = () => {
             technologies: [""],
             position: "",
             industry: "",
+            startDate: "", // Add this
+            endDate: "",   // Add this
+            isCurrent: false, // Add this
             date: "",
             year: "",
             period: ""
@@ -766,23 +769,32 @@ const EditPortfolio = () => {
                                     />
                                 </S.InputGroup>
                                 <S.InputGroup>
-                                    <S.InputLabel>End Date</S.InputLabel>
-                                    <S.CheckboxContainer>
-                                        <input
-                                            type="checkbox"
-                                            checked={newExperience.isCurrent}
-                                            onChange={(e) => {
-                                                const updated = {
-                                                    ...newExperience,
-                                                    isCurrent: e.target.checked,
-                                                    endDate: e.target.checked ? '' : newExperience.endDate
-                                                };
-                                                updated.date = formatDateString(updated.startDate, updated.endDate, updated.isCurrent);
-                                                setNewExperience(updated);
-                                            }}
-                                        />
-                                        <span>Currently working here</span>
-                                    </S.CheckboxContainer>
+                                    <S.InputLabel>Employment Period</S.InputLabel>
+
+                                    {/* Toggle Switch */}
+                                    <S.ToggleContainer>
+                                        <S.ToggleLabel>
+                                            <S.ToggleInput
+                                                type="checkbox"
+                                                checked={newExperience.isCurrent}
+                                                onChange={(e) => {
+                                                    const updated = {
+                                                        ...newExperience,
+                                                        isCurrent: e.target.checked,
+                                                        endDate: e.target.checked ? '' : newExperience.endDate
+                                                    };
+                                                    updated.date = formatDateString(updated.startDate, updated.endDate, updated.isCurrent);
+                                                    setNewExperience(updated);
+                                                }}
+                                            />
+                                            <S.ToggleSwitch $isChecked={newExperience.isCurrent || false} />
+                                            <S.ToggleText $isChecked={newExperience.isCurrent || false}>
+                                                {newExperience.isCurrent ? 'Currently Working Here' : 'Set End Date'}
+                                            </S.ToggleText>
+                                        </S.ToggleLabel>
+                                    </S.ToggleContainer>
+
+                                    {/* End Date Input - Only show when NOT current */}
                                     {!newExperience.isCurrent && (
                                         <S.StyledInput
                                             type="date"
@@ -792,7 +804,15 @@ const EditPortfolio = () => {
                                                 updated.date = formatDateString(updated.startDate, updated.endDate, updated.isCurrent);
                                                 setNewExperience(updated);
                                             }}
+                                            placeholder="Select end date"
                                         />
+                                    )}
+
+                                    {/* Current Status Indicator */}
+                                    {newExperience.isCurrent && (
+                                        <S.StatusIndicator>
+                                            <S.StatusDot /> Currently employed - will show "Present" as end date
+                                        </S.StatusIndicator>
                                     )}
                                 </S.InputGroup>
                                 <S.InputGroup>

@@ -471,6 +471,35 @@ export const ToggleText = styled.span<{ $isChecked: boolean }>`
 	transition: all 0.3s ease;
 `;
 
+export const ArraySection = styled.div`
+	margin: 1.5rem 0;
+	padding: 1rem;
+	background: rgba(45, 45, 45, 0.6);
+	border-radius: 8px;
+	border: 1px solid rgba(255, 255, 255, 0.05);
+`;
+
+export const SectionHeader = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 1rem;
+`;
+
+export const ArrayIndex = styled.span`
+	color: #0af;
+	font-weight: 600;
+	min-width: 30px;
+	font-size: 14px;
+`;
+
+export const HelpText = styled.span`
+	color: #888;
+	font-size: 12px;
+	margin-top: 4px;
+	display: block;
+`;
+
 export const StatusIndicator = styled.div`
 	display: flex;
 	align-items: center;

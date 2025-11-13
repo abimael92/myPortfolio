@@ -499,16 +499,20 @@ export const HelpText = styled.span`
 
 export const CurrentJobLabel = styled.label`
 	display: flex;
+	flex-direction: column;
 	align-items: center;
-	gap: 4px;
+	justify-content: center;
+	gap: 2px;
 	cursor: pointer;
 	font-size: 12px;
 	color: #ccc;
-	white-space: nowrap;
+	text-align: center;
+	white-space: normal;
+	line-height: 1.1;
 `;
 
 export const CurrentJobText = styled.span`
-	font-size: 9px;
+	font-size: 12px;
 	color: #ccc;
 `;
 

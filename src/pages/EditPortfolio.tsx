@@ -57,7 +57,6 @@ type Project = {
     source: string;
 };
 
-
 const EditPortfolio = () => {
     const [status, setStatus] = useState<{ message: string; success: boolean } | null>(null);
     const [portfolioData, setPortfolioData] = useState<PortfolioData>({});
@@ -79,10 +78,6 @@ const EditPortfolio = () => {
         experience: new Set(),
         projects: new Set()
     });
-
-
-
-
 
     // Upload function (you'll need to implement based on your backend)
     const uploadToServer = async (file: File): Promise<string> => {
@@ -281,6 +276,36 @@ const EditPortfolio = () => {
         }
 
         return `${startFormatted} - ${endFormatted}`;
+    };
+
+    const calculateDuration = (startDate: string | undefined, endDate: string | undefined, isCurrent: boolean = false): string => {
+        if (!startDate) return "";
+
+        const start = new Date(startDate);
+        const end = isCurrent ? new Date() : (endDate ? new Date(endDate) : new Date());
+
+        if (isNaN(start.getTime()) || isNaN(end.getTime())) return "";
+
+        const months = (end.getFullYear() - start.getFullYear()) * 12 +
+            (end.getMonth() - start.getMonth());
+
+        if (months <= 0) return "Less than 1 month";
+
+        const years = Math.floor(months / 12);
+        const remainingMonths = months % 12;
+
+        let durationString = '';
+
+        if (years > 0) {
+            durationString += `${years} year${years > 1 ? 's' : ''}`;
+        }
+
+        if (remainingMonths > 0) {
+            if (years > 0) durationString += ' ';
+            durationString += `${remainingMonths} month${remainingMonths > 1 ? 's' : ''}`;
+        }
+
+        return durationString;
     };
 
     // Achievement functions
@@ -774,17 +799,21 @@ const EditPortfolio = () => {
                                         type="date"
                                         value={newExperience.startDate}
                                         onChange={(e) => {
-                                            const updated = { ...newExperience, startDate: e.target.value };
+                                            const updated = {
+                                                ...newExperience,
+                                                startDate: e.target.value
+                                            };
                                             updated.date = formatDateString(updated.startDate, updated.endDate, updated.isCurrent);
+                                            updated.period = calculateDuration(updated.startDate, updated.endDate, updated.isCurrent);
                                             setNewExperience(updated);
                                         }}
                                     />
                                 </S.InputGroup>
 
                                 <S.InputGroup style={{ flex: 1 }}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-                                        <S.InputLabel style={{ margin: 0 }}>End Date *</S.InputLabel>
-                                        <S.CurrentJobLabel style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', margin: 0 }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.125rem', width: '100%' }}>
+                                        <S.InputLabel style={{ margin: 0, width: '60%' }}>End Date *</S.InputLabel>
+                                        <S.CurrentJobLabel style={{ margin: 0 }}>
 
                                             <S.ToggleContainer>
 
@@ -802,6 +831,7 @@ const EditPortfolio = () => {
                                                             endDate: e.target.checked ? '' : newExperience.endDate
                                                         };
                                                         updated.date = formatDateString(updated.startDate, updated.endDate, updated.isCurrent);
+                                                        updated.period = calculateDuration(updated.startDate, updated.endDate, updated.isCurrent);
                                                         setNewExperience(updated);
                                                     }}
                                                 />
@@ -821,8 +851,12 @@ const EditPortfolio = () => {
                                             type="date"
                                             value={newExperience.endDate}
                                             onChange={(e) => {
-                                                const updated = { ...newExperience, endDate: e.target.value };
+                                                const updated = {
+                                                    ...newExperience,
+                                                    endDate: e.target.value
+                                                };
                                                 updated.date = formatDateString(updated.startDate, updated.endDate, updated.isCurrent);
+                                                updated.period = calculateDuration(updated.startDate, updated.endDate, updated.isCurrent);
                                                 setNewExperience(updated);
                                             }}
                                         />
@@ -851,11 +885,9 @@ const EditPortfolio = () => {
                                 </S.InputGroup>
                                 <S.InputGroup style={{ flex: 1 }}>
                                     <S.InputLabel>Duration</S.InputLabel>
-                                    <S.StyledInput
-                                        placeholder="e.g., 6 months, 2 years"
-                                        value={newExperience.period}
-                                        onChange={(e) => setNewExperience({ ...newExperience, period: e.target.value })}
-                                    />
+                                    <S.DateDisplay>
+                                        {newExperience.period || "Auto-calculated duration"}
+                                    </S.DateDisplay>
                                 </S.InputGroup>
                             </S.FormRow>
 

@@ -768,7 +768,7 @@ const EditPortfolio = () => {
 
                             {/* Date Range - Improved Layout */}
                             <S.FormRow>
-                                <S.InputGroup>
+                                <S.InputGroup style={{ flex: 1 }}>
                                     <S.InputLabel>Start Date *</S.InputLabel>
                                     <S.StyledInput
                                         type="date"
@@ -781,56 +781,62 @@ const EditPortfolio = () => {
                                     />
                                 </S.InputGroup>
 
-                                <S.InputGroup>
-                                    <S.InputLabel>Employment Type</S.InputLabel>
-                                    <S.ToggleContainer>
-                                        <S.ToggleLabel>
-                                            <S.ToggleInput
-                                                type="checkbox"
-                                                checked={newExperience.isCurrent}
-                                                onChange={(e) => {
-                                                    const updated = {
-                                                        ...newExperience,
-                                                        isCurrent: e.target.checked,
-                                                        endDate: e.target.checked ? '' : newExperience.endDate
-                                                    };
-                                                    updated.date = formatDateString(updated.startDate, updated.endDate, updated.isCurrent);
-                                                    setNewExperience(updated);
-                                                }}
-                                            />
-                                            <S.ToggleSwitch $isChecked={newExperience.isCurrent || false} />
-                                            <S.ToggleText $isChecked={newExperience.isCurrent || false}>
-                                                {newExperience.isCurrent ? 'Current Position' : 'Past Position'}
-                                            </S.ToggleText>
-                                        </S.ToggleLabel>
-                                    </S.ToggleContainer>
+                                <S.InputGroup style={{ flex: 1 }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                                        <S.InputLabel style={{ margin: 0 }}>End Date *</S.InputLabel>
+                                        <S.CurrentJobLabel style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', margin: 0 }}>
 
-                                    {!newExperience.isCurrent && (
-                                        <>
-                                            <S.InputLabel style={{ marginTop: '12px' }}>End Date *</S.InputLabel>
-                                            <S.StyledInput
-                                                type="date"
-                                                value={newExperience.endDate}
-                                                onChange={(e) => {
-                                                    const updated = { ...newExperience, endDate: e.target.value };
-                                                    updated.date = formatDateString(updated.startDate, updated.endDate, updated.isCurrent);
-                                                    setNewExperience(updated);
-                                                }}
-                                            />
-                                        </>
+                                            <S.ToggleContainer>
+
+                                                <S.CurrentJobText>
+                                                    Current Job
+                                                </S.CurrentJobText>
+
+                                                <S.ToggleInput
+                                                    type="checkbox"
+                                                    checked={newExperience.isCurrent}
+                                                    onChange={(e) => {
+                                                        const updated = {
+                                                            ...newExperience,
+                                                            isCurrent: e.target.checked,
+                                                            endDate: e.target.checked ? '' : newExperience.endDate
+                                                        };
+                                                        updated.date = formatDateString(updated.startDate, updated.endDate, updated.isCurrent);
+                                                        setNewExperience(updated);
+                                                    }}
+                                                />
+
+                                                <S.ToggleSwitch $isChecked={newExperience.isCurrent || false} />
+
+                                            </S.ToggleContainer>
+
+                                        </S.CurrentJobLabel>
+
+                                    </div>
+
+                                    {newExperience.isCurrent ? (
+                                        <S.CurrentJobPlaceholder>Present</S.CurrentJobPlaceholder>
+                                    ) : (
+                                        <S.StyledInput
+                                            type="date"
+                                            value={newExperience.endDate}
+                                            onChange={(e) => {
+                                                const updated = { ...newExperience, endDate: e.target.value };
+                                                updated.date = formatDateString(updated.startDate, updated.endDate, updated.isCurrent);
+                                                setNewExperience(updated);
+                                            }}
+                                        />
                                     )}
                                 </S.InputGroup>
 
-                                <S.InputGroup>
+                                <S.InputGroup style={{ flex: 1.5 }}>
                                     <S.InputLabel>Display Date</S.InputLabel>
-                                    <S.StyledInput
-                                        placeholder="Auto-generated date range"
-                                        value={newExperience.date}
-                                        readOnly
-                                        style={{ background: 'rgba(60, 60, 60, 0.6)', color: '#aaa' }}
-                                    />
-                                    <S.HelpText>This will auto-update based on your dates</S.HelpText>
+                                    <S.DateDisplay>
+                                        {newExperience.date || "Auto-generated date range"}
+                                    </S.DateDisplay>
+                                    {/* <S.HelpText>This will auto-update based on your dates</S.HelpText> */}
                                 </S.InputGroup>
+
                             </S.FormRow>
 
                             {/* Project & Description */}
@@ -920,7 +926,7 @@ const EditPortfolio = () => {
                             >
                                 Add Experience +
                             </S.AddButton>
-                        </S.AddForm>
+                        </S.AddForm >
                         {/* Rest of the current experience list remains the same */}
                     </>
                 );

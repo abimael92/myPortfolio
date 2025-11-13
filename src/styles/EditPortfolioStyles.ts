@@ -407,20 +407,90 @@ export const StyledInput = styled.input`
 	${inputBaseStyles}
 `;
 
-export const CheckboxContainer = styled.div`
+export const ToggleContainer = styled.div`
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin-bottom: 12px;
+	padding: 8px 12px;
+	background: rgba(50, 50, 50, 0.6);
+	border-radius: 8px;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	transition: all 0.3s ease;
+
+	&:hover {
+		background: rgba(60, 60, 60, 0.8);
+		border-color: rgba(10, 175, 255, 0.3);
+	}
+`;
+
+export const ToggleLabel = styled.label`
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	cursor: pointer;
+	font-size: 14px;
+	font-weight: 500;
+	color: #ccc;
+	flex: 1;
+`;
+
+export const ToggleSwitch = styled.div<{ $isChecked: boolean }>`
+	position: relative;
+	width: 50px;
+	height: 24px;
+	background: ${(props) =>
+		props.$isChecked
+			? 'linear-gradient(135deg, #00b894 0%, #00a085 100%)'
+			: 'rgba(100, 100, 100, 0.8)'};
+	border-radius: 12px;
+	transition: all 0.3s ease;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+
+	&::after {
+		content: '';
+		position: absolute;
+		top: 2px;
+		left: ${(props) => (props.$isChecked ? '26px' : '2px')};
+		width: 18px;
+		height: 18px;
+		background: white;
+		border-radius: 50%;
+		transition: all 0.3s ease;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+	}
+`;
+
+export const ToggleInput = styled.input`
+	display: none;
+`;
+
+export const ToggleText = styled.span<{ $isChecked: boolean }>`
+	font-weight: ${(props) => (props.$isChecked ? '600' : '400')};
+	color: ${(props) => (props.$isChecked ? '#00b894' : '#ccc')};
+	transition: all 0.3s ease;
+`;
+
+export const StatusIndicator = styled.div`
 	display: flex;
 	align-items: center;
 	gap: 8px;
-	margin-bottom: 8px;
+	padding: 8px 12px;
+	background: rgba(0, 184, 148, 0.1);
+	border: 1px solid rgba(0, 184, 148, 0.3);
+	border-radius: 6px;
+	color: #00b894;
+	font-size: 12px;
+	font-weight: 500;
+	margin-top: 8px;
+`;
 
-	input[type='checkbox'] {
-		margin: 0;
-	}
-
-	span {
-		font-size: 14px;
-		color: #666;
-	}
+export const StatusDot = styled.div`
+	width: 8px;
+	height: 8px;
+	background: #00b894;
+	border-radius: 50%;
+	animation: pulse 2s infinite;
 `;
 
 export const AddButton = styled.button`

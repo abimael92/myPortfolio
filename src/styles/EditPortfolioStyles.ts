@@ -104,7 +104,7 @@ export const Section = styled.div`
 `;
 
 export const SectionTitle = styled.h2`
-	color: #0af; // aqui
+	color: #0af;
 	color: linear-gradient(135deg, #0af 0%, #08c 100%) !important;
 	font-size: 2.2rem;
 	font-weight: 600;
@@ -410,12 +410,9 @@ export const StyledInput = styled.input`
 export const ToggleContainer = styled.div`
 	display: flex;
 	align-items: center;
-	gap: 12px;
-	margin-bottom: 12px;
-	padding: 8px 12px;
-	background: rgba(50, 50, 50, 0.6);
-	border-radius: 8px;
-	border: 1px solid rgba(255, 255, 255, 0.1);
+	gap: 2px;
+	margin-left: 2px;
+	padding: 0;
 	transition: all 0.3s ease;
 
 	&:hover {
@@ -437,8 +434,8 @@ export const ToggleLabel = styled.label`
 
 export const ToggleSwitch = styled.div<{ $isChecked: boolean }>`
 	position: relative;
-	width: 50px;
-	height: 24px;
+	width: 25px;
+	height: 12px;
 	background: ${(props) =>
 		props.$isChecked
 			? 'linear-gradient(135deg, #00b894 0%, #00a085 100%)'
@@ -451,9 +448,9 @@ export const ToggleSwitch = styled.div<{ $isChecked: boolean }>`
 		content: '';
 		position: absolute;
 		top: 2px;
-		left: ${(props) => (props.$isChecked ? '26px' : '2px')};
-		width: 18px;
-		height: 18px;
+		left: ${(props) => (props.$isChecked ? '12px' : '2px')};
+		width: 9px;
+		height: 9px;
 		background: white;
 		border-radius: 50%;
 		transition: all 0.3s ease;
@@ -498,6 +495,65 @@ export const HelpText = styled.span`
 	font-size: 12px;
 	margin-top: 4px;
 	display: block;
+`;
+
+export const CurrentJobLabel = styled.label`
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	cursor: pointer;
+	font-size: 12px;
+	color: #ccc;
+	white-space: nowrap;
+`;
+
+export const CurrentJobText = styled.span`
+	font-size: 9px;
+	color: #ccc;
+`;
+
+export const CurrentJobPlaceholder = styled.div`
+	padding: 0.8rem 1rem;
+	border-radius: 8px;
+	background: rgba(0, 184, 148, 0.2);
+	border: 1px solid rgba(0, 184, 148, 0.3);
+	color: #00b894;
+	font-weight: 600;
+	text-align: center;
+`;
+
+export const DateDisplay = styled.div`
+	${inputBaseStyles}
+	background: rgba(60, 60, 60, 0.3);
+	color: '#aaa';
+	cursor: not-allowed;
+	display: flex;
+	align-items: center;
+	min-height: 42px;
+
+	/* Make it look exactly like a disabled input */
+	border: 1.5px solid #333;
+	opacity: 0.8;
+
+	& {
+		color: #aaa !important;
+	}
+
+	/* Remove focus effects since it's not interactive */
+	&:focus {
+		border-color: #333;
+		box-shadow: none;
+		background: rgba(60, 60, 60, 0.6);
+	}
+
+	&:hover {
+		border-color: #333;
+	}
+
+	& > div {
+		color: inherit !important;
+		width: 100%;
+	}
 `;
 
 export const StatusIndicator = styled.div`

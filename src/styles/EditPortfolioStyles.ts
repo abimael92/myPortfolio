@@ -145,10 +145,7 @@ export const Section = styled.div`
 
 export const SectionTitle = styled.h2`
 	color: #0af;
-<<<<<<< Updated upstream
 	color: linear-gradient(135deg, #0af 0%, #08c 100%) !important;
-=======
->>>>>>> Stashed changes
 	font-size: 2.2rem;
 	font-weight: 600;
 	margin-bottom: 1rem;
@@ -166,7 +163,7 @@ export const SectionTitle = styled.h2`
 	}
 
 	@media (max-width: 768px) {
-		font-size: 1.8rem;
+		font-size: 2.28rem;
 		margin-bottom: 0.75rem;
 	}
 
@@ -840,6 +837,9 @@ export const StatusMessage = styled.div<{ $success?: boolean }>`
 `;
 
 // Right Panel - Preview
+// In your EditPortfolioStyles.ts - Replace the preview section with this:
+
+// Right Panel - Preview - Mobile Optimized
 export const PreviewPanel = styled.div`
 	flex: 1;
 	${cardStyle}
@@ -849,11 +849,11 @@ export const PreviewPanel = styled.div`
 	overflow: hidden;
 
 	@media (max-width: 768px) {
-		max-height: 50vh;
-	}
-
-	@media (max-width: 480px) {
-		max-height: 40vh;
+		max-height: none;
+		height: auto;
+		min-height: 400px;
+		border-radius: 12px;
+		margin-top: 1rem;
 	}
 `;
 
@@ -865,7 +865,10 @@ export const PreviewHeader = styled.div`
 	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 	margin-bottom: 1rem;
 
-	@media (max-width: 480px) {
+	@media (max-width: 768px) {
+		flex-direction: column;
+		gap: 1rem;
+		align-items: flex-start;
 		padding-bottom: 0.75rem;
 		margin-bottom: 0.75rem;
 	}
@@ -885,11 +888,9 @@ export const PreviewTitle = styled.h2`
 	}
 
 	@media (max-width: 768px) {
-		font-size: 2rem;
-	}
-
-	@media (max-width: 480px) {
-		font-size: 1.5rem;
+		font-size: 1.8rem;
+		width: 100%;
+		justify-content: space-between;
 	}
 `;
 
@@ -916,12 +917,16 @@ export const DataContainer = styled.div`
 		background: rgba(10, 175, 255, 0.5);
 	}
 
-	@media (max-width: 480px) {
-		padding-right: 0.25rem;
+	@media (max-width: 768px) {
+		padding-right: 0;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 1rem;
+		overflow-y: visible;
 	}
 `;
 
-// Accordion Styles
+// Mobile-optimized accordion
 export const AccordionSection = styled.div`
 	margin-bottom: 1rem;
 	border-radius: 12px;
@@ -929,9 +934,15 @@ export const AccordionSection = styled.div`
 	border: 1px solid rgba(255, 255, 255, 0.1);
 	background: rgba(40, 40, 40, 0.6);
 
-	@media (max-width: 480px) {
-		margin-bottom: 0.75rem;
-		border-radius: 8px;
+	@media (max-width: 768px) {
+		margin-bottom: 0;
+		border-radius: 16px;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+		transition: all 0.3s ease;
+
+		&:active {
+			transform: scale(0.98);
+		}
 	}
 `;
 
@@ -948,8 +959,14 @@ export const AccordionHeader = styled.div`
 		background: rgba(60, 60, 60, 0.9);
 	}
 
-	@media (max-width: 480px) {
-		padding: 0.75rem 1rem;
+	@media (max-width: 768px) {
+		padding: 1.25rem;
+		background: linear-gradient(
+			135deg,
+			rgba(50, 50, 50, 0.9) 0%,
+			rgba(40, 40, 40, 0.9) 100%
+		);
+		min-height: 70px;
 	}
 `;
 
@@ -961,6 +978,7 @@ export const AccordionTitle = styled.h3`
 	display: flex;
 	align-items: center;
 	gap: 0.5rem;
+	text-transform: capitalize;
 
 	&::before {
 		content: '▶';
@@ -973,14 +991,13 @@ export const AccordionTitle = styled.h3`
 	}
 
 	@media (max-width: 768px) {
-		font-size: 1.6rem;
-	}
-
-	@media (max-width: 480px) {
-		font-size: 1.2rem;
+		font-size: 1.4rem;
+		font-weight: 700;
+		flex: 1;
 
 		&::before {
 			font-size: 1.2rem;
+			margin-right: 0.5rem;
 		}
 	}
 `;
@@ -994,12 +1011,11 @@ export const AccordionCount = styled.span`
 	font-weight: 600;
 
 	@media (max-width: 768px) {
-		font-size: 1.2rem;
-	}
-
-	@media (max-width: 480px) {
-		font-size: 1rem;
-		padding: 0.15rem 0.4rem;
+		font-size: 1.1rem;
+		padding: 0.4rem 0.8rem;
+		border-radius: 20px;
+		background: rgba(10, 175, 255, 0.3);
+		font-weight: 700;
 	}
 `;
 
@@ -1008,8 +1024,10 @@ export const AccordionContent = styled.div`
 	background: rgba(35, 35, 35, 0.8);
 	border-top: 1px solid rgba(255, 255, 255, 0.05);
 
-	@media (max-width: 480px) {
-		padding: 0.75rem 1rem;
+	@media (max-width: 768px) {
+		padding: 1.25rem;
+		background: rgba(45, 45, 45, 0.9);
+		border-top: 2px solid rgba(10, 175, 255, 0.2);
 	}
 `;
 
@@ -1025,9 +1043,16 @@ export const DataItem = styled.div`
 		margin-bottom: 0;
 	}
 
-	@media (max-width: 480px) {
-		padding: 0.6rem;
-		margin-bottom: 0.4rem;
+	@media (max-width: 768px) {
+		padding: 1rem;
+		margin-bottom: 0.75rem;
+		border-radius: 12px;
+		border-left: 4px solid #0af;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+
+		&:active {
+			transform: translateY(2px);
+		}
 	}
 `;
 
@@ -1037,13 +1062,10 @@ export const DataKey = styled.span`
 	font-size: 1.6rem;
 
 	@media (max-width: 768px) {
-		font-size: 1.4rem;
-	}
-
-	@media (max-width: 480px) {
 		font-size: 1.2rem;
 		display: block;
-		margin-bottom: 0.25rem;
+		margin-bottom: 0.5rem;
+		font-weight: 700;
 	}
 `;
 
@@ -1053,13 +1075,51 @@ export const DataValue = styled.span`
 	font-size: 1.4rem;
 
 	@media (max-width: 768px) {
-		font-size: 1.2rem;
-	}
-
-	@media (max-width: 480px) {
 		font-size: 1.1rem;
 		margin-left: 0;
 		display: block;
+		line-height: 1.5;
+		padding: 0.5rem 0;
+	}
+`;
+
+// Mobile action buttons
+export const MobilePreviewActions = styled.div`
+	display: none;
+
+	@media (max-width: 768px) {
+		display: flex;
+		gap: 0.75rem;
+		width: 100%;
+
+		button {
+			flex: 1;
+			padding: 0.75rem;
+			border: none;
+			border-radius: 8px;
+			font-weight: 600;
+			font-size: 0.9rem;
+			cursor: pointer;
+			transition: all 0.3s ease;
+
+			&:first-child {
+				background: rgba(10, 175, 255, 0.2);
+				color: #0af;
+
+				&:active {
+					background: rgba(10, 175, 255, 0.4);
+				}
+			}
+
+			&:last-child {
+				background: rgba(0, 184, 148, 0.2);
+				color: #00b894;
+
+				&:active {
+					background: rgba(0, 184, 148, 0.4);
+				}
+			}
+		}
 	}
 `;
 
@@ -1322,3 +1382,5 @@ export const UploadButton = styled.button`
 		width: 100%;
 	}
 `;
+
+////////////////////////

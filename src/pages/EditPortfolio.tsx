@@ -1345,7 +1345,13 @@ const EditPortfolio = () => {
                                                         Object.keys(item).map((k) => (
                                                             <div key={k}>
                                                                 <S.DataKey>{k}:</S.DataKey>
-                                                                <S.DataValue>{item[k]}</S.DataValue>
+                                                                <S.DataValue>
+                                                                    {k === "tags" ? (
+                                                                        Array.isArray(item[k]) ? item[k].join(', ') : String(item[k])
+                                                                    ) : (
+                                                                        String(item[k])
+                                                                    )}
+                                                                </S.DataValue>
                                                             </div>
                                                         ))
                                                     ) : (

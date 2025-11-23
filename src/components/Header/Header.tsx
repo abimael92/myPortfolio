@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useAuth } from '../../hooks/useAuth'; // Import custom hook
+import { useAuth } from '../../hooks/useAuth';
 import { AiFillGithub, AiFillLinkedin, AiOutlineMail, AiOutlineLock } from 'react-icons/ai';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import AccessRequestModal from '../AccessRequest/AccessRequestModal';
@@ -23,7 +23,7 @@ import {
 } from './HeaderStyles';
 
 const Header: React.FC = () => {
-	const { accessToken } = useAuth(); // Use custom hook instead of useContext
+	const { accessToken } = useAuth();
 	const hasAccess = !!accessToken;
 	const [activeSection, setActiveSection] = useState<string>('');
 	const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
@@ -56,6 +56,18 @@ const Header: React.FC = () => {
 		return () => window.removeEventListener('scroll', handleScroll);
 	}, []);
 
+	const handleNavClick = (id: string, e: React.MouseEvent) => {
+		e.preventDefault();
+		setActiveSection(id);
+		setMobileMenuOpen(false);
+
+		// Smooth scroll to section
+		const element = document.getElementById(id);
+		if (element) {
+			element.scrollIntoView({ behavior: 'smooth' });
+		}
+	};
+
 	const navLinks = [
 		{ id: 'about', label: 'About' },
 		{ id: 'tech', label: 'Technologies' },
@@ -68,7 +80,7 @@ const Header: React.FC = () => {
 		<>
 			<Container>
 				<Div1>
-					<Link href="/" style={{ display: 'flex', alignItems: 'center' }}>
+					<Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
 						<Image
 							src="/images/Kachorro92_Logo.png"
 							alt="Logo"
@@ -108,18 +120,14 @@ const Header: React.FC = () => {
 
 				<Div2 $mobileMenuOpen={mobileMenuOpen || !isMobile}>
 					{navLinks.map(({ id, label }) => (
-						<Link key={id} href={`#${id}`} scroll={false} passHref >
-							<NavLink
-								className={activeSection === id ? 'active' : ''}
-								onClick={() => {
-									setActiveSection(id);
-									setMobileMenuOpen(false);
-								}}
-							>
-								{label}
-							</NavLink>
-						</Link>
-
+						<NavLink
+							key={id}
+							href={`#${id}`}
+							className={activeSection === id ? 'active' : ''}
+							onClick={(e: React.MouseEvent) => handleNavClick(id, e)}
+						>
+							{label}
+						</NavLink>
 					))}
 				</Div2>
 

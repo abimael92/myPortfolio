@@ -30,6 +30,16 @@ const cardStyle = css`
 	border: 1px solid rgba(255, 255, 255, 0.1);
 	padding: 1.5rem;
 	animation: ${fadeIn} 0.5s ease-out;
+
+	@media (max-width: 768px) {
+		padding: 1rem;
+		border-radius: 12px;
+	}
+
+	@media (max-width: 480px) {
+		padding: 0.75rem;
+		border-radius: 8px;
+	}
 `;
 
 const inputBaseStyles = css`
@@ -53,6 +63,11 @@ const inputBaseStyles = css`
 	&:hover {
 		border-color: #555;
 	}
+
+	@media (max-width: 480px) {
+		padding: 0.7rem 0.9rem;
+		font-size: 16px; /* Prevents zoom on iOS */
+	}
 `;
 
 // Main Container
@@ -69,6 +84,11 @@ export const Container = styled.div`
 		padding: 1rem;
 		gap: 1rem;
 	}
+
+	@media (max-width: 480px) {
+		padding: 0.5rem;
+		gap: 0.5rem;
+	}
 `;
 
 // Left Panel - Editor
@@ -78,6 +98,14 @@ export const EditorPanel = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 1.5rem;
+
+	@media (max-width: 768px) {
+		gap: 1rem;
+	}
+
+	@media (max-width: 480px) {
+		gap: 0.75rem;
+	}
 `;
 
 export const PanelHeader = styled.div`
@@ -86,6 +114,10 @@ export const PanelHeader = styled.div`
 	align-items: center;
 	padding-bottom: 1rem;
 	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+	@media (max-width: 480px) {
+		padding-bottom: 0.75rem;
+	}
 `;
 
 export const Title = styled.h1`
@@ -97,6 +129,14 @@ export const Title = styled.h1`
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	background-clip: text;
+
+	@media (max-width: 768px) {
+		font-size: 2rem;
+	}
+
+	@media (max-width: 480px) {
+		font-size: 1.5rem;
+	}
 `;
 
 export const Section = styled.div`
@@ -105,13 +145,17 @@ export const Section = styled.div`
 
 export const SectionTitle = styled.h2`
 	color: #0af;
+<<<<<<< Updated upstream
 	color: linear-gradient(135deg, #0af 0%, #08c 100%) !important;
+=======
+>>>>>>> Stashed changes
 	font-size: 2.2rem;
 	font-weight: 600;
 	margin-bottom: 1rem;
 	display: flex;
 	align-items: center;
 	gap: 0.5rem;
+	cursor: pointer;
 
 	&::before {
 		content: '';
@@ -119,6 +163,20 @@ export const SectionTitle = styled.h2`
 		height: 25px;
 		background: linear-gradient(135deg, #0af 0%, #08c 100%);
 		border-radius: 2px;
+	}
+
+	@media (max-width: 768px) {
+		font-size: 1.8rem;
+		margin-bottom: 0.75rem;
+	}
+
+	@media (max-width: 480px) {
+		font-size: 1.4rem;
+		margin-bottom: 0.5rem;
+
+		&::before {
+			height: 20px;
+		}
 	}
 `;
 
@@ -137,6 +195,8 @@ export const IconButton = styled.button<{
 	align-items: center;
 	justify-content: center;
 	transition: background-color 0.2s;
+	min-width: 40px;
+	height: 40px;
 
 	&:hover {
 		background: ${(props) =>
@@ -146,6 +206,12 @@ export const IconButton = styled.button<{
 	&:disabled {
 		background: #6c757d;
 		cursor: not-allowed;
+	}
+
+	@media (max-width: 480px) {
+		min-width: 36px;
+		height: 36px;
+		padding: 6px;
 	}
 `;
 
@@ -231,6 +297,15 @@ export const AchievementText = styled.span<{
 	&::-webkit-scrollbar-track {
 		background: rgba(255, 255, 255, 0.05);
 	}
+
+	@media (max-width: 768px) {
+		min-width: 6rem;
+	}
+
+	@media (max-width: 480px) {
+		min-width: 100%;
+		margin-bottom: 0.5rem;
+	}
 `;
 
 export const AchievementTextArea = styled.textarea`
@@ -281,6 +356,15 @@ export const AchievementTextArea = styled.textarea`
 		background: linear-gradient(180deg, #00d4ff, #007bff);
 		border-radius: 4px;
 	}
+
+	@media (max-width: 768px) {
+		min-width: 14rem;
+	}
+
+	@media (max-width: 480px) {
+		min-width: 100%;
+		min-height: 8rem;
+	}
 `;
 
 export const ImagePreview = styled.div`
@@ -297,6 +381,13 @@ export const ImagePreview = styled.div`
 		border-radius: 4px;
 		border: 1px solid #ddd;
 	}
+
+	@media (max-width: 480px) {
+		img {
+			width: 100px;
+			max-height: 50px;
+		}
+	}
 `;
 
 // Achievement Items
@@ -305,6 +396,11 @@ export const AchievementList = styled.div`
 	flex-direction: column;
 	gap: 1rem;
 	margin-bottom: 2rem;
+
+	@media (max-width: 480px) {
+		gap: 0.75rem;
+		margin-bottom: 1.5rem;
+	}
 `;
 
 export const AchievementItem = styled.div`
@@ -323,6 +419,19 @@ export const AchievementItem = styled.div`
 		border-color: rgba(10, 175, 255, 0.3);
 		transform: translateY(-2px);
 	}
+
+	@media (max-width: 768px) {
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		padding: 0.75rem;
+	}
+
+	@media (max-width: 480px) {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 0.5rem;
+		padding: 0.75rem;
+	}
 `;
 
 export const AchievementInput = styled.input`
@@ -331,10 +440,16 @@ export const AchievementInput = styled.input`
 	border: 2px solid rgba(10, 175, 255, 0.5);
 	border-radius: 4px;
 	background: #f8f9fa;
+
 	&:focus {
 		outline: none;
 		border-color: #007bff;
 		box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+	}
+
+	@media (max-width: 480px) {
+		width: 100%;
+		margin-bottom: 0.5rem;
 	}
 `;
 
@@ -358,6 +473,11 @@ export const RemoveButton = styled.button`
 	&:active {
 		transform: translateY(0);
 	}
+
+	@media (max-width: 480px) {
+		min-width: 100%;
+		padding: 0.75rem;
+	}
 `;
 
 export const AddForm = styled.div`
@@ -377,8 +497,13 @@ export const FormRow = styled.div`
 	gap: 1rem;
 	align-items: flex-end;
 
+	@media (max-width: 768px) {
+		flex-wrap: wrap;
+	}
+
 	@media (max-width: 480px) {
 		flex-direction: column;
+		gap: 0.75rem;
 	}
 `;
 
@@ -388,6 +513,16 @@ export const InputGroup = styled.div`
 	flex-direction: column;
 	gap: 0.5rem;
 	margin: 1rem;
+
+	@media (max-width: 768px) {
+		margin: 0.5rem;
+		min-width: calc(50% - 1rem);
+	}
+
+	@media (max-width: 480px) {
+		min-width: 100%;
+		margin: 0.25rem 0;
+	}
 `;
 
 export const InputLabel = styled.label`
@@ -396,11 +531,14 @@ export const InputLabel = styled.label`
 	font-weight: 600;
 	text-transform: uppercase;
 	letter-spacing: 0.5px;
-
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	width: 100%;
+
+	@media (max-width: 480px) {
+		font-size: 14px;
+	}
 `;
 
 export const StyledInput = styled.input`
@@ -419,6 +557,11 @@ export const ToggleContainer = styled.div`
 		background: rgba(60, 60, 60, 0.8);
 		border-color: rgba(10, 175, 255, 0.3);
 	}
+
+	@media (max-width: 480px) {
+		padding: 6px 10px;
+		gap: 8px;
+	}
 `;
 
 export const ToggleLabel = styled.label`
@@ -430,6 +573,11 @@ export const ToggleLabel = styled.label`
 	font-weight: 500;
 	color: #ccc;
 	flex: 1;
+
+	@media (max-width: 480px) {
+		gap: 8px;
+		font-size: 13px;
+	}
 `;
 
 export const ToggleSwitch = styled.div<{ $isChecked: boolean }>`
@@ -455,6 +603,17 @@ export const ToggleSwitch = styled.div<{ $isChecked: boolean }>`
 		border-radius: 50%;
 		transition: all 0.3s ease;
 		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+	}
+
+	@media (max-width: 480px) {
+		width: 44px;
+		height: 22px;
+
+		&::after {
+			width: 16px;
+			height: 16px;
+			left: ${(props) => (props.$isChecked ? '24px' : '2px')};
+		}
 	}
 `;
 
@@ -572,6 +731,11 @@ export const StatusIndicator = styled.div`
 	font-size: 12px;
 	font-weight: 500;
 	margin-top: 8px;
+
+	@media (max-width: 480px) {
+		padding: 6px 10px;
+		font-size: 11px;
+	}
 `;
 
 export const StatusDot = styled.div`
@@ -604,6 +768,12 @@ export const AddButton = styled.button`
 		opacity: 0.6;
 		cursor: not-allowed;
 	}
+
+	@media (max-width: 480px) {
+		min-width: 100%;
+		padding: 0.75rem 1rem;
+		margin-top: 0.5rem;
+	}
 `;
 
 // Action Buttons
@@ -613,6 +783,12 @@ export const ActionBar = styled.div`
 	justify-content: flex-end;
 	padding-top: 1rem;
 	border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+	@media (max-width: 480px) {
+		flex-direction: column;
+		gap: 0.75rem;
+		padding-top: 0.75rem;
+	}
 `;
 
 export const SaveButton = styled.button`
@@ -636,6 +812,11 @@ export const SaveButton = styled.button`
 	&:active {
 		transform: translateY(0);
 	}
+
+	@media (max-width: 480px) {
+		min-width: 100%;
+		padding: 0.75rem 1rem;
+	}
 `;
 
 export const StatusMessage = styled.div<{ $success?: boolean }>`
@@ -650,6 +831,12 @@ export const StatusMessage = styled.div<{ $success?: boolean }>`
 	font-weight: 600;
 	font-size: 14px;
 	animation: ${fadeIn} 0.3s ease-out;
+
+	@media (max-width: 480px) {
+		padding: 0.6rem 0.8rem;
+		font-size: 13px;
+		text-align: center;
+	}
 `;
 
 // Right Panel - Preview
@@ -660,6 +847,14 @@ export const PreviewPanel = styled.div`
 	flex-direction: column;
 	max-height: 80vh;
 	overflow: hidden;
+
+	@media (max-width: 768px) {
+		max-height: 50vh;
+	}
+
+	@media (max-width: 480px) {
+		max-height: 40vh;
+	}
 `;
 
 export const PreviewHeader = styled.div`
@@ -669,6 +864,11 @@ export const PreviewHeader = styled.div`
 	padding-bottom: 1rem;
 	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 	margin-bottom: 1rem;
+
+	@media (max-width: 480px) {
+		padding-bottom: 0.75rem;
+		margin-bottom: 0.75rem;
+	}
 `;
 
 export const PreviewTitle = styled.h2`
@@ -682,6 +882,14 @@ export const PreviewTitle = styled.h2`
 
 	&::before {
 		font-size: 1.2rem;
+	}
+
+	@media (max-width: 768px) {
+		font-size: 2rem;
+	}
+
+	@media (max-width: 480px) {
+		font-size: 1.5rem;
 	}
 `;
 
@@ -707,6 +915,10 @@ export const DataContainer = styled.div`
 	&::-webkit-scrollbar-thumb:hover {
 		background: rgba(10, 175, 255, 0.5);
 	}
+
+	@media (max-width: 480px) {
+		padding-right: 0.25rem;
+	}
 `;
 
 // Accordion Styles
@@ -716,6 +928,11 @@ export const AccordionSection = styled.div`
 	overflow: hidden;
 	border: 1px solid rgba(255, 255, 255, 0.1);
 	background: rgba(40, 40, 40, 0.6);
+
+	@media (max-width: 480px) {
+		margin-bottom: 0.75rem;
+		border-radius: 8px;
+	}
 `;
 
 export const AccordionHeader = styled.div`
@@ -729,6 +946,10 @@ export const AccordionHeader = styled.div`
 
 	&:hover {
 		background: rgba(60, 60, 60, 0.9);
+	}
+
+	@media (max-width: 480px) {
+		padding: 0.75rem 1rem;
 	}
 `;
 
@@ -750,6 +971,18 @@ export const AccordionTitle = styled.h3`
 	&.open::before {
 		transform: rotate(90deg);
 	}
+
+	@media (max-width: 768px) {
+		font-size: 1.6rem;
+	}
+
+	@media (max-width: 480px) {
+		font-size: 1.2rem;
+
+		&::before {
+			font-size: 1.2rem;
+		}
+	}
 `;
 
 export const AccordionCount = styled.span`
@@ -759,12 +992,25 @@ export const AccordionCount = styled.span`
 	border-radius: 12px;
 	font-size: 1.5rem;
 	font-weight: 600;
+
+	@media (max-width: 768px) {
+		font-size: 1.2rem;
+	}
+
+	@media (max-width: 480px) {
+		font-size: 1rem;
+		padding: 0.15rem 0.4rem;
+	}
 `;
 
 export const AccordionContent = styled.div`
 	padding: 1rem 1.5rem;
 	background: rgba(35, 35, 35, 0.8);
 	border-top: 1px solid rgba(255, 255, 255, 0.05);
+
+	@media (max-width: 480px) {
+		padding: 0.75rem 1rem;
+	}
 `;
 
 export const DataItem = styled.div`
@@ -778,18 +1024,43 @@ export const DataItem = styled.div`
 	&:last-child {
 		margin-bottom: 0;
 	}
+
+	@media (max-width: 480px) {
+		padding: 0.6rem;
+		margin-bottom: 0.4rem;
+	}
 `;
 
 export const DataKey = styled.span`
 	color: #0af;
 	font-weight: 600;
 	font-size: 1.6rem;
+
+	@media (max-width: 768px) {
+		font-size: 1.4rem;
+	}
+
+	@media (max-width: 480px) {
+		font-size: 1.2rem;
+		display: block;
+		margin-bottom: 0.25rem;
+	}
 `;
 
 export const DataValue = styled.span`
 	color: #fff;
 	margin-left: 0.5rem;
 	font-size: 1.4rem;
+
+	@media (max-width: 768px) {
+		font-size: 1.2rem;
+	}
+
+	@media (max-width: 480px) {
+		font-size: 1.1rem;
+		margin-left: 0;
+		display: block;
+	}
 `;
 
 export const EmptyState = styled.div`
@@ -804,6 +1075,15 @@ export const EmptyState = styled.div`
 		margin-bottom: 1rem;
 		opacity: 0.5;
 	}
+
+	@media (max-width: 480px) {
+		padding: 2rem 1rem;
+
+		&::before {
+			font-size: 1.5rem;
+			margin-bottom: 0.75rem;
+		}
+	}
 `;
 
 export const StyledTextArea = styled.textarea`
@@ -816,6 +1096,12 @@ export const StyledTextArea = styled.textarea`
 	resize: vertical;
 	min-height: 80px;
 	background: rgba(40, 40, 40, 0.8);
+
+	@media (max-width: 480px) {
+		padding: 6px 10px;
+		min-height: 60px;
+		font-size: 16px;
+	}
 `;
 
 export const ArrayInputRow = styled.div`
@@ -823,6 +1109,12 @@ export const ArrayInputRow = styled.div`
 	gap: 8px;
 	align-items: center;
 	margin-bottom: 8px;
+
+	@media (max-width: 480px) {
+		flex-direction: column;
+		gap: 6px;
+		align-items: stretch;
+	}
 `;
 
 export const SmallButton = styled.button<{ $danger?: boolean }>`
@@ -833,9 +1125,15 @@ export const SmallButton = styled.button<{ $danger?: boolean }>`
 	border-radius: 3px;
 	cursor: pointer;
 	font-size: 14px;
+	white-space: nowrap;
 
 	&:hover {
 		background: ${(props) => (props.$danger ? '#ff3742' : '#0056b3')};
+	}
+
+	@media (max-width: 480px) {
+		padding: 6px 10px;
+		font-size: 13px;
 	}
 `;
 
@@ -851,12 +1149,25 @@ export const ExperienceItem = styled.div`
 		border-color: rgba(10, 175, 255, 0.3);
 		transform: translateY(-2px);
 	}
+
+	@media (max-width: 768px) {
+		padding: 12px;
+	}
+
+	@media (max-width: 480px) {
+		padding: 10px;
+		margin-bottom: 12px;
+	}
 `;
 
 export const ExperienceEditForm = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 12px;
+
+	@media (max-width: 480px) {
+		gap: 8px;
+	}
 `;
 
 export const ExperienceHeader = styled.div`
@@ -864,12 +1175,21 @@ export const ExperienceHeader = styled.div`
 	justify-content: space-between;
 	align-items: flex-start;
 	margin-bottom: 8px;
+
+	@media (max-width: 480px) {
+		flex-direction: column;
+		gap: 0.5rem;
+	}
 `;
 
 export const ActionButtons = styled.div`
 	display: flex;
 	gap: 4px;
 	align-items: center;
+
+	@media (max-width: 480px) {
+		align-self: flex-end;
+	}
 `;
 
 export const ExperienceTitle = styled.h4`
@@ -877,21 +1197,34 @@ export const ExperienceTitle = styled.h4`
 	color: #fff;
 	font-size: 16px;
 	font-size: larger;
+
+	@media (max-width: 480px) {
+		font-size: 14px;
+	}
 `;
 
 export const ExperienceDate = styled.span`
 	color: #ccc;
 	font-size: 14px;
+
+	@media (max-width: 480px) {
+		font-size: 12px;
+	}
 `;
 
 export const ExperienceProject = styled.p`
 	margin: 4px 0;
 	color: #e0e0e0;
 	font-style: italic;
+
 	strong {
 		display: inline;
 		font-weight: 600;
 		font-style: none;
+	}
+
+	@media (max-width: 480px) {
+		font-size: 13px;
 	}
 `;
 
@@ -899,6 +1232,11 @@ export const ExperienceDescription = styled.p`
 	margin: 8px 0;
 	color: #e0e0e0;
 	line-height: 1.4;
+
+	@media (max-width: 480px) {
+		font-size: 13px;
+		margin: 6px 0;
+	}
 `;
 
 export const ExperienceList = styled.ul`
@@ -914,11 +1252,26 @@ export const ExperienceList = styled.ul`
 		padding-left: 20px;
 		color: #e0e0e0;
 	}
+
+	@media (max-width: 480px) {
+		font-size: 13px;
+		margin: 6px 0;
+
+		& li {
+			margin: 6px 0;
+			padding-left: 16px;
+		}
+	}
 `;
 
 export const ExperienceTech = styled.p`
 	margin: 8px 0;
 	color: #e0e0e0;
+
+	@media (max-width: 480px) {
+		font-size: 13px;
+		margin: 6px 0;
+	}
 `;
 
 export const UploadZone = styled.div<{ $isDragActive?: boolean }>`
@@ -933,12 +1286,22 @@ export const UploadZone = styled.div<{ $isDragActive?: boolean }>`
 	&:hover {
 		border-color: #007bff;
 	}
+
+	@media (max-width: 480px) {
+		padding: 15px;
+	}
 `;
 
 export const ImageInputContainer = styled.div`
 	display: flex;
 	gap: 10px;
 	align-items: center;
+
+	@media (max-width: 480px) {
+		flex-direction: column;
+		gap: 8px;
+		align-items: stretch;
+	}
 `;
 
 export const UploadButton = styled.button`
@@ -952,5 +1315,10 @@ export const UploadButton = styled.button`
 
 	&:hover {
 		background: #0056b3;
+	}
+
+	@media (max-width: 480px) {
+		padding: 10px 16px;
+		width: 100%;
 	}
 `;

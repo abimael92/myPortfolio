@@ -1,9 +1,14 @@
 import { IoIosArrowDropdown } from 'react-icons/io';
+import Link from 'next/link';
 import styled from 'styled-components';
 import { BsPalette2 } from 'react-icons/bs';
 
 interface Div2Props {
 	$mobileMenuOpen: boolean;
+}
+
+interface NavLinkProps {
+	href: string;
 }
 
 export const Container = styled.header`
@@ -69,11 +74,17 @@ export const Span = styled.span`
 	margin-left: 0.5rem;
 `;
 
-export const NavLink = styled.a`
+// Fixed NavLink component that properly handles Next.js Link
+export const NavLink = styled(Link).attrs<NavLinkProps>((props) => ({
+	href: props.href || '#',
+}))`
 	color: rgba(255, 255, 255, 0.75);
 	font-size: 1.1rem;
 	transition: 0.3s ease;
 	padding: 0.5rem 0;
+	text-decoration: none;
+	display: block;
+	cursor: pointer;
 
 	&:hover {
 		color: #fff;

@@ -145,10 +145,7 @@ export const Section = styled.div`
 
 export const SectionTitle = styled.h2`
 	color: #0af;
-<<<<<<< Updated upstream
 	color: linear-gradient(135deg, #0af 0%, #08c 100%) !important;
-=======
->>>>>>> Stashed changes
 	font-size: 2.2rem;
 	font-weight: 600;
 	margin-bottom: 1rem;
@@ -889,7 +886,7 @@ export const PreviewTitle = styled.h2`
 	}
 
 	@media (max-width: 480px) {
-		font-size: 1.5rem;
+		font-size: 2.125rem;
 	}
 `;
 
@@ -977,7 +974,7 @@ export const AccordionTitle = styled.h3`
 	}
 
 	@media (max-width: 480px) {
-		font-size: 1.2rem;
+		font-size: 2.2rem;
 
 		&::before {
 			font-size: 1.2rem;
@@ -998,7 +995,7 @@ export const AccordionCount = styled.span`
 	}
 
 	@media (max-width: 480px) {
-		font-size: 1rem;
+		font-size: 1.55rem;
 		padding: 0.15rem 0.4rem;
 	}
 `;
@@ -1041,7 +1038,7 @@ export const DataKey = styled.span`
 	}
 
 	@media (max-width: 480px) {
-		font-size: 1.2rem;
+		font-size: 1.8rem;
 		display: block;
 		margin-bottom: 0.25rem;
 	}
@@ -1057,7 +1054,7 @@ export const DataValue = styled.span`
 	}
 
 	@media (max-width: 480px) {
-		font-size: 1.1rem;
+		font-size: 1.65rem;
 		margin-left: 0;
 		display: block;
 	}

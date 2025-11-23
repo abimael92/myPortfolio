@@ -550,7 +550,7 @@ const EditPortfolio = () => {
                             <S.SectionTitle>Add New Achievement</S.SectionTitle>
                             <S.FormRow>
                                 <S.InputGroup>
-                                    <S.InputLabel>Role</S.InputLabel>
+                                    <S.InputLabel>Role: </S.InputLabel>
                                     <S.StyledInput
                                         placeholder="Your role in this achievement"
                                         value={newAchievement.role}
@@ -558,7 +558,7 @@ const EditPortfolio = () => {
                                     />
                                 </S.InputGroup>
                                 <S.InputGroup>
-                                    <S.InputLabel>Achievement</S.InputLabel>
+                                    <S.InputLabel>Achievement: </S.InputLabel>
                                     <S.StyledInput
                                         placeholder="What did you accomplish?"
                                         value={newAchievement.achievement}
@@ -573,7 +573,7 @@ const EditPortfolio = () => {
 
                         <S.Section>
                             <S.SectionTitle onClick={() => toggleCurrentSection('achievements')}>
-                                {openCurrentSections.has('achievements') ? '▼' : '▶'} Current Achievements ({achievements.length})
+                                {openCurrentSections.has('achievements') ? '▼' : '▶'} Current Achievements ( {achievements.length} )
                             </S.SectionTitle>
                             {openCurrentSections.has('achievements') && (
                                 <S.AchievementList>
@@ -648,7 +648,7 @@ const EditPortfolio = () => {
                             <S.SectionTitle>Add New Education</S.SectionTitle>
                             <S.FormRow>
                                 <S.InputGroup>
-                                    <S.InputLabel>Title</S.InputLabel>
+                                    <S.InputLabel>Title: </S.InputLabel>
                                     <S.StyledInput
                                         placeholder="e.g., Bachelor's Degree in Computer Science"
                                         value={newEducation.title}
@@ -656,7 +656,7 @@ const EditPortfolio = () => {
                                     />
                                 </S.InputGroup>
                                 <S.InputGroup>
-                                    <S.InputLabel>Date</S.InputLabel>
+                                    <S.InputLabel>Date: </S.InputLabel>
                                     <S.StyledInput
                                         placeholder="e.g., 04/2012 - 04/2016"
                                         value={newEducation.date}
@@ -664,7 +664,7 @@ const EditPortfolio = () => {
                                     />
                                 </S.InputGroup>
                                 <S.InputGroup>
-                                    <S.InputLabel>Institution</S.InputLabel>
+                                    <S.InputLabel>Institution: </S.InputLabel>
                                     <S.StyledInput
                                         placeholder="e.g., Instituto Tecnológico de Cd. Jiménez"
                                         value={newEducation.institution}
@@ -679,7 +679,7 @@ const EditPortfolio = () => {
 
                         <S.Section>
                             <S.SectionTitle onClick={() => toggleCurrentSection('education')}>
-                                {openCurrentSections.has('education') ? '▼' : '▶'} Current Education ({education.length})
+                                {openCurrentSections.has('education') ? '▼' : '▶'} Current Education ( {education.length} )
                             </S.SectionTitle>
                             {openCurrentSections.has('education') && (
                                 <S.AchievementList>
@@ -766,7 +766,7 @@ const EditPortfolio = () => {
                             {/* Company & Position - Top Row */}
                             <S.FormRow>
                                 <S.InputGroup style={{ flex: 2 }}>
-                                    <S.InputLabel>Company *</S.InputLabel>
+                                    <S.InputLabel>Company *: </S.InputLabel>
                                     <S.StyledInput
                                         placeholder="Company name"
                                         value={newExperience.company}
@@ -774,7 +774,7 @@ const EditPortfolio = () => {
                                     />
                                 </S.InputGroup>
                                 <S.InputGroup style={{ flex: 2 }}>
-                                    <S.InputLabel>Position *</S.InputLabel>
+                                    <S.InputLabel>Position *: </S.InputLabel>
                                     <S.StyledInput
                                         placeholder="Your position/role"
                                         value={newExperience.position}
@@ -782,7 +782,7 @@ const EditPortfolio = () => {
                                     />
                                 </S.InputGroup>
                                 <S.InputGroup style={{ flex: 1 }}>
-                                    <S.InputLabel>Industry</S.InputLabel>
+                                    <S.InputLabel>Industry: </S.InputLabel>
                                     <S.StyledInput
                                         placeholder="e.g., Tech, Finance"
                                         value={newExperience.industry}
@@ -794,7 +794,7 @@ const EditPortfolio = () => {
                             {/* Date Range - Improved Layout */}
                             <S.FormRow>
                                 <S.InputGroup style={{ flex: 1 }}>
-                                    <S.InputLabel>Start Date *</S.InputLabel>
+                                    <S.InputLabel>Start Date *: </S.InputLabel>
                                     <S.StyledInput
                                         type="date"
                                         value={newExperience.startDate}
@@ -812,7 +812,7 @@ const EditPortfolio = () => {
 
                                 <S.InputGroup style={{ flex: 1 }}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.125rem', width: '100%' }}>
-                                        <S.InputLabel style={{ margin: 0, width: '60%' }}>End Date *</S.InputLabel>
+                                        <S.InputLabel style={{ margin: 0, width: '60%' }}>End Date *: </S.InputLabel>
                                         <S.CurrentJobLabel style={{ margin: 0 }}>
 
                                             <S.ToggleContainer>
@@ -864,7 +864,7 @@ const EditPortfolio = () => {
                                 </S.InputGroup>
 
                                 <S.InputGroup style={{ flex: 1.5 }}>
-                                    <S.InputLabel>Display Date</S.InputLabel>
+                                    <S.InputLabel>Display Date: </S.InputLabel>
                                     <S.DateDisplay>
                                         {newExperience.date || "Auto-generated date range"}
                                     </S.DateDisplay>
@@ -876,7 +876,7 @@ const EditPortfolio = () => {
                             {/* Project & Description */}
                             <S.FormRow>
                                 <S.InputGroup style={{ flex: 1 }}>
-                                    <S.InputLabel>Project</S.InputLabel>
+                                    <S.InputLabel>Project: </S.InputLabel>
                                     <S.StyledInput
                                         placeholder="Project name (optional)"
                                         value={newExperience.project}
@@ -884,7 +884,7 @@ const EditPortfolio = () => {
                                     />
                                 </S.InputGroup>
                                 <S.InputGroup style={{ flex: 1 }}>
-                                    <S.InputLabel>Duration</S.InputLabel>
+                                    <S.InputLabel>Duration: </S.InputLabel>
                                     <S.DateDisplay>
                                         {newExperience.period || "Auto-calculated duration"}
                                     </S.DateDisplay>
@@ -892,7 +892,7 @@ const EditPortfolio = () => {
                             </S.FormRow>
 
                             <S.InputGroup>
-                                <S.InputLabel>Role Description</S.InputLabel>
+                                <S.InputLabel>Role Description: </S.InputLabel>
                                 <S.StyledTextArea
                                     placeholder="Describe your responsibilities, contributions, and achievements in this role..."
                                     value={newExperience.description}
@@ -904,7 +904,7 @@ const EditPortfolio = () => {
                             {/* Achievements Section */}
                             <S.ArraySection>
                                 <S.SectionHeader>
-                                    <S.InputLabel>Achievements</S.InputLabel>
+                                    <S.InputLabel>Achievements: </S.InputLabel>
                                     <S.SmallButton onClick={addAchievementField}>+ Add Achievement</S.SmallButton>
                                 </S.SectionHeader>
                                 {newExperience.achievements.map((achievement, index) => (
@@ -929,7 +929,7 @@ const EditPortfolio = () => {
                             {/* Technologies Section */}
                             <S.ArraySection>
                                 <S.SectionHeader>
-                                    <S.InputLabel>Technologies & Skills</S.InputLabel>
+                                    <S.InputLabel>Technologies & Skills: </S.InputLabel>
                                     <S.SmallButton onClick={addTechnologyField}>+ Add Technology</S.SmallButton>
                                 </S.SectionHeader>
                                 {newExperience.technologies.map((technology, index) => (
@@ -970,7 +970,7 @@ const EditPortfolio = () => {
                             <S.SectionTitle>Add New Skill</S.SectionTitle>
                             <S.FormRow>
                                 <S.InputGroup>
-                                    <S.InputLabel>Skill Name</S.InputLabel>
+                                    <S.InputLabel>Skill Name: </S.InputLabel>
                                     <S.StyledInput
                                         placeholder="e.g., React, TypeScript"
                                         value={newSkill.name}
@@ -978,7 +978,7 @@ const EditPortfolio = () => {
                                     />
                                 </S.InputGroup>
                                 <S.InputGroup>
-                                    <S.InputLabel>Percent (0-100)</S.InputLabel>
+                                    <S.InputLabel>Percent (0-100): </S.InputLabel>
                                     <S.StyledInput
                                         type="number"
                                         min="0"
@@ -989,7 +989,7 @@ const EditPortfolio = () => {
                                     />
                                 </S.InputGroup>
                                 <S.InputGroup>
-                                    <S.InputLabel>Category</S.InputLabel>
+                                    <S.InputLabel>Category: </S.InputLabel>
                                     <S.StyledInput
                                         placeholder="e.g., frontend, backend"
                                         value={newSkill.category}
@@ -1004,7 +1004,7 @@ const EditPortfolio = () => {
 
                         <S.Section>
                             <S.SectionTitle onClick={() => toggleCurrentSection('skills')}>
-                                {openCurrentSections.has('skills') ? '▼' : '▶'}  Current Skills   ({skills.length})
+                                {openCurrentSections.has('skills') ? '▼' : '▶'}  Current Skills   ( {skills.length} )
                             </S.SectionTitle>
                             {openCurrentSections.has('skills') && (
                                 <S.AchievementList>
@@ -1090,7 +1090,7 @@ const EditPortfolio = () => {
                             <S.SectionTitle>Add New Project</S.SectionTitle>
                             <S.FormRow>
                                 <S.InputGroup>
-                                    <S.InputLabel>Project Image</S.InputLabel>
+                                    <S.InputLabel>Project Image: </S.InputLabel>
                                     <S.ImageInputContainer>
                                         <S.StyledInput
                                             placeholder="/images/project-preview.png"
@@ -1127,7 +1127,7 @@ const EditPortfolio = () => {
                                     )}
                                 </S.InputGroup>
                                 <S.InputGroup>
-                                    <S.InputLabel>Title</S.InputLabel>
+                                    <S.InputLabel>Title: </S.InputLabel>
                                     <S.StyledInput
                                         placeholder="Project Title"
                                         value={newProject.title}
@@ -1135,7 +1135,7 @@ const EditPortfolio = () => {
                                     />
                                 </S.InputGroup>
                                 <S.InputGroup>
-                                    <S.InputLabel>Description</S.InputLabel>
+                                    <S.InputLabel>Description: </S.InputLabel>
                                     <S.StyledInput
                                         placeholder="Project description"
                                         value={newProject.description}
@@ -1143,7 +1143,7 @@ const EditPortfolio = () => {
                                     />
                                 </S.InputGroup>
                                 <S.InputGroup>
-                                    <S.InputLabel>Tags</S.InputLabel>
+                                    <S.InputLabel>Tags: </S.InputLabel>
                                     <S.StyledInput
                                         placeholder="React,TypeScript,SCSS"
                                         value={newProject.tags}
@@ -1151,7 +1151,7 @@ const EditPortfolio = () => {
                                     />
                                 </S.InputGroup>
                                 <S.InputGroup>
-                                    <S.InputLabel>Source URL</S.InputLabel>
+                                    <S.InputLabel>Source URL: </S.InputLabel>
                                     <S.StyledInput
                                         placeholder="https://github.com/username/project"
                                         value={newProject.source}
@@ -1166,7 +1166,7 @@ const EditPortfolio = () => {
 
                         <S.Section>
                             <S.SectionTitle onClick={() => toggleCurrentSection('projects')}>
-                                {openCurrentSections.has('projects') ? '▼' : '▶'} Current Projects ({projects.length})
+                                {openCurrentSections.has('projects') ? '▼' : '▶'} Current Projects ( {projects.length} )
                             </S.SectionTitle>
                             {openCurrentSections.has('projects') && (
                                 <S.AchievementList>

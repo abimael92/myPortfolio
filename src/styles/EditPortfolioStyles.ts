@@ -49,7 +49,7 @@ const inputBaseStyles = css`
 	border: 1.5px solid #333;
 	background: rgba(40, 40, 40, 0.8);
 	color: #fff;
-	font-size: 14px;
+	font-size: 1.5rem;
 	outline: none;
 	transition: all 0.3s ease;
 	font-family: 'Inter', sans-serif;
@@ -65,8 +65,8 @@ const inputBaseStyles = css`
 	}
 
 	@media (max-width: 480px) {
-		padding: 0.7rem 0.9rem;
-		font-size: 16px; /* Prevents zoom on iOS */
+		padding: 0.7rem 1.2rem;
+		font-size: 1.956rem;
 	}
 `;
 
@@ -135,7 +135,7 @@ export const Title = styled.h1`
 	}
 
 	@media (max-width: 480px) {
-		font-size: 1.5rem;
+		font-size: 3.185rem;
 	}
 `;
 
@@ -168,7 +168,7 @@ export const SectionTitle = styled.h2`
 	}
 
 	@media (max-width: 480px) {
-		font-size: 1.4rem;
+		font-size: 2.258rem;
 		margin-bottom: 0.5rem;
 
 		&::before {
@@ -534,7 +534,7 @@ export const InputLabel = styled.label`
 	width: 100%;
 
 	@media (max-width: 480px) {
-		font-size: 14px;
+		font-size: 1.75rem;
 	}
 `;
 

@@ -548,27 +548,36 @@ const EditPortfolio = () => {
                     <>
                         <S.AddForm>
                             <S.SectionTitle>Add New Achievement</S.SectionTitle>
-                            <S.FormRow>
-                                <S.InputGroup>
-                                    <S.InputLabel>Role: </S.InputLabel>
+                            <S.AchievementFormRow>
+                                <S.InputAchievementGroup style={{ flex: 1 }}>
+                                    <S.InputLabel>Role</S.InputLabel>
                                     <S.StyledInput
                                         placeholder="Your role in this achievement"
                                         value={newAchievement.role}
                                         onChange={(e) => setNewAchievement({ ...newAchievement, role: e.target.value })}
                                     />
-                                </S.InputGroup>
-                                <S.InputGroup>
-                                    <S.InputLabel>Achievement: </S.InputLabel>
-                                    <S.StyledInput
+                                </S.InputAchievementGroup>
+
+                                <S.InputGroup style={{ flex: 2 }}>
+                                    <S.InputLabel>Achievement</S.InputLabel>
+                                    <S.AchievementTextArea
                                         placeholder="What did you accomplish?"
                                         value={newAchievement.achievement}
                                         onChange={(e) => setNewAchievement({ ...newAchievement, achievement: e.target.value })}
+                                        rows={4}
                                     />
                                 </S.InputGroup>
-                                <S.AddButton onClick={handleAddAchievement} disabled={isAddDisabled}>
-                                    Add +
-                                </S.AddButton>
-                            </S.FormRow>
+
+                                <S.InputGroup style={{ flex: 0.5, justifyContent: 'flex-end' }}>
+                                    <S.AddButton
+                                        onClick={handleAddAchievement}
+                                        disabled={isAddDisabled}
+                                        style={{ minWidth: '120px', height: '42px' }}
+                                    >
+                                        Add +
+                                    </S.AddButton>
+                                </S.InputGroup>
+                            </S.AchievementFormRow>
                         </S.AddForm>
 
                         <S.Section>

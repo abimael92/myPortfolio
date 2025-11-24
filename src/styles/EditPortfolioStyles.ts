@@ -313,9 +313,9 @@ export const AchievementTextArea = styled.textarea`
 	background: rgba(60, 60, 60, 0.8);
 	color: inherit;
 	line-height: 1.5;
-	min-height: 10rem;
+	min-height: 5rem;
 	min-width: 18rem;
-	max-height: 20rem;
+	max-height: 0rem;
 
 	/* Normal scroll behavior */
 	overflow: auto;
@@ -519,6 +519,35 @@ export const InputGroup = styled.div`
 	@media (max-width: 480px) {
 		min-width: 100%;
 		margin: 0.25rem 0;
+	}
+`;
+
+/* Add to your styled components */
+export const AchievementFormRow = styled.div`
+	display: flex;
+	gap: 1.5rem;
+	align-items: flex-start;
+	width: 100%;
+
+	@media (max-width: 768px) {
+		flex-wrap: wrap;
+		gap: 1rem;
+	}
+
+	@media (max-width: 480px) {
+		flex-direction: column;
+		gap: 0.75rem;
+	}
+`;
+
+export const InputAchievementGroup = styled.div<{ flex?: number }>`
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	flex: ${(props) => props.flex || 1};
+
+	@media (max-width: 480px) {
+		width: 100%;
 	}
 `;
 

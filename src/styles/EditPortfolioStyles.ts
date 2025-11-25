@@ -310,7 +310,8 @@ export const AchievementTextArea = styled.textarea`
 	box-sizing: border-box;
 	padding: 8px 10px;
 	border-radius: 6px;
-	background: rgba(60, 60, 60, 0.8);
+	background: rgba(40, 40, 40, 0.8);
+	border: 1.5px solid #333;
 	color: inherit;
 	line-height: 1.5;
 	min-height: 5rem;
@@ -543,6 +544,7 @@ export const AchievementFormRow = styled.div`
 export const InputAchievementGroup = styled.div<{ flex?: number }>`
 	display: flex;
 	flex-direction: column;
+	margin: 1rem;
 	gap: 0.5rem;
 	flex: ${(props) => props.flex || 1};
 

@@ -314,9 +314,10 @@ export const AchievementTextArea = styled.textarea`
 	border: 1.5px solid #333;
 	color: inherit;
 	line-height: 1.5;
-	min-height: 5rem;
+	min-height: 2rem;
 	min-width: 18rem;
-	max-height: 0rem;
+	height: 3.8rem; /* Changed from 8rem to 2rem */
+	max-height: 12rem;
 
 	/* Normal scroll behavior */
 	overflow: auto;

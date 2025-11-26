@@ -572,6 +572,17 @@ export const StyledInput = styled.input`
 	${inputBaseStyles}
 `;
 
+export const StyledSelect = styled.select`
+	${inputBaseStyles}
+	cursor: pointer;
+
+	option {
+		background: rgba(40, 40, 40, 0.9);
+		color: #fff;
+		padding: 0.8rem;
+	}
+`;
+
 export const ToggleContainer = styled.div`
 	display: flex;
 	align-items: center;

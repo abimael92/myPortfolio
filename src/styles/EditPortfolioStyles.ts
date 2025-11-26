@@ -575,11 +575,51 @@ export const StyledInput = styled.input`
 export const StyledSelect = styled.select`
 	${inputBaseStyles}
 	cursor: pointer;
+	appearance: none;
+	padding-right: 3rem;
+	position: relative;
+
+	/* Custom arrow using border */
+	&::-ms-expand {
+		display: none;
+	}
 
 	option {
-		background: rgba(40, 40, 40, 0.9);
+		background: rgba(30, 30, 30, 0.95);
 		color: #fff;
-		padding: 0.8rem;
+		padding: 1rem;
+		font-size: 1.5rem;
+
+		&:checked {
+			background: linear-gradient(135deg, #0af 0%, #08c 100%);
+			color: #fff;
+		}
+	}
+`;
+
+export const SelectWrapper = styled.div`
+	position: relative;
+	width: 100%;
+
+	&::after {
+		content: '▼';
+		position: absolute;
+		right: 1rem;
+		top: 50%;
+		transform: translateY(-50%);
+		color: #007bff;
+		font-size: 1.2rem;
+		pointer-events: none;
+		transition: all 0.3s ease;
+	}
+
+	&:hover::after {
+		color: #0af;
+	}
+
+	&:focus-within::after {
+		color: #0af;
+		transform: translateY(-50%) rotate(180deg);
 	}
 `;
 

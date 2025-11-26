@@ -618,16 +618,17 @@ const EditPortfolio = () => {
                                     />
                                 </S.InputGroup>
 
-                                <S.InputGroup style={{ flex: 0.5, justifyContent: 'flex-end' }}>
-                                    <S.AddButton
-                                        onClick={handleAddAchievement}
-                                        disabled={isAddDisabled}
-                                        style={{ minWidth: '120px', height: '42px' }}
-                                    >
-                                        Add +
-                                    </S.AddButton>
-                                </S.InputGroup>
+
                             </S.AchievementFormRow>
+                            <S.InputGroup style={{ flex: 0.5, justifyContent: 'flex-end' }}>
+                                <S.AddButton
+                                    onClick={handleAddAchievement}
+                                    disabled={isAddDisabled}
+                                    style={{ minWidth: '120px', height: '42px' }}
+                                >
+                                    Add +
+                                </S.AddButton>
+                            </S.InputGroup>
                         </S.AddForm>
 
                         <S.Section>
@@ -1401,7 +1402,7 @@ const EditPortfolio = () => {
                             No portfolio data loaded
                         </S.EmptyState>
                     ) : (
-                        Object.keys(portfolioData).map((key) => (
+                        Object.keys(portfolioData).sort().map((key) => (
                             <S.AccordionSection key={key}>
                                 <S.AccordionHeader onClick={() => toggleSection(key)}>
                                     <S.AccordionTitle className={openSections.has(key) ? 'open' : ''}>

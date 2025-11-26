@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import * as S from '../styles/EditPortfolioStyles';
@@ -540,6 +540,56 @@ const EditPortfolio = () => {
     const isAddSkillDisabled = !newSkill.name || !newSkill.category;
     const isAddEducationDisabled = !newEducation.title || !newEducation.date || !newEducation.institution;
 
+
+    // Inside your component
+    const sliderTrackRef = useRef<HTMLDivElement>(null);
+
+    const updatePercent = useCallback((clientX: number) => {
+        if (!sliderTrackRef.current) return;
+
+        const trackRect = sliderTrackRef.current.getBoundingClientRect();
+        const relativeX = clientX - trackRect.left;
+        const percentage = Math.max(0, Math.min(100, (relativeX / trackRect.width) * 100));
+
+        setNewSkill(prev => ({ ...prev, percent: Math.round(percentage) }));
+    }, []);
+
+    const handleSliderClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+        updatePercent(e.clientX);
+    }, [updatePercent]);
+
+    const handleThumbMouseDown = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+        e.preventDefault();
+
+        const handleMouseMove = (moveEvent: MouseEvent) => {
+            updatePercent(moveEvent.clientX);
+        };
+
+        const handleMouseUp = () => {
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+        };
+
+        document.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('mouseup', handleMouseUp);
+    }, [updatePercent]);
+
+    const handleThumbTouchStart = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
+        const handleTouchMove = (moveEvent: TouchEvent) => {
+            if (moveEvent.touches[0]) {
+                updatePercent(moveEvent.touches[0].clientX);
+            }
+        };
+
+        const handleTouchEnd = () => {
+            document.removeEventListener('touchmove', handleTouchMove);
+            document.removeEventListener('touchend', handleTouchEnd);
+        };
+
+        document.addEventListener('touchmove', handleTouchMove);
+        document.addEventListener('touchend', handleTouchEnd);
+    }, [updatePercent]);
+
     // Render section content based on active section
     const renderSectionContent = () => {
         switch (activeSection) {
@@ -978,33 +1028,44 @@ const EditPortfolio = () => {
                         <S.AddForm>
                             <S.SectionTitle>Add New Skill</S.SectionTitle>
                             <S.FormRow>
-                                <S.InputGroup>
-                                    <S.InputLabel>Skill Name: </S.InputLabel>
-                                    <S.StyledInput
-                                        placeholder="e.g., React, TypeScript"
-                                        value={newSkill.name}
-                                        onChange={(e) => setNewSkill({ ...newSkill, name: e.target.value })}
-                                    />
-                                </S.InputGroup>
-                                <S.InputGroup>
-                                    <S.InputLabel>Percent (0-100): </S.InputLabel>
-                                    <S.StyledInput
-                                        type="number"
-                                        min="0"
-                                        max="100"
-                                        placeholder="85"
-                                        value={newSkill.percent}
-                                        onChange={(e) => setNewSkill({ ...newSkill, percent: parseInt(e.target.value) || 0 })}
-                                    />
-                                </S.InputGroup>
-                                <S.InputGroup>
-                                    <S.InputLabel>Category: </S.InputLabel>
-                                    <S.StyledInput
-                                        placeholder="e.g., frontend, backend"
-                                        value={newSkill.category}
-                                        onChange={(e) => setNewSkill({ ...newSkill, category: e.target.value })}
-                                    />
-                                </S.InputGroup>
+                                <S.InputRow>
+                                    <S.InputGroup>
+                                        <S.InputLabel>Skill Name</S.InputLabel>
+                                        <S.StyledInput
+                                            placeholder="e.g., React, TypeScript"
+                                            value={newSkill.name}
+                                            onChange={(e) => setNewSkill({ ...newSkill, name: e.target.value })}
+                                        />
+                                    </S.InputGroup>
+
+                                    <S.InputGroup>
+                                        <S.InputLabel>Category</S.InputLabel>
+                                        <S.StyledInput
+                                            placeholder="e.g., frontend, backend"
+                                            value={newSkill.category}
+                                            onChange={(e) => setNewSkill({ ...newSkill, category: e.target.value })}
+                                        />
+                                    </S.InputGroup>
+                                </S.InputRow>
+
+                                <S.SliderContainer>
+                                    <S.SliderHeader>
+                                        <S.InputLabel>Skill Level</S.InputLabel>
+                                        <S.PercentValue>{newSkill.percent}%</S.PercentValue>
+                                    </S.SliderHeader>
+                                    <S.SliderTrack
+                                        onClick={handleSliderClick}
+                                        ref={sliderTrackRef}
+                                    >
+                                        <S.SliderProgress $percent={newSkill.percent} />
+                                        <S.SliderThumb
+                                            $percent={newSkill.percent}
+                                            onMouseDown={handleThumbMouseDown}
+                                            onTouchStart={handleThumbTouchStart}
+                                        />
+                                    </S.SliderTrack>
+                                </S.SliderContainer>
+
                                 <S.AddButton onClick={handleAddSkill} disabled={isAddSkillDisabled}>
                                     Add Skill +
                                 </S.AddButton>

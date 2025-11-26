@@ -492,15 +492,14 @@ export const AddForm = styled.div`
 
 export const FormRow = styled.div`
 	display: flex;
-	gap: 1rem;
-	align-items: flex-end;
+	flex-direction: column;
+	gap: 1.5rem;
 
 	@media (max-width: 768px) {
-		flex-wrap: wrap;
+		gap: 1rem;
 	}
 
 	@media (max-width: 480px) {
-		flex-direction: column;
 		gap: 0.75rem;
 	}
 `;
@@ -1162,6 +1161,91 @@ export const SmallButton = styled.button<{ $danger?: boolean }>`
 	@media (max-width: 480px) {
 		padding: 6px 10px;
 		font-size: 13px;
+	}
+`;
+
+// ADD these new components:
+export const InputRow = styled.div`
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 1rem;
+
+	@media (max-width: 768px) {
+		grid-template-columns: 1fr;
+		gap: 0.75rem;
+	}
+`;
+
+export const SliderContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+`;
+
+export const SliderHeader = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+`;
+
+export const PercentValue = styled.span`
+	color: #0af;
+	font-weight: 600;
+	font-size: 1.6rem;
+	background: rgba(10, 175, 255, 0.1);
+	padding: 0.3rem 0.8rem;
+	border-radius: 12px;
+	min-width: 60px;
+	text-align: center;
+`;
+
+export const SliderTrack = styled.div`
+	position: relative;
+	width: 100%;
+	height: 8px;
+	background: rgba(255, 255, 255, 0.1);
+	border-radius: 4px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+
+	&:hover {
+		background: rgba(255, 255, 255, 0.15);
+	}
+`;
+
+export const SliderProgress = styled.div<{ $percent: number }>`
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: ${(props) => props.$percent}%;
+	background: linear-gradient(90deg, #0af 0%, #08c 100%);
+	border-radius: 4px;
+	transition: width 0.2s ease;
+`;
+
+export const SliderThumb = styled.div<{ $percent: number }>`
+	position: absolute;
+	left: ${(props) => props.$percent}%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	width: 20px;
+	height: 20px;
+	background: #fff;
+	border: 3px solid #0af;
+	border-radius: 50%;
+	cursor: grab;
+	transition: all 0.2s ease;
+	box-shadow: 0 2px 8px rgba(10, 175, 255, 0.4);
+
+	&:hover {
+		transform: translate(-50%, -50%) scale(1.1);
+		box-shadow: 0 4px 12px rgba(10, 175, 255, 0.6);
+	}
+
+	&:active {
+		cursor: grabbing;
+		transform: translate(-50%, -50%) scale(1.05);
 	}
 `;
 

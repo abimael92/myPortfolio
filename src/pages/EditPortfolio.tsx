@@ -1040,11 +1040,16 @@ const EditPortfolio = () => {
 
                                     <S.InputGroup>
                                         <S.InputLabel>Category</S.InputLabel>
-                                        <S.StyledInput
-                                            placeholder="e.g., frontend, backend"
+                                        <S.StyledSelect
                                             value={newSkill.category}
                                             onChange={(e) => setNewSkill({ ...newSkill, category: e.target.value })}
-                                        />
+                                        >
+                                            <option value="frontend">Libraries & Frameworks</option>
+                                            <option value="backend">Backend & APIs</option>
+                                            <option value="cloud">Infrastructure & Tools</option>
+                                            <option value="testing">Testing & QA</option>
+                                            <option value="design">Design & UI/UX</option>
+                                        </S.StyledSelect>
                                     </S.InputGroup>
                                 </S.InputRow>
 

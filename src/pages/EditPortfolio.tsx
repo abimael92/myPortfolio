@@ -1040,16 +1040,18 @@ const EditPortfolio = () => {
 
                                     <S.InputGroup>
                                         <S.InputLabel>Category</S.InputLabel>
-                                        <S.StyledSelect
-                                            value={newSkill.category}
-                                            onChange={(e) => setNewSkill({ ...newSkill, category: e.target.value })}
-                                        >
-                                            <option value="frontend">Libraries & Frameworks</option>
-                                            <option value="backend">Backend & APIs</option>
-                                            <option value="cloud">Infrastructure & Tools</option>
-                                            <option value="testing">Testing & QA</option>
-                                            <option value="design">Design & UI/UX</option>
-                                        </S.StyledSelect>
+                                        <S.SelectWrapper>
+                                            <S.StyledSelect
+                                                value={newSkill.category}
+                                                onChange={(e) => setNewSkill({ ...newSkill, category: e.target.value })}
+                                            >
+                                                <option value="frontend">Libraries & Frameworks</option>
+                                                <option value="backend">Backend & APIs</option>
+                                                <option value="cloud">Infrastructure & Tools</option>
+                                                <option value="testing">Testing & QA</option>
+                                                <option value="design">Design & UI/UX</option>
+                                            </S.StyledSelect>
+                                        </S.SelectWrapper>
                                     </S.InputGroup>
                                 </S.InputRow>
 

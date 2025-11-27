@@ -17,8 +17,10 @@ type PortfolioData = {
 
 type Education = {
     title: string;
-    date: string;
     institution: string;
+    startDate?: string;
+    endDate?: string;
+    date: string;
     id?: string;
 };
 
@@ -105,7 +107,11 @@ const EditPortfolio = () => {
     });
     const [education, setEducation] = useState<Education[]>([]);
     const [newEducation, setNewEducation] = useState<Education>({
-        title: "", date: "", institution: ""
+        title: "",
+        institution: "",
+        startDate: "",
+        endDate: "",
+        date: ""
     });
     const [projects, setProjects] = useState<Project[]>([]);
     const [newProject, setNewProject] = useState<Project>({
@@ -706,9 +712,12 @@ const EditPortfolio = () => {
                     <>
                         <S.AddForm>
                             <S.SectionTitle>Add New Education</S.SectionTitle>
-                            <S.FormRow>
+
+                            {/* First Row: Title and Institution */}
+                            {/* First Row: Title and Institution */}
+                            <S.FormRowColumns>
                                 <S.InputGroup>
-                                    <S.InputLabel>Title: </S.InputLabel>
+                                    <S.InputLabel>Title *: </S.InputLabel>
                                     <S.StyledInput
                                         placeholder="e.g., Bachelor's Degree in Computer Science"
                                         value={newEducation.title}
@@ -716,25 +725,69 @@ const EditPortfolio = () => {
                                     />
                                 </S.InputGroup>
                                 <S.InputGroup>
-                                    <S.InputLabel>Date: </S.InputLabel>
-                                    <S.StyledInput
-                                        placeholder="e.g., 04/2012 - 04/2016"
-                                        value={newEducation.date}
-                                        onChange={(e) => setNewEducation({ ...newEducation, date: e.target.value })}
-                                    />
-                                </S.InputGroup>
-                                <S.InputGroup>
-                                    <S.InputLabel>Institution: </S.InputLabel>
+                                    <S.InputLabel>Institution *: </S.InputLabel>
                                     <S.StyledInput
                                         placeholder="e.g., Instituto Tecnológico de Cd. Jiménez"
                                         value={newEducation.institution}
                                         onChange={(e) => setNewEducation({ ...newEducation, institution: e.target.value })}
                                     />
                                 </S.InputGroup>
-                                <S.AddButton onClick={handleAddEducation} disabled={isAddEducationDisabled}>
+                            </S.FormRowColumns>
+
+                            {/* Second Row: Date Range */}
+                            <S.FormRowColumns>
+                                <S.InputGroup>
+                                    <S.InputLabel>Start Date *: </S.InputLabel>
+                                    <S.StyledInput
+                                        type="date"
+                                        value={newEducation.startDate}
+                                        onChange={(e) => {
+                                            const updated = {
+                                                ...newEducation,
+                                                startDate: e.target.value
+                                            };
+                                            updated.date = formatDateString(updated.startDate, updated.endDate);
+                                            setNewEducation(updated);
+                                        }}
+                                    />
+                                </S.InputGroup>
+
+                                <S.InputGroup>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.125rem', width: '100%' }}>
+                                        <S.InputLabel style={{ margin: 0, width: '60%' }}>End Date *: </S.InputLabel>
+                                    </div>
+                                    <S.StyledInput
+                                        type="date"
+                                        value={newEducation.endDate}
+                                        onChange={(e) => {
+                                            const updated = {
+                                                ...newEducation,
+                                                endDate: e.target.value
+                                            };
+                                            updated.date = formatDateString(updated.startDate, updated.endDate)
+                                            setNewEducation(updated);
+                                        }}
+                                    />
+                                </S.InputGroup>
+                            </S.FormRowColumns>
+
+                            {/* Third Row: Display Date */}
+                            <S.FormRow>
+                                <S.InputGroup style={{ flex: 1.5 }}>
+                                    <S.InputLabel>Display Date: </S.InputLabel>
+                                    <S.DateDisplay>
+                                        {newEducation.date || "Auto-generated date range"}
+                                    </S.DateDisplay>
+                                </S.InputGroup>
+                                <S.AddButton
+                                    onClick={handleAddEducation}
+                                    disabled={!newEducation.title || !newEducation.institution || !newEducation.startDate || !newEducation.endDate}
+                                >
                                     Add Education +
                                 </S.AddButton>
                             </S.FormRow>
+
+
                         </S.AddForm>
 
                         <S.Section>
@@ -1406,7 +1459,7 @@ const EditPortfolio = () => {
                             <S.AccordionSection key={key}>
                                 <S.AccordionHeader onClick={() => toggleSection(key)}>
                                     <S.AccordionTitle className={openSections.has(key) ? 'open' : ''}>
-                                        {key}
+                                        {key.charAt(0).toUpperCase() + key.slice(1)}
                                     </S.AccordionTitle>
                                     {Array.isArray(portfolioData[key]) && (
                                         <S.AccordionCount>

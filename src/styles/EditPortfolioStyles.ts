@@ -505,6 +505,23 @@ export const FormRow = styled.div`
 	}
 `;
 
+export const FormRowColumns = styled.div`
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 1.5rem;
+	margin-bottom: 1rem;
+	align-items: flex-start;
+
+	@media (max-width: 768px) {
+		gap: 1rem;
+	}
+
+	@media (max-width: 480px) {
+		grid-template-columns: 1fr;
+		gap: 0.75rem;
+	}
+`;
+
 export const InputGroup = styled.div`
 	flex: 1;
 	display: flex;

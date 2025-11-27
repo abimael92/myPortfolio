@@ -876,202 +876,203 @@ const EditPortfolio = () => {
                         <S.AddForm>
                             <S.SectionTitle>Add New Experience</S.SectionTitle>
 
-                            {/* Company & Position - Top Row */}
                             <S.FormRow>
-                                <S.InputGroup style={{ flex: 2 }}>
-                                    <S.InputLabel>Company *: </S.InputLabel>
-                                    <S.StyledInput
-                                        placeholder="Company name"
-                                        value={newExperience.company}
-                                        onChange={(e) => setNewExperience({ ...newExperience, company: e.target.value })}
-                                    />
-                                </S.InputGroup>
-                                <S.InputGroup style={{ flex: 2 }}>
-                                    <S.InputLabel>Position *: </S.InputLabel>
-                                    <S.StyledInput
-                                        placeholder="Your position/role"
-                                        value={newExperience.position}
-                                        onChange={(e) => setNewExperience({ ...newExperience, position: e.target.value })}
-                                    />
-                                </S.InputGroup>
-                                <S.InputGroup style={{ flex: 1 }}>
-                                    <S.InputLabel>Industry: </S.InputLabel>
-                                    <S.StyledInput
-                                        placeholder="e.g., Tech, Finance"
-                                        value={newExperience.industry}
-                                        onChange={(e) => setNewExperience({ ...newExperience, industry: e.target.value })}
-                                    />
-                                </S.InputGroup>
-                            </S.FormRow>
 
-                            {/* Date Range - Improved Layout */}
-                            <S.FormRow>
-                                <S.InputGroup style={{ flex: 1 }}>
-                                    <S.InputLabel>Start Date *: </S.InputLabel>
-                                    <S.StyledInput
-                                        type="date"
-                                        value={newExperience.startDate}
-                                        onChange={(e) => {
-                                            const updated = {
-                                                ...newExperience,
-                                                startDate: e.target.value
-                                            };
-                                            updated.date = formatDateString(updated.startDate, updated.endDate, updated.isCurrent);
-                                            updated.period = calculateDuration(updated.startDate, updated.endDate, updated.isCurrent);
-                                            setNewExperience(updated);
-                                        }}
-                                    />
-                                </S.InputGroup>
+                                {/* Company & Position */}
+                                <S.FormRowColumns >
+                                    <S.InputGroup>
+                                        <S.InputLabel>Company *: </S.InputLabel>
+                                        <S.StyledInput
+                                            placeholder="Company name"
+                                            value={newExperience.company}
+                                            onChange={(e) => setNewExperience({ ...newExperience, company: e.target.value })}
+                                        />
+                                    </S.InputGroup>
+                                    <S.InputGroup>
+                                        <S.InputLabel>Position *: </S.InputLabel>
+                                        <S.StyledInput
+                                            placeholder="Your position/role"
+                                            value={newExperience.position}
+                                            onChange={(e) => setNewExperience({ ...newExperience, position: e.target.value })}
+                                        />
+                                    </S.InputGroup>
+                                </S.FormRowColumns>
 
-                                <S.InputGroup style={{ flex: 1 }}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.125rem', width: '100%' }}>
-                                        <S.InputLabel style={{ margin: 0, width: '60%' }}>End Date *: </S.InputLabel>
-                                        <S.CurrentJobLabel style={{ margin: 0 }}>
+                                {/* Project & Industry*/}
+                                <S.FormRowColumns>
+                                    <S.InputGroup>
+                                        <S.InputLabel>Project: </S.InputLabel>
+                                        <S.StyledInput
+                                            placeholder="Project name (optional)"
+                                            value={newExperience.project}
+                                            onChange={(e) => setNewExperience({ ...newExperience, project: e.target.value })}
+                                        />
+                                    </S.InputGroup>
 
-                                            <S.ToggleContainer>
+                                    <S.InputGroup>
+                                        <S.InputLabel>Industry: </S.InputLabel>
+                                        <S.StyledInput
+                                            placeholder="e.g., Tech, Finance"
+                                            value={newExperience.industry}
+                                            onChange={(e) => setNewExperience({ ...newExperience, industry: e.target.value })}
+                                        />
+                                    </S.InputGroup>
 
-                                                <S.CurrentJobText>
-                                                    Current Job
-                                                </S.CurrentJobText>
+                                </S.FormRowColumns>
 
-                                                <S.ToggleInput
-                                                    type="checkbox"
-                                                    checked={newExperience.isCurrent}
-                                                    onChange={(e) => {
-                                                        const updated = {
-                                                            ...newExperience,
-                                                            isCurrent: e.target.checked,
-                                                            endDate: e.target.checked ? '' : newExperience.endDate
-                                                        };
-                                                        updated.date = formatDateString(updated.startDate, updated.endDate, updated.isCurrent);
-                                                        updated.period = calculateDuration(updated.startDate, updated.endDate, updated.isCurrent);
-                                                        setNewExperience(updated);
-                                                    }}
-                                                />
-
-                                                <S.ToggleSwitch $isChecked={newExperience.isCurrent || false} />
-
-                                            </S.ToggleContainer>
-
-                                        </S.CurrentJobLabel>
-
-                                    </div>
-
-                                    {newExperience.isCurrent ? (
-                                        <S.CurrentJobPlaceholder>Present</S.CurrentJobPlaceholder>
-                                    ) : (
+                                {/* Date Range */}
+                                <S.FormRowColumns>
+                                    <S.InputGroup>
+                                        <S.InputLabel>Start Date *: </S.InputLabel>
                                         <S.StyledInput
                                             type="date"
-                                            value={newExperience.endDate}
+                                            value={newExperience.startDate}
                                             onChange={(e) => {
                                                 const updated = {
                                                     ...newExperience,
-                                                    endDate: e.target.value
+                                                    startDate: e.target.value
                                                 };
                                                 updated.date = formatDateString(updated.startDate, updated.endDate, updated.isCurrent);
                                                 updated.period = calculateDuration(updated.startDate, updated.endDate, updated.isCurrent);
                                                 setNewExperience(updated);
                                             }}
                                         />
-                                    )}
-                                </S.InputGroup>
+                                    </S.InputGroup>
 
-                                <S.InputGroup style={{ flex: 1.5 }}>
-                                    <S.InputLabel>Display Date: </S.InputLabel>
-                                    <S.DateDisplay>
-                                        {newExperience.date || "Auto-generated date range"}
-                                    </S.DateDisplay>
-                                    {/* <S.HelpText>This will auto-update based on your dates</S.HelpText> */}
-                                </S.InputGroup>
+                                    <S.InputGroup>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.125rem', width: '100%' }}>
+                                            <S.InputLabel style={{ margin: 0, width: '60%' }}>End Date *: </S.InputLabel>
+                                            <S.CurrentJobLabel style={{ margin: 0 }}>
+                                                <S.ToggleContainer>
+                                                    <S.CurrentJobText>
+                                                        Current Job
+                                                    </S.CurrentJobText>
+                                                    <S.ToggleInput
+                                                        type="checkbox"
+                                                        checked={newExperience.isCurrent}
+                                                        onChange={(e) => {
+                                                            const updated = {
+                                                                ...newExperience,
+                                                                isCurrent: e.target.checked,
+                                                                endDate: e.target.checked ? '' : newExperience.endDate
+                                                            };
+                                                            updated.date = formatDateString(updated.startDate, updated.endDate, updated.isCurrent);
+                                                            updated.period = calculateDuration(updated.startDate, updated.endDate, updated.isCurrent);
+                                                            setNewExperience(updated);
+                                                        }}
+                                                    />
+                                                    <S.ToggleSwitch $isChecked={newExperience.isCurrent || false} />
+                                                </S.ToggleContainer>
+                                            </S.CurrentJobLabel>
+                                        </div>
 
-                            </S.FormRow>
+                                        {newExperience.isCurrent ? (
+                                            <S.CurrentJobPlaceholder>Present</S.CurrentJobPlaceholder>
+                                        ) : (
+                                            <S.StyledInput
+                                                type="date"
+                                                value={newExperience.endDate}
+                                                onChange={(e) => {
+                                                    const updated = {
+                                                        ...newExperience,
+                                                        endDate: e.target.value
+                                                    };
+                                                    updated.date = formatDateString(updated.startDate, updated.endDate, updated.isCurrent);
+                                                    updated.period = calculateDuration(updated.startDate, updated.endDate, updated.isCurrent);
+                                                    setNewExperience(updated);
+                                                }}
+                                            />
+                                        )}
+                                    </S.InputGroup>
+                                </S.FormRowColumns>
 
-                            {/* Project & Description */}
-                            <S.FormRow>
-                                <S.InputGroup style={{ flex: 1 }}>
-                                    <S.InputLabel>Project: </S.InputLabel>
-                                    <S.StyledInput
-                                        placeholder="Project name (optional)"
-                                        value={newExperience.project}
-                                        onChange={(e) => setNewExperience({ ...newExperience, project: e.target.value })}
+                                <S.FormRowColumns>
+                                    <S.InputGroup>
+                                        <S.InputLabel>Duration: </S.InputLabel>
+                                        <S.DateDisplay>
+                                            {newExperience.period || "Auto-calculated duration"}
+                                        </S.DateDisplay>
+                                    </S.InputGroup>
+
+                                    <S.InputGroup>
+                                        <S.InputLabel>Display Date: </S.InputLabel>
+                                        <S.DateDisplay>
+                                            {newExperience.date || "Auto-generated date range"}
+                                        </S.DateDisplay>
+                                    </S.InputGroup>
+                                </S.FormRowColumns>
+
+                                <S.InputGroup>
+                                    <S.InputLabel>Role Description: </S.InputLabel>
+                                    <S.StyledTextArea
+                                        placeholder="Describe your responsibilities, contributions, and achievements in this role..."
+                                        value={newExperience.description}
+                                        onChange={(e) => setNewExperience({ ...newExperience, description: e.target.value })}
+                                        rows={4}
                                     />
                                 </S.InputGroup>
-                                <S.InputGroup style={{ flex: 1 }}>
-                                    <S.InputLabel>Duration: </S.InputLabel>
-                                    <S.DateDisplay>
-                                        {newExperience.period || "Auto-calculated duration"}
-                                    </S.DateDisplay>
-                                </S.InputGroup>
+
+                                <S.FormRowColumns>
+                                    {/* Achievements Section */}
+                                    <S.ArraySection>
+                                        <S.SectionHeader>
+                                            <S.InputLabel>Achievements: </S.InputLabel>
+                                            <S.SmallButton onClick={addAchievementField}>+ Add </S.SmallButton>
+                                        </S.SectionHeader>
+                                        {newExperience.achievements.map((achievement, index) => (
+                                            <S.ArrayInputRow key={index}>
+                                                <S.ArrayIndex>{index + 1}.</S.ArrayIndex>
+                                                <S.StyledInput
+                                                    placeholder={`Describe achievement ...`}
+                                                    value={achievement}
+                                                    onChange={(e) => updateAchievementField(index, e.target.value)}
+                                                />
+                                                <S.SmallButton
+                                                    $danger
+                                                    onClick={() => removeAchievementField(index)}
+                                                    disabled={newExperience.achievements.length === 1}
+                                                >
+                                                    <FaTrash size={14} />
+                                                </S.SmallButton>
+                                            </S.ArrayInputRow>
+                                        ))}
+                                    </S.ArraySection>
+
+                                    {/* Technologies Section */}
+                                    <S.ArraySection>
+                                        <S.SectionHeader>
+                                            <S.InputLabel>Technologies & Skills: </S.InputLabel>
+                                            <S.SmallButton onClick={addTechnologyField}>+ Add </S.SmallButton>
+                                        </S.SectionHeader>
+                                        {newExperience.technologies.map((technology, index) => (
+                                            <S.ArrayInputRow key={index}>
+                                                <S.ArrayIndex>{index + 1}.</S.ArrayIndex>
+                                                <S.StyledInput
+                                                    placeholder={`Tech (React, Node.js)`}
+                                                    value={technology}
+                                                    onChange={(e) => updateTechnologyField(index, e.target.value)}
+                                                />
+                                                <S.SmallButton
+                                                    $danger
+                                                    onClick={() => removeTechnologyField(index)}
+                                                    disabled={newExperience.technologies.length === 1}
+                                                >
+                                                    <FaTrash size={14} />
+                                                </S.SmallButton>
+                                            </S.ArrayInputRow>
+                                        ))}
+                                    </S.ArraySection>
+                                </S.FormRowColumns>
+
+                                <S.AddButton
+                                    onClick={handleAddExperience}
+                                    disabled={!newExperience.company || !newExperience.position || !newExperience.startDate || (!newExperience.isCurrent && !newExperience.endDate)}
+                                    style={{ marginTop: '1rem' }}
+                                >
+                                    Add Experience +
+                                </S.AddButton>
                             </S.FormRow>
-
-                            <S.InputGroup>
-                                <S.InputLabel>Role Description: </S.InputLabel>
-                                <S.StyledTextArea
-                                    placeholder="Describe your responsibilities, contributions, and achievements in this role..."
-                                    value={newExperience.description}
-                                    onChange={(e) => setNewExperience({ ...newExperience, description: e.target.value })}
-                                    rows={4}
-                                />
-                            </S.InputGroup>
-
-                            {/* Achievements Section */}
-                            <S.ArraySection>
-                                <S.SectionHeader>
-                                    <S.InputLabel>Achievements: </S.InputLabel>
-                                    <S.SmallButton onClick={addAchievementField}>+ Add Achievement</S.SmallButton>
-                                </S.SectionHeader>
-                                {newExperience.achievements.map((achievement, index) => (
-                                    <S.ArrayInputRow key={index}>
-                                        <S.ArrayIndex>{index + 1}.</S.ArrayIndex>
-                                        <S.StyledInput
-                                            placeholder={`Describe achievement ${index + 1}...`}
-                                            value={achievement}
-                                            onChange={(e) => updateAchievementField(index, e.target.value)}
-                                        />
-                                        <S.SmallButton
-                                            $danger
-                                            onClick={() => removeAchievementField(index)}
-                                            disabled={newExperience.achievements.length === 1}
-                                        >
-                                            Remove
-                                        </S.SmallButton>
-                                    </S.ArrayInputRow>
-                                ))}
-                            </S.ArraySection>
-
-                            {/* Technologies Section */}
-                            <S.ArraySection>
-                                <S.SectionHeader>
-                                    <S.InputLabel>Technologies & Skills: </S.InputLabel>
-                                    <S.SmallButton onClick={addTechnologyField}>+ Add Technology</S.SmallButton>
-                                </S.SectionHeader>
-                                {newExperience.technologies.map((technology, index) => (
-                                    <S.ArrayInputRow key={index}>
-                                        <S.ArrayIndex>{index + 1}.</S.ArrayIndex>
-                                        <S.StyledInput
-                                            placeholder={`Technology ${index + 1} (e.g., React, Node.js)`}
-                                            value={technology}
-                                            onChange={(e) => updateTechnologyField(index, e.target.value)}
-                                        />
-                                        <S.SmallButton
-                                            $danger
-                                            onClick={() => removeTechnologyField(index)}
-                                            disabled={newExperience.technologies.length === 1}
-                                        >
-                                            Remove
-                                        </S.SmallButton>
-                                    </S.ArrayInputRow>
-                                ))}
-                            </S.ArraySection>
-
-                            <S.AddButton
-                                onClick={handleAddExperience}
-                                disabled={!newExperience.company || !newExperience.position || !newExperience.startDate || (!newExperience.isCurrent && !newExperience.endDate)}
-                                style={{ marginTop: '1rem' }}
-                            >
-                                Add Experience +
-                            </S.AddButton>
-                        </S.AddForm >
+                        </S.AddForm>
                         {/* Rest of the current experience list remains the same */}
                     </>
                 );

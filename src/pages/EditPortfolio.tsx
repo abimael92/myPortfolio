@@ -443,13 +443,14 @@ const EditPortfolio = () => {
             id: Date.now().toString(),
             tags: nonEmptyTags
         };
-        setProjects([...projects, { ...newProject, id: Date.now().toString() }]);
+
+        setProjects([...projects, projectToAdd]);
         setNewProject({
             image: "",
             title: "",
             description: "",
             id: "",
-            tags: "",
+            tags: [""],
             source: ""
         });
         setStatus({ message: "Project added!", success: true });
@@ -1330,7 +1331,7 @@ const EditPortfolio = () => {
                                                             <FaTrash size={14} />
                                                         </S.SmallButton>
                                                     </S.ArrayInputRow>
-                                                    <S.SmallButton onClick={addTechnologyField}>+ Add </S.SmallButton>
+                                                    <S.SmallButton onClick={addProjectTagField}>+ Add </S.SmallButton>
                                                 </>
 
                                             ))}

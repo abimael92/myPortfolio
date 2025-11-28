@@ -26,8 +26,8 @@ export const PersonalInfo = styled.div`
 export const PersonalInfoGrid = styled(PersonalInfo)`
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
-	gap: 24px 32px;
-	padding: 24px;
+	gap: 32px;
+	padding: 0 24px;
 	box-sizing: border-box;
 	min-width: 0;
 
@@ -41,6 +41,22 @@ export const PersonalInfoGrid = styled(PersonalInfo)`
 		grid-template-columns: 1fr;
 		gap: 16px 0;
 		padding: 12px 0;
+	}
+`;
+
+export const ProfessionalInfoGrid = styled(PersonalInfo)`
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+
+	box-sizing: border-box;
+	min-width: 0;
+
+	@media ${(props) => props.theme.breakpoints.md} {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	@media ${(props) => props.theme.breakpoints.sm} {
+		grid-template-columns: 1fr;
 	}
 `;
 

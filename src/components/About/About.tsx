@@ -2,11 +2,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {
 	FaUserGraduate,
+	FaUserTie,
 	FaPhoneAlt,
 	FaMapMarkerAlt,
 	FaEnvelope,
 	FaBirthdayCake,
-	FaUserClock
+	FaUserClock,
+	FaGlobeAmericas, FaLanguage
 } from 'react-icons/fa';
 import BlurWrapper from "../PrivateContent/BlurWrapper";
 import { AuthContext } from '../../context/AuthContext';
@@ -16,6 +18,7 @@ import {
 	RightContainer,
 	AboutSectionText,
 	PersonalInfoGrid,
+	ProfessionalInfoGrid,
 	RotatingText,
 	ImageNeon,
 	Image,
@@ -160,9 +163,87 @@ const About: React.FC = () => {
 						</BlurWrapper>
 					</InfoItem>
 				</PersonalInfoGrid>
+
+				<PersonalInfoGrid>
+					<InfoItem>
+						<FaLanguage />
+						<InfoTitle>Languages:</InfoTitle>
+						<BlurWrapper authenticated={authenticated}>
+							<InfoDetail>Spanish (Native), English (Fluent)</InfoDetail>
+						</BlurWrapper>
+					</InfoItem>
+					<InfoItem>
+						<FaGlobeAmericas />
+						<InfoTitle>Timezone:</InfoTitle>
+						<BlurWrapper authenticated={authenticated}>
+							<InfoDetail>GMT-6 (4+ hrs overlap with EST)</InfoDetail>
+						</BlurWrapper>
+					</InfoItem>
+					<InfoItem>
+						<FaUserTie />
+						<InfoTitle> Visa Status:</InfoTitle>
+						<BlurWrapper authenticated={authenticated}>
+							<InfoDetail>
+
+								B-1/B-2
+								{/* <div style={{ fontSize: '0.985rem', color: 'rgba(255,255,255,0.8)' }}>
+									Expires: Jul 30, 2035
+								</div> */}
+							</InfoDetail>
+						</BlurWrapper>
+					</InfoItem>
+
+				</PersonalInfoGrid>
+
+
 			</Row>
 		</Section>
 	);
 };
 
 export default About;
+
+
+
+
+// <PersonalInfoGrid>
+// 	<InfoItem >
+// 		<FaGlobeAmericas />
+// 		<InfoTitle>Languages:</InfoTitle>
+// 		<BlurWrapper authenticated={authenticated}>
+// 			<InfoDetail>
+// 				{/* <div style={{ marginBottom: '8px', }}> */}
+// 				{/* <span style={{
+// 										// background: '#006847',
+// 										border: '1px solid #fff',
+// 										color: 'white',
+// 										padding: '2px 6px',
+// 										borderRadius: '4px',
+// 										fontSize: '0.95rem',
+// 										marginRight: '6px'
+// 									}}>ES</span> */}
+// 				Spanish (Native)
+// 				{/* </div>
+// 								<div> */}
+// 				{/* <span style={{
+// 										// background: '#bd3d44',
+// 										border: '1px solid #fff',
+// 										color: 'white',
+// 										padding: '2px 6px',
+// 										borderRadius: '4px',
+// 										fontSize: '0.95rem',
+// 										marginRight: '6px'
+// 									}}>EN</span> */}
+// 				English (Fluent)
+// 				{/* </div> */}
+// 			</InfoDetail>
+// 			<InfoItem>
+// 				<FaGlobeAmericas />
+// 				<InfoTitle>Timezone:</InfoTitle>
+// 				<BlurWrapper authenticated={authenticated}>
+// 					<InfoDetail>GMT-6 (4+ hrs overlap with EST)</InfoDetail>
+// 				</BlurWrapper>
+// 			</InfoItem>
+// 		</BlurWrapper>
+// 	</InfoItem>
+// </PersonalInfoGrid>

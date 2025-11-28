@@ -682,7 +682,7 @@ export const ToggleSwitch = styled.div<{ $isChecked: boolean }>`
 	height: 12px;
 	background: ${(props) =>
 		props.$isChecked
-			? 'linear-gradient(135deg, #00b894 0%, #00a085 100%)'
+			? 'linear-gradient(135deg, #0AAFFF 0%, #008FCC 100%)'
 			: 'rgba(100, 100, 100, 0.8)'};
 	border-radius: 12px;
 	transition: all 0.3s ease;
@@ -719,7 +719,7 @@ export const ToggleInput = styled.input`
 
 export const ToggleText = styled.span<{ $isChecked: boolean }>`
 	font-weight: ${(props) => (props.$isChecked ? '600' : '400')};
-	color: ${(props) => (props.$isChecked ? '#00b894' : '#ccc')};
+	color: ${(props) => (props.$isChecked ? '#0AAFFF' : '#ccc')};
 	transition: all 0.3s ease;
 `;
 
@@ -774,9 +774,9 @@ export const CurrentJobText = styled.span`
 export const CurrentJobPlaceholder = styled.div`
 	padding: 0.8rem 1rem;
 	border-radius: 8px;
-	background: rgba(0, 184, 148, 0.2);
-	border: 1px solid rgba(0, 184, 148, 0.3);
-	color: #00b894;
+	background: rgba(10, 175, 255, 0.2);
+	border: 1px solid rgba(10, 175, 255, 0.5);
+	color: #0aafff;
 	font-weight: 600;
 	text-align: center;
 `;
@@ -843,7 +843,7 @@ export const StatusDot = styled.div`
 `;
 
 export const AddButton = styled.button`
-	background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
+	background: linear-gradient(135deg, #0aafff 0%, #008fcc 100%);
 	border: none;
 	border-radius: 8px;
 	color: white;
@@ -856,7 +856,7 @@ export const AddButton = styled.button`
 
 	&:hover:not(:disabled) {
 		transform: translateY(-2px);
-		box-shadow: 0 6px 20px rgba(0, 184, 148, 0.4);
+		box-shadow: 0 6px 20px rgba(10, 175, 255, 0.5); // #0AAFFF 0%, #008FCC
 		animation: ${pulse} 1s infinite;
 	}
 

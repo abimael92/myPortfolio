@@ -41,7 +41,7 @@ const Header: React.FC = () => {
 
 	useEffect(() => {
 		const handleScroll = () => {
-			const sections = ['about', 'tech', 'experience', 'projects', 'achievements'];
+			const sections = ['about', 'tech', 'skill', 'experience', 'projects', 'achievements'];
 			sections.forEach((sectionId) => {
 				const section = document.getElementById(sectionId);
 				if (section) {
@@ -71,9 +71,11 @@ const Header: React.FC = () => {
 	const navLinks = [
 		{ id: 'about', label: 'About' },
 		{ id: 'tech', label: 'Technologies' },
+		{ id: 'skill', label: 'Skills' },
 		{ id: 'experience', label: 'Experience' },
-		{ id: 'projects', label: 'Projects' },
 		{ id: 'achievements', label: 'Achievements' },
+		{ id: 'projects', label: 'Projects' },
+
 	];
 
 	return (

@@ -226,6 +226,7 @@ export const AchievementText = styled.span<{
 	align-items: center;
 	line-height: 1.4;
 	min-width: 8rem;
+	max-width: 18rem;
 	min-height: 40px;
 	max-height: 100px;
 	word-wrap: break-word;
@@ -724,7 +725,7 @@ export const ToggleText = styled.span<{ $isChecked: boolean }>`
 `;
 
 export const ArraySection = styled.div`
-	margin: 1.5rem 0;
+	margin: 0 0 1.5rem 0;
 	padding: 1rem;
 	background: rgba(45, 45, 45, 0.6);
 	border-radius: 8px;

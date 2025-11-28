@@ -97,124 +97,129 @@ const Technologies = () => {
 
 
 	return (
-		<Section id='tech'>
-			<SectionTitle>Technologies</SectionTitle>
-			<SectionDivider />
-			<SectionText>
-				I specialize in <strong>full-stack development</strong>,
-				crafting <span className="highlight">scalable</span> and <span className="highlight">high-performance </span>
-				web applications centered on exceptional <em>user experiences</em>.<br /><br />
+		<>
 
-				My expertise spans  <strong>modern front-end </strong>frameworks,
-				efficient<strong> back-end architectures</strong>, and <em>intuitive design</em>,
-				enabling me to deliver seamless digital solutions that address real-world challenges.
-			</SectionText>
+			<Section id='tech'>
+				<SectionTitle>Technologies</SectionTitle>
+				<SectionDivider />
+				<SectionText>
+					I specialize in <strong>full-stack development</strong>,
+					crafting <span className="highlight">scalable</span> and <span className="highlight">high-performance </span>
+					web applications centered on exceptional <em>user experiences</em>.<br /><br />
 
-			<List>
-				<ListItem>
-					<picture><DiReact size="3rem" /></picture>
-					<ListContainer>
-						<ListTitle>Frontend</ListTitle>
-						<ListParagraph>
-							Built fast, responsive UIs with React and TypeScript, focusing on accessibility and real-world user experience.
-						</ListParagraph>
-					</ListContainer>
-				</ListItem>
+					My expertise spans  <strong>modern front-end </strong>frameworks,
+					efficient<strong> back-end architectures</strong>, and <em>intuitive design</em>,
+					enabling me to deliver seamless digital solutions that address real-world challenges.
+				</SectionText>
 
-				<ListItem>
-					<picture><DiFirebase size="3rem" /></picture>
-					<ListContainer>
-						<ListTitle>Backend</ListTitle>
-						<ListParagraph>
-							Developed scalable backends using Node.js with MongoDB and SQL, implementing authentication and secure data flows.
-						</ListParagraph>
-					</ListContainer>
-				</ListItem>
+				<List>
+					<ListItem>
+						<picture><DiReact size="3rem" /></picture>
+						<ListContainer>
+							<ListTitle>Frontend</ListTitle>
+							<ListParagraph>
+								Built fast, responsive UIs with React and TypeScript, focusing on accessibility and real-world user experience.
+							</ListParagraph>
+						</ListContainer>
+					</ListItem>
 
-				<ListItem>
-					<picture><SiDocker size="3rem" /></picture>
-					<ListContainer>
-						<ListTitle>DevOps</ListTitle>
-						<ListParagraph>
-							Managed deployments with Docker and CI/CD pipelines. Delivered stable releases using AWS S3 and GitHub integrations.
-						</ListParagraph>
-					</ListContainer>
-				</ListItem>
-			</List>
+					<ListItem>
+						<picture><DiFirebase size="3rem" /></picture>
+						<ListContainer>
+							<ListTitle>Backend</ListTitle>
+							<ListParagraph>
+								Developed scalable backends using Node.js with MongoDB and SQL, implementing authentication and secure data flows.
+							</ListParagraph>
+						</ListContainer>
+					</ListItem>
 
-			<List2>
-				<ListItem>
-					<picture><SiFigma size="3rem" /></picture>
-					<ListContainer>
-						<ListTitle>UI / UX</ListTitle>
-						<ListParagraph>
-							Designed modern, intuitive interfaces in Figma and translated them into clean, maintainable code for smooth UX.
-						</ListParagraph>
-					</ListContainer>
-				</ListItem>
+					<ListItem>
+						<picture><SiDocker size="3rem" /></picture>
+						<ListContainer>
+							<ListTitle>DevOps</ListTitle>
+							<ListParagraph>
+								Managed deployments with Docker and CI/CD pipelines. Delivered stable releases using AWS S3 and GitHub integrations.
+							</ListParagraph>
+						</ListContainer>
+					</ListItem>
+				</List>
 
-				<ListItem>
-					<picture><FaCodeBranch size="3rem" /></picture>
-					<ListContainer>
-						<ListTitle>Teamwork</ListTitle>
-						<ListParagraph>
-							Collaborated in Agile teams, using GitHub for version control and code reviews. Ensured fast delivery and quality.
-						</ListParagraph>
-					</ListContainer>
-				</ListItem>
-			</List2>
+				<List2>
+					<ListItem>
+						<picture><SiFigma size="3rem" /></picture>
+						<ListContainer>
+							<ListTitle>UI / UX</ListTitle>
+							<ListParagraph>
+								Designed modern, intuitive interfaces in Figma and translated them into clean, maintainable code for smooth UX.
+							</ListParagraph>
+						</ListContainer>
+					</ListItem>
 
-			<SectionTitle>Skills & Proficiency</SectionTitle>
-			<SectionDivider colorAlt />
+					<ListItem>
+						<picture><FaCodeBranch size="3rem" /></picture>
+						<ListContainer>
+							<ListTitle>Teamwork</ListTitle>
+							<ListParagraph>
+								Collaborated in Agile teams, using GitHub for version control and code reviews. Ensured fast delivery and quality.
+							</ListParagraph>
+						</ListContainer>
+					</ListItem>
+				</List2>
+			</Section >
 
-			<SectionText>
-				Over the years I’ve worked across the <strong>full stack</strong> — from building{' '}
-				<span className="highlight">sleek interfaces</span> to managing{' '}
-				<span className="highlight">reliable back-end systems</span> and{' '}
-				<strong>cloud infrastructure</strong>.
-				<br /><br />
-				Explore each category below to see the <em>technologies</em> I use and the
-				depth of <strong>experience</strong> I bring to every project.
-			</SectionText>
+			<Section id='skill'>
+				<SectionTitle>Skills</SectionTitle>
+				<SectionDivider colorAlt />
 
-
-			<SkillsContainer>
-				{['frontend', 'backend', 'cloud', 'testing', 'design'].map((category) => {
-					const categorySkills = skills.filter((s) => s.category === category);
-					if (!categorySkills.length) return null;
-
-					return (
-						<div key={category} style={{ marginBottom: '3rem' }}>
-							<h2
-								onClick={() => toggleCategory(category)}
-								className={openCategories.includes(category) ? 'active' : ''}
-							>
-								<span>
-									{'< '}
-									{category === 'frontend' && 'Libraries & Frameworks'}
-									{category === 'backend' && 'Backend & APIs'}
-									{category === 'cloud' && 'Infrastructure & Tools'}
-									{category === 'testing' && 'Testing & QA'}
-									{category === 'design' && 'Design & UI/UX'}
-									{' />'}
-								</span>
-							</h2>
+				<SectionText>
+					Over the years I’ve worked across the <strong>full stack</strong> — from building{' '}
+					<span className="highlight">sleek interfaces</span> to managing{' '}
+					<span className="highlight">reliable back-end systems</span> and{' '}
+					<strong>cloud infrastructure</strong>.
+					<br /><br />
+					Explore each category below to see the <em>technologies</em> I use and the
+					depth of <strong>experience</strong> I bring to every project.
+				</SectionText>
 
 
-							{openCategories.includes(category) && (
-								<Row>
-									{categorySkills.map((skill) => (
-										<SkillBar key={skill.name} skill={skill} category={category} />
-									))}
-								</Row>
-							)}
+				<SkillsContainer>
+					{['frontend', 'backend', 'cloud', 'testing', 'design'].map((category) => {
+						const categorySkills = skills.filter((s) => s.category === category);
+						if (!categorySkills.length) return null;
 
-						</div>
-					);
-				})}
-			</SkillsContainer>
+						return (
+							<div key={category} style={{ marginBottom: '3rem' }}>
+								<h2
+									onClick={() => toggleCategory(category)}
+									className={openCategories.includes(category) ? 'active' : ''}
+								>
+									<span>
+										{'< '}
+										{category === 'frontend' && 'Libraries & Frameworks'}
+										{category === 'backend' && 'Backend & APIs'}
+										{category === 'cloud' && 'Infrastructure & Tools'}
+										{category === 'testing' && 'Testing & QA'}
+										{category === 'design' && 'Design & UI/UX'}
+										{' />'}
+									</span>
+								</h2>
 
-		</Section >
+
+								{openCategories.includes(category) && (
+									<Row>
+										{categorySkills.map((skill) => (
+											<SkillBar key={skill.name} skill={skill} category={category} />
+										))}
+									</Row>
+								)}
+
+							</div>
+						);
+					})}
+				</SkillsContainer>
+
+			</Section>
+		</>
 	);
 };
 

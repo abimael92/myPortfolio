@@ -55,7 +55,7 @@ type Project = {
     title: string;
     description: string;
     id: string;
-    tags: string;
+    tags: string[];
     source: string;
 };
 
@@ -119,7 +119,7 @@ const EditPortfolio = () => {
         title: "",
         description: "",
         id: "",
-        tags: "",
+        tags: [""],
         source: ""
     });
 
@@ -430,6 +430,19 @@ const EditPortfolio = () => {
             setStatus({ message: "Please fill in title, description and image", success: false });
             return;
         }
+
+        const nonEmptyTags = newProject.tags.filter(tag => tag.trim() !== "");
+
+        if (nonEmptyTags.length === 0) {
+            setStatus({ message: "Please add at least one technology", success: false });
+            return;
+        }
+
+        const projectToAdd = {
+            ...newProject,
+            id: Date.now().toString(),
+            tags: nonEmptyTags
+        };
         setProjects([...projects, { ...newProject, id: Date.now().toString() }]);
         setNewProject({
             image: "",
@@ -440,6 +453,31 @@ const EditPortfolio = () => {
             source: ""
         });
         setStatus({ message: "Project added!", success: true });
+    };
+
+    // Project tag functions
+    const addProjectTagField = () => {
+        setNewProject({
+            ...newProject,
+            tags: [...newProject.tags, ""]
+        });
+    };
+
+    const removeProjectTagField = (index: number) => {
+        const updatedTags = newProject.tags.filter((_, i) => i !== index);
+        setNewProject({
+            ...newProject,
+            tags: updatedTags
+        });
+    };
+
+    const updateProjectTagField = (index: number, value: string) => {
+        const updatedTags = [...newProject.tags];
+        updatedTags[index] = value;
+        setNewProject({
+            ...newProject,
+            tags: updatedTags
+        });
     };
 
     const handleRemoveProject = (index: number) => {
@@ -1258,14 +1296,48 @@ const EditPortfolio = () => {
                                         </S.ImagePreview>
                                     )}
                                 </S.InputGroup>
-                                <S.InputGroup>
-                                    <S.InputLabel>Title: </S.InputLabel>
-                                    <S.StyledInput
-                                        placeholder="Project Title"
-                                        value={newProject.title}
-                                        onChange={(e) => setNewProject({ ...newProject, title: e.target.value })}
-                                    />
-                                </S.InputGroup>
+
+                                <S.FormRowColumns>
+                                    <S.InputGroup>
+                                        <S.InputLabel>Title: </S.InputLabel>
+                                        <S.StyledInput
+                                            placeholder="Project Title"
+                                            value={newProject.title}
+                                            onChange={(e) => setNewProject({ ...newProject, title: e.target.value })}
+                                        />
+                                    </S.InputGroup>
+
+                                    {/* Technology Tags Section */}
+                                    <S.InputGroup>
+                                        <S.InputLabel>Tags: </S.InputLabel>
+                                        <S.ArraySection >
+                                            <S.SectionHeader />
+
+                                            {newProject.tags.map((tag, index) => (
+                                                <>
+                                                    <S.ArrayInputRow key={index}>
+                                                        <S.ArrayIndex>{index + 1}.</S.ArrayIndex>
+                                                        <S.StyledInput
+                                                            placeholder="e.g., React, TypeScript, Node.js"
+                                                            value={tag}
+                                                            onChange={(e) => updateProjectTagField(index, e.target.value)}
+                                                        />
+                                                        <S.SmallButton
+                                                            $danger
+                                                            onClick={() => removeProjectTagField(index)}
+                                                            disabled={newProject.tags.length === 1}
+                                                        >
+                                                            <FaTrash size={14} />
+                                                        </S.SmallButton>
+                                                    </S.ArrayInputRow>
+                                                    <S.SmallButton onClick={addTechnologyField}>+ Add </S.SmallButton>
+                                                </>
+
+                                            ))}
+
+                                        </S.ArraySection>
+                                    </S.InputGroup>
+                                </S.FormRowColumns>
                                 <S.InputGroup>
                                     <S.InputLabel>Description: </S.InputLabel>
                                     <S.StyledInput
@@ -1274,14 +1346,7 @@ const EditPortfolio = () => {
                                         onChange={(e) => setNewProject({ ...newProject, description: e.target.value })}
                                     />
                                 </S.InputGroup>
-                                <S.InputGroup>
-                                    <S.InputLabel>Tags: </S.InputLabel>
-                                    <S.StyledInput
-                                        placeholder="React,TypeScript,SCSS"
-                                        value={newProject.tags}
-                                        onChange={(e) => setNewProject({ ...newProject, tags: e.target.value })}
-                                    />
-                                </S.InputGroup>
+
                                 <S.InputGroup>
                                     <S.InputLabel>Source URL: </S.InputLabel>
                                     <S.StyledInput
@@ -1294,7 +1359,7 @@ const EditPortfolio = () => {
                                     Add Project +
                                 </S.AddButton>
                             </S.FormRow>
-                        </S.AddForm>
+                        </S.AddForm >
 
                         <S.Section>
                             <S.SectionTitle onClick={() => toggleCurrentSection('projects')}>
@@ -1335,15 +1400,11 @@ const EditPortfolio = () => {
                                                                 setProjects(updated);
                                                             }}
                                                         />
-                                                        <S.AchievementInput
-                                                            value={project.tags}
-                                                            placeholder="React,TypeScript,SCSS"
-                                                            onChange={(e) => {
-                                                                const updated = [...projects];
-                                                                updated[idx].tags = e.target.value;
-                                                                setProjects(updated);
-                                                            }}
-                                                        />
+                                                        <S.AchievementText $scrollY>
+                                                            {Array.isArray(project.tags)
+                                                                ? project.tags.join(', ')
+                                                                : String(project.tags || '')}
+                                                        </S.AchievementText>
                                                         <S.AchievementInput
                                                             value={project.source}
                                                             placeholder="Source URL"
@@ -1362,24 +1423,33 @@ const EditPortfolio = () => {
                                                     </>
                                                 ) : (
                                                     <>
-                                                        <S.ImagePreview>
-                                                            <img src={project.image} alt={project.title} onError={(e) => {
-                                                                e.currentTarget.style.display = 'none';
-                                                            }} />
-                                                        </S.ImagePreview>
-                                                        <S.AchievementText>{project.title}</S.AchievementText>
+                                                        <S.FormRow>
+                                                            <S.ImagePreview>
+                                                                <img src={project.image} alt={project.title} onError={(e) => {
+                                                                    e.currentTarget.style.display = 'none';
+                                                                }} />
+                                                            </S.ImagePreview>
+                                                            <S.AchievementText $scrollY>
+                                                                {String(project.tags || '')
+                                                                    .split(',')
+                                                                    .map((tag) => tag.trim())
+                                                                    .join(', ')}
+                                                            </S.AchievementText>
+                                                        </S.FormRow>
+                                                        <S.FormRow>
+                                                            <S.AchievementText>{project.title}</S.AchievementText>
+                                                            <S.AchievementText $linkText as="a" href={project.source} target="_blank" rel="noopener noreferrer">
+                                                                {project.source}
+                                                            </S.AchievementText>
+
+
+
+                                                        </S.FormRow>
+
                                                         <S.AchievementTextArea >
                                                             {project.description}
                                                         </S.AchievementTextArea>
-                                                        <S.AchievementText $scrollY>
-                                                            {String(project.tags || '')
-                                                                .split(',')
-                                                                .map((tag) => tag.trim())
-                                                                .join(', ')}
-                                                        </S.AchievementText>
-                                                        <S.AchievementText $linkText as="a" href={project.source} target="_blank" rel="noopener noreferrer">
-                                                            {project.source}
-                                                        </S.AchievementText>
+
                                                         <S.IconButton
                                                             onClick={() => toggleEditItem('projects', idx)}
                                                             title="Edit"
@@ -1404,7 +1474,8 @@ const EditPortfolio = () => {
                                             No projects yet. Add your first one below!
                                         </S.EmptyState>
                                     )}
-                                </S.AchievementList>)}
+                                </S.AchievementList>)
+                            }
                         </S.Section>
                     </>
                 );

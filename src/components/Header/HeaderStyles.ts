@@ -87,12 +87,14 @@ export const NavLink = styled(Link).attrs<NavLinkProps>((props) => ({
 	cursor: pointer;
 
 	&:hover {
-		color: #fff;
+		color: rgba(0, 255, 255, 0.8);
+
 		text-decoration: underline;
+		scale: 1.05;
 	}
 
 	&.active {
-		color: rgba(0, 123, 255, 0.5);
+		color: rgba(0, 120, 240, 0.6);
 		text-decoration: underline;
 	}
 
